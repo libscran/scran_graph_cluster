@@ -30,6 +30,9 @@ macro(create_test name)
     add_executable(
         ${name} 
         src/build_snn_graph.cpp
+        src/cluster_multilevel.cpp
+        src/cluster_walktrap.cpp
+        src/cluster_leiden.cpp
     )
 
     target_link_libraries(

@@ -86,11 +86,11 @@ struct Results {
  * @param[out] output On output, this is filtered with the clustering results.
  * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
  */
-inline void compute(const igraph_t* graph, const igraph_vector_t* weights, Results& output) {
+inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results& output) {
     auto membership = output.membership.get();
-    auto modularity = (output.report_modularity ? output.modularity.get() : NULL);
-    auto merges = (output.report_merges ? output.merges.get() : NULL);
-    output.status = igraph_community_walktrap(graph, weights, steps, merges, modularity, membership);
+    auto modularity = (options.report_modularity ? output.modularity.get() : NULL);
+    auto merges = (options.report_merges ? output.merges.get() : NULL);
+    output.status = igraph_community_walktrap(graph, weights, options.steps, merges, modularity, membership);
 }
 
 /**
@@ -108,7 +108,7 @@ inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_r
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());
 
-    Results<Cluster_, Float_> output;
+    Results output;
     compute(graph.get(), &weight_view, options, output);
     return output;
 }

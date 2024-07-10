@@ -52,7 +52,6 @@ struct Options {
 /**
  * @brief Result of the **igraph** multi-level community detection algorithm.
  */
-template<typename Cluster_ = int, typename Float_ = double>
 struct Results {
     /** 
      * Output status.
@@ -126,7 +125,7 @@ inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_r
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());
 
-    Results<Cluster_, Float_> output;
+    Results output;
     compute(graph.get(), &weight_view, options, output);
     return output;
 }

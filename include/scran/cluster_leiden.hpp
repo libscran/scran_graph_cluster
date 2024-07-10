@@ -98,11 +98,11 @@ struct Results {
  */
 inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results& output) {
     auto membership = output.membership.get();
-    auto& quality = (options.report_quality ? &(output.quality) : NULL);
+    auto quality = (options.report_quality ? &(output.quality) : NULL);
 
-    igraph::RNGScope rngs(options.seed);
+    raiigraph::RNGScope rngs(options.seed);
 
-    if (!modularity) {
+    if (!options.modularity) {
         output.status = igraph_community_leiden(
             graph, 
             weights,
@@ -118,16 +118,16 @@ inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const
 
     } else {
         // More-or-less translated from igraph::cluster_leiden in the R package.
-        igraph::RealVector strength_holder(igraph_vcount(graph));
+        raiigraph::RealVector strength_holder(igraph_vcount(graph));
         auto strength = strength_holder.get();
         igraph_strength(graph, strength, igraph_vss_all(), IGRAPH_ALL, 1, weights);
 
-        double total_weights = std::accumulate(weights, weights + nedges, 0.0);
+        double total_weights = igraph_vector_sum(weights);
         double mod_resolution = options.resolution / total_weights;
 
         output.status = igraph_community_leiden(
             graph, 
-            weight, 
+            weights, 
             strength, 
             mod_resolution, 
             options.beta, 
@@ -155,7 +155,7 @@ inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_r
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());
 
-    Results<Cluster_, Float_> output;
+    Results output;
     compute(graph.get(), &weight_view, options, output);
     return output;
 }
