@@ -7,6 +7,11 @@
 
 #include "knncolle/knncolle.hpp"
 
+#if __has_include("igraph.h")
+#include "raiigraph/raiigraph.hpp"
+#include "edges_to_graph.hpp"
+#endif
+
 /**
  * @file build_snn_graph.hpp
  * @brief Build a shared nearest-neighbor graph on the cells.
@@ -94,6 +99,14 @@ struct Results {
     std::vector<Weight_> weights;
 };
 
+#if __has_include("igraph.h")
+typedef igraph_integer_t DefaultNode;
+typedef igraph_real_t DefaultWeight;
+#else
+typedef int DefaultNode;
+typedef double DefaultWeight;
+#endif
+
 /**
  * @tparam Node_ Integer type for the node indices.
  * @tparam Weight_ Floating-point type for the edge weights.
@@ -109,10 +122,10 @@ struct Results {
  * In trivial cases, this is the identity function but it can be more complex depending on the contents of the inner container.
  * @param options Further options for graph construction.
  * Note that `Options::num_neighbors` is ignored here.
- * @param[out] output On output, the edges and weights of the constructed SNN graph.
+ * @param[out] output On output, the edges and weights of the SNN graph.
  * The input value is ignored so this can be re-used across multiple calls to `compute()`.
  */
-template<typename Node_, typename Weight_, class GetNeighbors_, class GetIndex_>
+template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, class GetNeighbors_, class GetIndex_>
 void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const Options& options, Results<Node_, Weight_>& output) {
     // Reverse mapping is not parallel-frendly, so we don't construct this with the neighbor search.
     std::vector<std::vector<Node_> > simple_hosts;
@@ -276,6 +289,7 @@ void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index,
  *
  * @tparam Node_ Integer type for the node indices.
  * @tparam Weight_ Floating-point type for the edge weights.
+ * @tparam Index_ Integer type for the neighbor indices.
  * @tparam Distance_ Floating-point type for the distances.
  *
  * @param neighbors Vector of nearest-neighbor search results for each cell.
@@ -285,9 +299,9 @@ void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index,
  * @param options Further options for graph construction.
  * Note that `Options::num_neighbors` is ignored here.
  *
- * @return The edges and weights of the constructed SNN graph.
+ * @return The edges and weights of the SNN graph.
  */
-template<typename Node_ = int, typename Weight_ = double, typename Index_ = int, typename Distance_ = double>
+template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Index_, typename Distance_>
 Results<Node_, Weight_> compute(const knncolle::NeighborList<Index_, Distance_>& neighbors, const Options& options) {
     Results<Node_, Weight_> output;
     compute<Node_, Weight_>(
@@ -305,16 +319,16 @@ Results<Node_, Weight_> compute(const knncolle::NeighborList<Index_, Distance_>&
  *
  * @tparam Node_ Integer type for the node indices.
  * @tparam Weight_ Floating-point type for the edge weights.
- * @tparam Distance_ Floating-point type for the distances.
+ * @tparam Index_ Integer type for the neighbor indices.
  *
  * @param neighbors Vector of vectors of indices for the neighbors for each cell, sorted by increasing distance.
  * It is generally expected that the same number of neighbors are present for each cell, though differences between cells are supported.
  * @param options Further options for graph construction.
  * Note that `Options::num_neighbors` is ignored here.
  *
- * @return The edges and weights of the constructed SNN graph.
+ * @return The edges and weights of the SNN graph.
  */
-template<typename Node_ = int, typename Weight_ = double, typename Index_ = int, typename Distance_ = double>
+template<typename Node_ = int, typename Weight_ = double, typename Index_>
 Results<Node_, Weight_> compute(const std::vector<std::vector<Index_> >& neighbors, const Options& options) {
     Results<Node_, Weight_> output;
     compute<Node_, Weight_>(
@@ -339,12 +353,12 @@ Results<Node_, Weight_> compute(const std::vector<std::vector<Index_> >& neighbo
  * @param[in] prebuilt A prebuilt nearest-neighbor search index on the cells of interest.
  * @param options Further options for graph construction.
  *
- * @return The edges and weights of the constructed SNN graph.
+ * @return The edges and weights of the SNN graph.
  */
-template<typename Node_ = int, typename Weight_ = double, typename Dim_ = int, typename Index_ = int, typename Float_ = double>
+template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Dim_, typename Index_, typename Float_>
 Results<Node_, Weight_> compute(const knncolle::Prebuilt<Dim_, Index_, Float_>& prebuilt, const Options& options) {
     auto neighbors = knncolle::find_nearest_neighbors_index_only(prebuilt, options.num_neighbors, options.num_threads);
-    return compute(neighbors, options);
+    return compute<Node_, Weight_>(neighbors, options);
 }
 
 /**
@@ -352,10 +366,10 @@ Results<Node_, Weight_> compute(const knncolle::Prebuilt<Dim_, Index_, Float_>& 
  *
  * @tparam Node_ Integer type for the node indices.
  * @tparam Weight_ Floating-point type for the edge weights.
- * @tparam Float_ Floating-point type for the distances.
  * @tparam Dim_ Integer type for the dimension index.
  * @tparam Index_ Integer type for the cell index.
  * @tparam Value_ Numeric type for the input data.
+ * @tparam Float_ Floating-point type for the distances.
  *
  * @param num_dims Number of dimensions for the cell coordinates.
  * @param num_cells Number of cells in the dataset.
@@ -363,9 +377,9 @@ Results<Node_, Weight_> compute(const knncolle::Prebuilt<Dim_, Index_, Float_>& 
  * @param knn_method Specification of the nearest-neighbor search algorithm, e.g., `knncolle::VptreeBuilder`, `knncolle::KmknnBuilder`.
  * @param options Further options for graph construction.
  *
- * @return The edges and weights of the constructed SNN graph.
+ * @return The edges and weights of the SNN graph.
  */
-template<typename Node_ = int, typename Weight_ = double, typename Float_ = double, typename Dim_ = int, typename Index_ = int, typename Value_ = double>
+template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Dim_, typename Index_, typename Value_, typename Float_>
 Results<Node_, Weight_> compute(
     Dim_ num_dims, 
     Index_ num_cells, 
@@ -376,6 +390,23 @@ Results<Node_, Weight_> compute(
     auto prebuilt = knn_method.build_unique(knncolle::SimpleMatrix<Dim_, Index_, Value_>(num_dims, num_cells, data));
     return compute<Node_, Weight_>(*prebuilt, options);
 }
+
+#if __has_include("igraph.h")
+/**
+ * Convert the edges in `Results` to a **igraph** graph object for use in **igraph** functions.
+ *
+ * @tparam Node_ Integer type for the node indices.
+ * @tparam Weight_ Floating-point type for the edge weights.
+ *
+ * @param result Result of `compute()`, containing the edges of the SNN graph.
+ *
+ * @return The SNN graph as an **igraph**-compatible object.
+ */
+template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight>
+raiigraph::Graph convert_to_graph(const Results<Node_, Weight_>& result) {
+    return edges_to_graph::compute(result.edges.size(), result.edges.data(), result.num_cells, IGRAPH_UNDIRECTED);
+}
+#endif
 
 }
 

@@ -24,16 +24,15 @@ size_t ndims = 100;
 std::vector<double> coordinates(ndims * ncells);
 // Fill it with some coordinates...
 
-scran::build_snn_graph::Options opt;
-auto built = scran::build_snn_graph::compute_graph(
+auto built = scran::build_snn_graph::compute(
     ndims,
     ncells,
     coordinates.data(),
     knncolle::VptreeBuilder<>(),
-    opt
+    scran::build_snn_graph::Options()
 );
 
-const auto& graph = built.graph;
+const auto& graph = scran::build_snn_graph::convert_to_graph(built);
 const auto& weights = built.weights; // edge weights
 ```
 

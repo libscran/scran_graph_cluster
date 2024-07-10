@@ -22,7 +22,8 @@ protected:
 
     typedef std::tuple<int, int, double> WeightedEdge;
 
-    static std::vector<WeightedEdge> convert_to_vector(const scran::build_snn_graph::Results<int, double>& res) {
+    template<typename Node_, typename Weight_>
+    static std::vector<WeightedEdge> convert_to_vector(const scran::build_snn_graph::Results<Node_, Weight_>& res) {
         std::vector<WeightedEdge> expected;
         expected.reserve(res.weights.size());
         for (size_t e = 0; e < res.weights.size(); ++e) {
@@ -213,3 +214,24 @@ INSTANTIATE_TEST_SUITE_P(
     BuildSnnGraphCustomNeighborsTest,
     ::testing::Values(17, 32) // number of neighbors
 );
+
+/*****************************************
+ *****************************************/
+
+class BuildSnnGraphConvertTest : public ::testing::Test, public BuildSnnGraphTestCore {
+protected:
+    static void SetUpTestSuite() {
+        assemble(10, 100); // dimensions, observations.
+    }
+};
+
+TEST_F(BuildSnnGraphConvertTest, Custom) {
+    scran::build_snn_graph::Options opts;
+    knncolle::KmknnBuilder<> builder;
+    auto output = scran::build_snn_graph::compute(ndim, nobs, data.data(), builder, opts);
+
+    auto g = scran::build_snn_graph::convert_to_graph(output);
+    EXPECT_EQ(g.vcount(), nobs);
+    EXPECT_EQ(g.ecount(), output.edges.size() / 2);
+    EXPECT_FALSE(g.is_directed());
+};
