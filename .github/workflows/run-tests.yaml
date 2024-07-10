@@ -1,0 +1,88 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+name: Run unit tests
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Ubuntu Latest GCC, coverage enabled", 
+            os: ubuntu-latest,
+            cov: true
+          }
+        - {
+            name: "macOS Latest Clang", 
+            os: macos-latest,
+            cov: false
+          }
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Get latest CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Install igraph on Mac
+      if: ${{ matrix.config.os == 'macos-latest' }}
+      run: |
+        brew install igraph
+
+    - name: Cache installed igraph
+      id: cache-igraph
+      if: ${{ matrix.config.os == 'ubuntu-latest' }}
+      uses: actions/cache@v4
+      with:
+        path: _deps
+        key: libigraph
+
+    - name: Make and install igraph
+      if: ${{ matrix.config.os == 'ubuntu-latest' && steps.cache-igraph.outputs.cache-hit != 'true' }}
+      run: |
+        version=0.10.13
+        path=$(pwd)
+        wget https://github.com/igraph/igraph/releases/download/${version}/igraph-${version}.tar.gz
+        tar -xf igraph-${version}.tar.gz
+        cd igraph-${version}
+        mkdir build && cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX=${path}/_deps
+        cmake --build .
+        sudo cmake --install .
+
+    - name: Configure the build
+      if: ${{ matrix.config.cov == false }}
+      run: cmake -S . -B build
+
+    - name: Configure the build with coverage
+      if: ${{ matrix.config.cov == true }}
+      run: cmake -S . -B build -DCODE_COVERAGE=ON -DCMAKE_PREFIX_PATH=_deps
+
+    - name: Run the build
+      run: cmake --build build
+
+    - name: Run the tests
+      run: |
+        cd build
+        ctest
+
+    - name: Generate code coverage
+      if: ${{ matrix.config.cov == true }}
+      run: |
+        cd build/tests/CMakeFiles/libtest.dir/src/
+        gcov -abcfu *.gcno
+
+    - name: Upload to Codecov
+      if: ${{ matrix.config.cov == true }}
+      uses: codecov/codecov-action@v4
+      with:
+        directory: build/tests/CMakeFiles/libtest.dir/src/
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

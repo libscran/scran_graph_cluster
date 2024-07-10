@@ -9,6 +9,9 @@ add_library(scran_snn_clustering INTERFACE)
 target_compile_features(scran_snn_clustering INTERFACE cxx_std_17)
 target_include_directories(scran_snn_clustering INTERFACE include/scran)
 
+find_package(igraph 0.10.0 CONFIG REQUIRED)
+target_link_libraries(scran_snn_clustering INTERFACE igraph::igraph)
+
 add_subdirectory(extern)
 target_link_libraries(scran_snn_clustering INTERFACE knncolle::knncolle ltla::raiigraph)
 
