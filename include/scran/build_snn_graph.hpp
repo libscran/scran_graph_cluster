@@ -47,13 +47,14 @@ namespace build_snn_graph {
 enum class Scheme : char { RANKED, NUMBER, JACCARD };
 
 /**
- * @brief Default parameter settings.
+ * @brief Options for SNN graph construction.
  */
 struct Options {
     /**
      *
-     * The number of nearest neighbors \f$k\f$.
-     * Only relevant for the `compute()` overload that accepts a matrix of coordinates for each observation.
+     * The number of nearest neighbors to use for graph construction.
+     * Larger values increase the connectivity of the graph and reduce the granularity of subsequent community detection steps, at the cost of speed.
+     * Only relevant for the `compute()` overloads without pre-computed neighbors.
      */
     int num_neighbors = 10;
 
@@ -61,12 +62,6 @@ struct Options {
      * Weighting scheme for each edge, based on the number of shared nearest neighbors of the two nodes.
      */
     Scheme weighting_scheme = Scheme::RANKED;
-
-    /**
-     * A pointer to a `knncolle::Builder`, specifying how the nearest neighbor graph should be constructed.
-     * Only relevant for `compute()` overloads that accept a matrix of coordinates for each observation.
-     */
-    void * builder = NULL;
 
     /**
      * See `set_num_threads()`.
@@ -114,11 +109,12 @@ struct Results {
  * @param get_index Function to return the index of each neighbor, given an element of the container returned by `get_neighbors`.
  * In trivial cases, this is the identity function but it can be more complex depending on the contents of the inner container.
  * @param options Further options for graph construction.
- *
- * @return The edges and weights of the constructed SNN graph.
+ * Note that `Options::num_neighbors` is ignored here.
+ * @param[out] output On output, the edges and weights of the constructed SNN graph.
+ * The input value is ignored so this can be re-used across multiple calls to `compute()`.
  */
 template<typename Node_, typename Weight_, class GetNeighbors_, class GetIndex_>
-Results<Node_, Weight_> compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const Options& options) {
+void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const Options& options, Results<Node_, Weight_>& output) {
     // Reverse mapping is not parallel-frendly, so we don't construct this with the neighbor search.
     std::vector<std::vector<Node_> > simple_hosts;
     std::vector<std::vector<std::pair<Node_, Weight_> > > ranked_hosts;
@@ -257,9 +253,8 @@ Results<Node_, Weight_> compute(size_t num_cells, GetNeighbors_ get_neighbors, G
         nedges += w.size();
     }
 
-    Results<Node_, Weight_> output;
     output.num_cells = num_cells;
-
+    output.weights.clear();
     output.weights.reserve(nedges);
     for (const auto& w : weight_stores) {
         output.weights.insert(output.weights.end(), w.begin(), w.end());
@@ -267,12 +262,13 @@ Results<Node_, Weight_> compute(size_t num_cells, GetNeighbors_ get_neighbors, G
     weight_stores.clear();
     weight_stores.shrink_to_fit(); // forcibly release memory so that we have some more space for edges.
 
+    output.edges.clear();
     output.edges.reserve(nedges * 2);
     for (const auto& e : edge_stores) {
         output.edges.insert(output.edges.end(), e.begin(), e.end());
     }
 
-    return output;
+    return;
 }
 
 /**
@@ -283,20 +279,53 @@ Results<Node_, Weight_> compute(size_t num_cells, GetNeighbors_ get_neighbors, G
  * @tparam Weight_ Floating-point type for the edge weights.
  * @tparam Distance_ Floating-point type for the distances.
  *
- * @param neighbors Vector of vectors of indices for the neighbors for each cell, sorted by increasing distance.
+ * @param neighbors Vector of nearest-neighbor search results for each cell.
+ * Each entry is a pair containing a vector of neighbor indices and a vector of distances to those neighbors.
+ * Neighbors should be sorted by increasing distance.
  * It is generally expected that the same number of neighbors are present for each cell, though differences between cells are supported.
  * @param options Further options for graph construction.
+ * Note that `Options::num_neighbors` is ignored here.
  *
  * @return The edges and weights of the constructed SNN graph.
  */
 template<typename Node_ = int, typename Weight_ = double, typename Index_ = int, typename Distance_ = double>
 Results<Node_, Weight_> compute(const knncolle::NeighborList<Index_, Distance_>& neighbors, const Options& options) {
-    return compute<Node_, Weight_>(
+    Results<Node_, Weight_> output;
+    compute<Node_, Weight_>(
         neighbors.size(), 
         [&](size_t i) -> const std::vector<Index_>& { return neighbors[i].first; }, 
         [](Index_ x) -> Node_ { return x; }, 
-        options
+        options,
+        output
     );
+    return output;
+}
+
+/**
+ * Overload to enable convenient usage with pre-computed neighbors from **knncolle**.
+ *
+ * @tparam Node_ Integer type for the node indices.
+ * @tparam Weight_ Floating-point type for the edge weights.
+ * @tparam Distance_ Floating-point type for the distances.
+ *
+ * @param neighbors Vector of vectors of indices for the neighbors for each cell, sorted by increasing distance.
+ * It is generally expected that the same number of neighbors are present for each cell, though differences between cells are supported.
+ * @param options Further options for graph construction.
+ * Note that `Options::num_neighbors` is ignored here.
+ *
+ * @return The edges and weights of the constructed SNN graph.
+ */
+template<typename Node_ = int, typename Weight_ = double, typename Index_ = int, typename Distance_ = double>
+Results<Node_, Weight_> compute(const std::vector<std::vector<Index_> >& neighbors, const Options& options) {
+    Results<Node_, Weight_> output;
+    compute<Node_, Weight_>(
+        neighbors.size(), 
+        [&](size_t i) -> const std::vector<Index_>& { return neighbors[i]; }, 
+        [](Index_ x) -> Node_ { return x; }, 
+        options,
+        output
+    );
+    return output;
 }
 
 /**
@@ -309,21 +338,14 @@ Results<Node_, Weight_> compute(const knncolle::NeighborList<Index_, Distance_>&
  * @tparam Float_ Floating-point type for the distances.
  *
  * @param[in] prebuilt A prebuilt nearest-neighbor search index on the cells of interest.
- * @param k The number of neighbors to identify for each cell.
- * Larger values increase the connectivity of the graph and reduce the granularity of any subsequent community detection steps, at the cost of speed.
  * @param options Further options for graph construction.
  *
  * @return The edges and weights of the constructed SNN graph.
  */
 template<typename Node_ = int, typename Weight_ = double, typename Dim_ = int, typename Index_ = int, typename Float_ = double>
-Results<Node_, Weight_> compute(const knncolle::Prebuilt<Dim_, Index_, Float_>* prebuilt, int k, const Options& options) {
-    auto neighbors = knncolle::find_nearest_neighbors_index_only(*prebuilt, k, options.num_threads);
-    return compute<Node_, Weight_>(
-        neighbors.size(), 
-        [&](size_t i) -> const std::vector<Index_>& { return neighbors[i]; }, 
-        [](Index_ x) -> Node_ { return x; }, 
-        options
-    );
+Results<Node_, Weight_> compute(const knncolle::Prebuilt<Dim_, Index_, Float_>& prebuilt, const Options& options) {
+    auto neighbors = knncolle::find_nearest_neighbors_index_only(prebuilt, options.num_neighbors, options.num_threads);
+    return compute(neighbors, options);
 }
 
 /**
@@ -339,24 +361,21 @@ Results<Node_, Weight_> compute(const knncolle::Prebuilt<Dim_, Index_, Float_>* 
  * @param num_dims Number of dimensions for the cell coordinates.
  * @param num_cells Number of cells in the dataset.
  * @param[in] data Pointer to a `num_dims`-by-`num_cells` column-major array of cell coordinates where rows are dimensions and columns are cells.
- * @param builder Specification of the nearest-neighbor search algorithm, e.g., `knncolle::VptreeBuilder`, `knncolle::KmknnBuilder`.
- * @param k The number of neighbors to identify for each cell.
- * Larger values increase the connectivity of the graph and reduce the granularity of any subsequent community detection steps, at the cost of speed.
+ * @param knn_method Specification of the nearest-neighbor search algorithm, e.g., `knncolle::VptreeBuilder`, `knncolle::KmknnBuilder`.
  * @param options Further options for graph construction.
  *
  * @return The edges and weights of the constructed SNN graph.
  */
 template<typename Node_ = int, typename Weight_ = double, typename Float_ = double, typename Dim_ = int, typename Index_ = int, typename Value_ = double>
 Results<Node_, Weight_> compute(
-    Dim_ num_dims,
-    Index_ num_cells,
+    Dim_ num_dims, 
+    Index_ num_cells, 
     const Value_* data, 
-    const knncolle::Builder<knncolle::SimpleMatrix<Dim_, Index_, Value_>, Float_>* builder, 
-    int k,
+    const knncolle::Builder<knncolle::SimpleMatrix<Dim_, Index_, Value_>, Float_>& knn_method,
     const Options& options) 
 {
-    auto prebuilt = builder->build_unique(knncolle::SimpleMatrix<Dim_, Index_, Value_>(num_dims, num_cells, data));
-    return compute<Node_, Weight_>(prebuilt.get(), k, options);
+    auto prebuilt = knn_method.build_unique(knncolle::SimpleMatrix<Dim_, Index_, Value_>(num_dims, num_cells, data));
+    return compute<Node_, Weight_>(*prebuilt, options);
 }
 
 }

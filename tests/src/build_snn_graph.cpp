@@ -105,10 +105,11 @@ TEST_P(BuildSnnGraphRefTest, Reference) {
     int nthreads = std::get<2>(param);
 
     scran::build_snn_graph::Options opts;
+    opts.num_neighbors = k;
     opts.weighting_scheme = scheme;
     opts.num_threads = nthreads;
     knncolle::VptreeBuilder<> vpbuilder;
-    auto res = scran::build_snn_graph::compute(ndim, nobs, data.data(), &vpbuilder, k, opts);
+    auto res = scran::build_snn_graph::compute(ndim, nobs, data.data(), vpbuilder, opts);
 
     auto ref = reference(k, scheme);
     EXPECT_EQ(res.num_cells, nobs);
@@ -147,6 +148,7 @@ TEST_P(BuildSnnGraphSymmetryTest, Symmetry) {
     auto scheme = std::get<1>(param);
 
     scran::build_snn_graph::Options opts;
+    opts.num_neighbors = k;
     opts.weighting_scheme = scheme;
     knncolle::VptreeBuilder<> vpbuilder;
 
@@ -155,7 +157,7 @@ TEST_P(BuildSnnGraphSymmetryTest, Symmetry) {
     // the SNN calculations hold, then the original results should be recoverable
     // by just flipping the indices of the edge.
     std::vector<double> revdata(data.rbegin(), data.rend());
-    auto revres = scran::build_snn_graph::compute(ndim, nobs, revdata.data(), &vpbuilder, k, opts);
+    auto revres = scran::build_snn_graph::compute(ndim, nobs, revdata.data(), vpbuilder, opts);
     auto revd = convert_to_vector(revres);
 
     for (auto& e : revd) {
@@ -165,7 +167,7 @@ TEST_P(BuildSnnGraphSymmetryTest, Symmetry) {
     }
     std::sort(revd.begin(), revd.end());
 
-    auto refres = scran::build_snn_graph::compute(ndim, nobs, data.data(), &vpbuilder, k, opts);
+    auto refres = scran::build_snn_graph::compute(ndim, nobs, data.data(), vpbuilder, opts);
     auto refd = convert_to_vector(refres);
     std::sort(refd.begin(), refd.end());
     EXPECT_EQ(refd, revd);
@@ -194,8 +196,9 @@ TEST_P(BuildSnnGraphCustomNeighborsTest, Custom) {
     auto k = GetParam();
 
     scran::build_snn_graph::Options opts;
+    opts.num_neighbors = k;
     knncolle::KmknnBuilder<> builder;
-    auto output = scran::build_snn_graph::compute(ndim, nobs, data.data(), &builder, k, opts);
+    auto output = scran::build_snn_graph::compute(ndim, nobs, data.data(), builder, opts);
 
     // Same results as if we had run it manually.
     auto prebuilt = builder.build_unique(knncolle::SimpleMatrix(ndim, nobs, data.data()));
