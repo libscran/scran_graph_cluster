@@ -32,15 +32,21 @@ struct Options {
      * The default is based on the example in the **igraph** documentation.
      */
     int steps = 4;
+
+    /**
+     * Whether to report the merge steps in `Results::merges`.
+     */
+    bool report_merges = true;
+
+    /**
+     * Whether to report the modularity after each merge step in `Results::modularity`.
+     */
+    bool report_modularity = true;
 };
 
 /**
  * @brief Result of the **igraph** Walktrap community detection algorithm.
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the modularity.
  */
-template<typename Cluster_ = int, typename Float_ = double>
 struct Results {
     /** 
      * Output status.
@@ -51,27 +57,28 @@ struct Results {
     /**
      * Vector of length equal to the number of cells, containing 0-indexed cluster identities.
      */
-    std::vector<Cluster_> membership;
+    raiigraph::IntegerVector membership;
 
     /**
-     * Vector of length equal to the number of merge steps, containing the identities of the two clusters being merged.
-     * Note that cluster IDs here are not the same as those in `membership`.
+     * Matrix of merge steps.
+     * Each row corresponds to a successive merge step, while the two columns contain the identities of the two clusters being merged.
+     * Note that cluster IDs here are not the same as those in `membership` - 
+     * see [the documentation](https://igraph.org/c/doc/igraph-Community.html#igraph_community_walktrap) for more details.
+     * This should only be used if `Options::report_merges = true`.
      */
-    std::vector<std::pair<Cluster_, Cluster_> > merges;
+    raiigraph::IntegerMatrix merges;
 
     /**
-     * Vector of length equal to `merges` plus 1, containing the modularity score before and after each merge step.
+     * Vector of length equal to the number of rows in `merges` plus 1, containing the modularity score before and after each merge step.
      * The maximum value is the modularity corresponding to the clustering in `membership`.
+     * This should only be used if `Options::report_modularity = true`.
      */
-    std::vector<Float_> modularity;
+    raiigraph::RealVector modularity;
 };
 
 /**
  * Run the Walktrap community detection algorithm on a pre-constructed graph. 
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the modularity.
- *
+ * 
  * @param graph An existing graph.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
  * This should be in the same order as the edge list in `graph`.
@@ -79,45 +86,15 @@ struct Results {
  * @param[out] output On output, this is filtered with the clustering results.
  * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
  */
-template<typename Cluster_ = int, typename Float_ = double>
-Results<Cluster_, Float_> compute(const igraph_t* graph, const igraph_vector_t* weights, Results<Cluster_, Float_>& output) {
-    raiigraph::IntegerMatrix merges_holder;
-    raiigraph::RealVector modularity_holder;
-    raiigraph::IntegerVector membership_holder;
-
-    auto modularity = modularity_holder.get();
-    auto membership = membership_holder.get();
-    auto merges = merges_holder.get();
-
+inline void compute(const igraph_t* graph, const igraph_vector_t* weights, Results& output) {
+    auto membership = output.membership.get();
+    auto modularity = (output.report_modularity ? output.modularity.get() : NULL);
+    auto merges = (output.report_merges ? output.merges.get() : NULL);
     output.status = igraph_community_walktrap(graph, weights, steps, merges, modularity, membership);
-
-    if (!output.status) {
-        size_t nmods = igraph_vector_size(modularity);
-        output.modularity.resize(nmods);
-        for (size_t i = 0; i < nmods; ++i) {
-            output.modularity[i] = VECTOR(*modularity)[i];
-        }
-
-        size_t nmerges = igraph_matrix_int_nrow(merges);
-        output.merges.resize(nmerges);
-        for (size_t i = 0; i < nmerges; ++i) {
-            output.merges[i].first = MATRIX(*merges, i, 0);
-            output.merges[i].second = MATRIX(*merges, i, 1);
-        }
-
-        size_t ncells = igraph_vcount(graph);
-        output.membership.resize(ncells);
-        for (size_t i = 0; i < ncells; ++i) {
-            output.membership[i] = VECTOR(*membership)[i];
-        }
-    }
 }
 
 /**
  * Run the Walktrap community detection algorithm on a pre-constructed graph.
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the modularity.
  *
  * @param graph An existing graph.
  * @param weights Vector of weights of length equal to the number of edges in `graph`. 
@@ -126,8 +103,7 @@ Results<Cluster_, Float_> compute(const igraph_t* graph, const igraph_vector_t* 
  *
  * @return Clustering results for the nodes of the graph.
  */
-template<typename Cluster_ = int, typename Float_ = double>
-Results<Cluster_, Float_> compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
+inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
     // No need to free this, as it's just a view.
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());

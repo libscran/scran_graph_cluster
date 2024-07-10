@@ -37,17 +37,20 @@ struct Options {
      * Seed for the **igraph** random number generator.
      */
     int seed = 42;
+
+    /**
+     * Whether to report the multi-level clusterings in `Results::memberships`.
+     */
+    bool report_levels = true;
+
+    /**
+     * Whether to report the modularity for each level in `Results::modularity`.
+     */
+    bool report_modularity = true;
 };
 
 /**
  * @brief Result of the **igraph** multi-level community detection algorithm.
- *
- * A separate set of clustering results is reported for each level.
- * The level with the highest modularity of its clusters is also determined;
- * this clustering is usually a good default choice for downstream analysis.
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the modularity.
  */
 template<typename Cluster_ = int, typename Float_ = double>
 struct Results {
@@ -56,31 +59,30 @@ struct Results {
      * A value of zero indicates that the algorithm completed successfully.
      */
     int status = 0;
-    
-    /**
-     * The level that maximizes the modularity.
-     * This can be used to index a particular result in `membership` and `modularity`.
-     */
-    size_t max = 0;
 
     /**
-     * Each vector contains the clustering result for a particular level.
-     * Each vector is of length equal to the number of cells and contains 0-indexed cluster identities.
+     * Vector of length equal to the number of cells, containing 0-indexed cluster identities.
+     * This is the same as the row of `levels` with the maximum `modularity`.
      */
-    std::vector<std::vector<Cluster_> > membership;
+    raiigraph::IntegerVector membership;
+
+    /**
+     * Matrix of clusterings for each level.
+     * Each row corresponds to a level and contains 0-indexed cluster identities for all cells (columns).
+     * This should only be used if `Options::report_levels = true`.
+     */
+    raiigraph::IntegerMatrix levels;
 
     /**
      * Modularity scores at each level.
-     * This is of the same length as `membership`.
+     * This is of the same length as the number of rows in `levels`.
+     * It should only be used if `Options::report_modularity = true`.
      */
-    std::vector<Float_> modularity;
+    raiigraph::RealVector modularity;
 };
 
 /**
  * Run the multi-level community detection algorithm on a pre-constructed graph.
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the modularity.
  *
  * @param graph An existing graph.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
@@ -89,16 +91,12 @@ struct Results {
  * @param[out] output On output, this is filtered with the clustering results.
  * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
  */
-template<typename Cluster_, typename Float_>
-void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results<Cluster_, Float_>& output) {
-    raiigraph::IntegerVector membership_holder;
-    raiigraph::RealVector modularity_holder;
-    raiigraph::IntegerMatrix memberships_holder;
+inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results& output) {
     raiigraph::RNGScope rngs(options.seed);
 
-    auto modularity = modularity_holder.get();
-    auto membership = membership_holder.get();
-    auto memberships = memberships_holder.get();
+    auto modularity = (options.report_modularity ? output.modularity.get() : NULL);
+    auto membership = output.membership.get();
+    auto memberships = (options.report_levels ? output.levels.get() : NULL);
 
     output.status = igraph_community_multilevel(
         graph,
@@ -108,30 +106,6 @@ void compute(const igraph_t* graph, const igraph_vector_t* weights, const Option
         memberships, 
         modularity
     );
-
-    if (!output.status) {
-        output.max = igraph_vector_which_max(modularity);
-
-        size_t nmods = igraph_vector_size(modularity);
-        output.modularity.resize(nmods);
-        for (size_t i = 0; i < nmods; ++i) {
-            output.modularity[i] = VECTOR(*modularity)[i];
-        }
-
-        size_t ncells = igraph_vcount(graph);
-        size_t nlevels = igraph_matrix_int_nrow(memberships);
-        output.membership.resize(nlevels);
-        
-        for (size_t i = 0; i < nlevels; ++i) {
-            auto& current = output.membership[i];
-            current.resize(ncells);
-            for (size_t j = 0; j < ncells; ++j) {
-                current[j] = MATRIX(*memberships, i, j);
-            }
-        }
-    }
-
-    return output;
 }
 
 /**
@@ -147,8 +121,7 @@ void compute(const igraph_t* graph, const igraph_vector_t* weights, const Option
  *
  * @return Clustering results for the nodes of the graph.
  */
-template<typename Cluster_ = int, typename Float_ = double>
-Results<Cluster_, Float_> compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
+inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
     // No need to free this, as it's just a view.
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());

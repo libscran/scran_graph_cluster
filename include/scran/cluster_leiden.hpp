@@ -31,41 +31,42 @@ struct Options {
      * Larger values result in more fine-grained communities.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
-    static constexpr double resolution = 1;
+    double resolution = 1;
 
     /**
      * Level of randomness used during refinement.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
-    static constexpr double beta = 0.01;
+    double beta = 0.01;
 
     /**
      * Number of iterations of the Leiden algorithm.
      * More iterations can improve separation at the cost of computational time.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
-    static constexpr int iterations = 2;
+    int iterations = 2;
 
     /**
      * Whether to optimize the modularity instead of the Constant Potts Model.
      * The two are closely related but the magnitude of the resolution is different.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
-    static constexpr bool modularity = false;
+    bool modularity = false;
+
+    /**
+     * Whether to report the quality of the clustering in `Results::quality`.
+     */
+    bool report_quality = false;
 
     /**
      * Seed for the **igraph** random number generator.
      */
-    static constexpr int seed = 42;
+    int seed = 42;
 };
 
 /**
  * @brief Result of the **igraph** leiden community detection algorithm.
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the clustering quality.
  */
-template<typename Cluster_ = int, typename Float_ = double>
 struct Results {
     /** 
      * Output status.
@@ -76,19 +77,17 @@ struct Results {
     /**
      * Vector of length equal to the number of cells, containing 0-indexed cluster identities.
      */
-    std::vector<Cluster_> membership;
+    raiigraph::IntegerVector membership;
 
     /**
      * Quality of the clustering, closely related to the modularity.
+     * This is only defined if `Options::report_quality = true`.
      */
-    Float_ quality = 0;
+    igraph_real_t quality = 0;
 };
 
 /**
  * Run the Leiden community detection algorithm on a pre-constructed graph. 
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the clustering quality.
  *
  * @param graph An existing graph.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
@@ -97,20 +96,11 @@ struct Results {
  * @param[out] output On output, this is filtered with the clustering results.
  * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
  */
-template<typename Cluster_ = int, typename Float_ = double>
-void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results<Cluster_, Float_>& output) {
-    igraph::IntegerVector membership_holder;
-    auto membership = membership_holder.get();
-
-    igraph_integer_t nb_clusters;
-    igraph_real_t quality;
+inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results& output) {
+    auto membership = output.membership.get();
+    auto& quality = (options.report_quality ? &(output.quality) : NULL);
 
     igraph::RNGScope rngs(options.seed);
-
-    // No need to free this, as it's just a view.
-    igraph_vector_t weight_view;
-    size_t nedges = igraph_ecount(graph.get_graph());
-    igraph_vector_view(&weight_view, weights, nedges);
 
     if (!modularity) {
         output.status = igraph_community_leiden(
@@ -122,8 +112,8 @@ void compute(const igraph_t* graph, const igraph_vector_t* weights, const Option
             false, 
             options.iterations, 
             membership, 
-            &nb_clusters, 
-            &quality
+            NULL,
+            quality
         );
 
     } else {
@@ -144,26 +134,14 @@ void compute(const igraph_t* graph, const igraph_vector_t* weights, const Option
             false, 
             options.iterations, 
             membership, 
-            &nb_clusters, 
-            &quality
+            NULL, 
+            quality
         );
-    }
-
-    if (!output.status) {
-        size_t ncells = igraph_vcount(graph);
-        output.membership.resize(ncells);
-        for (size_t i = 0; i < ncells; ++i) {
-            output.membership[i] = VECTOR(*membership)[i];
-        }
-        output.quality = quality;
     }
 }
 
 /**
  * Run the Leiden community detection algorithm on a pre-constructed graph.
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the modularity.
  *
  * @param graph An existing graph.
  * @param weights Vector of weights of length equal to the number of edges in `graph`. 
@@ -172,8 +150,7 @@ void compute(const igraph_t* graph, const igraph_vector_t* weights, const Option
  *
  * @return Clustering results for the nodes of the graph.
  */
-template<typename Cluster_ = int, typename Float_ = double>
-Results<Cluster_, Float_> compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
+inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
     // No need to free this, as it's just a view.
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());
