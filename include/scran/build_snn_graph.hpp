@@ -8,8 +8,7 @@
 #include "knncolle/knncolle.hpp"
 
 /**
- * @file BuildSnnGraph.hpp
- *
+ * @file build_snn_graph.hpp
  * @brief Build a shared nearest-neighbor graph on the cells.
  */
 
