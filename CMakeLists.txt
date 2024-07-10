@@ -10,7 +10,7 @@ target_compile_features(scran_snn_clustering INTERFACE cxx_std_17)
 target_include_directories(scran_snn_clustering INTERFACE include/scran)
 
 add_subdirectory(extern)
-target_link_libraries(scran_snn_clustering INTERFACE knncolle::knncolle)
+target_link_libraries(scran_snn_clustering INTERFACE knncolle::knncolle ltla::raiigraph)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include(CTest)
