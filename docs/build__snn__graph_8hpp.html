@@ -78,6 +78,7 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">build_snn_graph.hpp File Reference</div></div>
@@ -124,6 +125,15 @@ Namespaces</h2></td></tr>
 <tr class="memdesc:namespacescran_1_1build__snn__graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a shared nearest-neighbor graph with cells as nodes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a1a0949d64c32d94355e3a3ab92d4a103" id="r_a1a0949d64c32d94355e3a3ab92d4a103"><td class="memItemLeft" align="right" valign="top"><a id="a1a0949d64c32d94355e3a3ab92d4a103" name="a1a0949d64c32d94355e3a3ab92d4a103"></a>
+<a class="el" href="namespacescran_1_1build__snn__graph.html#ad7bb15027d07c0c217c0082746bb69ed">typedef</a> <a class="el" href="namespacescran_1_1build__snn__graph.html#ad7bb15027d07c0c217c0082746bb69ed">int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>scran::build_snn_graph::DefaultNode</b></td></tr>
+<tr class="separator:a1a0949d64c32d94355e3a3ab92d4a103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66420baa184bad1c09d7719a020b15e2" id="r_a66420baa184bad1c09d7719a020b15e2"><td class="memItemLeft" align="right" valign="top"><a id="a66420baa184bad1c09d7719a020b15e2" name="a66420baa184bad1c09d7719a020b15e2"></a>
+<a class="el" href="namespacescran_1_1build__snn__graph.html#ad7bb15027d07c0c217c0082746bb69ed">typedef</a> <a class="el" href="namespacescran_1_1build__snn__graph.html#ad7bb15027d07c0c217c0082746bb69ed">double</a>&#160;</td><td class="memItemRight" valign="bottom"><b>scran::build_snn_graph::DefaultWeight</b></td></tr>
+<tr class="separator:a66420baa184bad1c09d7719a020b15e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a610e9e4165fe86b9903b9dd368695358" id="r_a610e9e4165fe86b9903b9dd368695358"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescran_1_1build__snn__graph.html#a610e9e4165fe86b9903b9dd368695358">scran::build_snn_graph::Scheme</a> : char { <b>RANKED</b>
@@ -134,19 +144,19 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad7bb15027d07c0c217c0082746bb69ed" id="r_ad7bb15027d07c0c217c0082746bb69ed"><td class="memTemplParams" colspan="2">template&lt;typename Node_ , typename Weight_ , class GetNeighbors_ , class GetIndex_ &gt; </td></tr>
+<tr class="memitem:ad7bb15027d07c0c217c0082746bb69ed" id="r_ad7bb15027d07c0c217c0082746bb69ed"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, class GetNeighbors_ , class GetIndex_ &gt; </td></tr>
 <tr class="memitem:ad7bb15027d07c0c217c0082746bb69ed"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran_1_1build__snn__graph.html#ad7bb15027d07c0c217c0082746bb69ed">scran::build_snn_graph::compute</a> (size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const <a class="el" href="structscran_1_1build__snn__graph_1_1Options.html">Options</a> &amp;options, <a class="el" href="structscran_1_1build__snn__graph_1_1Results.html">Results</a>&lt; Node_, Weight_ &gt; &amp;output)</td></tr>
 <tr class="separator:ad7bb15027d07c0c217c0082746bb69ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add74d72ecdcd9e644641c06f2760a6cf" id="r_add74d72ecdcd9e644641c06f2760a6cf"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = int, typename Weight_  = double, typename Index_  = int, typename Distance_  = double&gt; </td></tr>
+<tr class="memitem:add74d72ecdcd9e644641c06f2760a6cf" id="r_add74d72ecdcd9e644641c06f2760a6cf"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Distance_ &gt; </td></tr>
 <tr class="memitem:add74d72ecdcd9e644641c06f2760a6cf"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran_1_1build__snn__graph_1_1Results.html">Results</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran_1_1build__snn__graph.html#add74d72ecdcd9e644641c06f2760a6cf">scran::build_snn_graph::compute</a> (const knncolle::NeighborList&lt; Index_, Distance_ &gt; &amp;neighbors, const <a class="el" href="structscran_1_1build__snn__graph_1_1Options.html">Options</a> &amp;options)</td></tr>
 <tr class="separator:add74d72ecdcd9e644641c06f2760a6cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d86f499eacf3bae1aa02cf5d67bf83d" id="r_a4d86f499eacf3bae1aa02cf5d67bf83d"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = int, typename Weight_  = double, typename Index_  = int, typename Distance_  = double&gt; </td></tr>
-<tr class="memitem:a4d86f499eacf3bae1aa02cf5d67bf83d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran_1_1build__snn__graph_1_1Results.html">Results</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran_1_1build__snn__graph.html#a4d86f499eacf3bae1aa02cf5d67bf83d">scran::build_snn_graph::compute</a> (const std::vector&lt; std::vector&lt; Index_ &gt; &gt; &amp;neighbors, const <a class="el" href="structscran_1_1build__snn__graph_1_1Options.html">Options</a> &amp;options)</td></tr>
-<tr class="separator:a4d86f499eacf3bae1aa02cf5d67bf83d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01100b35520ffa85d18a78a588945aff" id="r_a01100b35520ffa85d18a78a588945aff"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = int, typename Weight_  = double, typename Dim_  = int, typename Index_  = int, typename Float_  = double&gt; </td></tr>
+<tr class="memitem:a232e3a8285f1e19655e9bdc448c3a9e0" id="r_a232e3a8285f1e19655e9bdc448c3a9e0"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = int, typename Weight_  = double, typename Index_ &gt; </td></tr>
+<tr class="memitem:a232e3a8285f1e19655e9bdc448c3a9e0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran_1_1build__snn__graph_1_1Results.html">Results</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran_1_1build__snn__graph.html#a232e3a8285f1e19655e9bdc448c3a9e0">scran::build_snn_graph::compute</a> (const std::vector&lt; std::vector&lt; Index_ &gt; &gt; &amp;neighbors, const <a class="el" href="structscran_1_1build__snn__graph_1_1Options.html">Options</a> &amp;options)</td></tr>
+<tr class="separator:a232e3a8285f1e19655e9bdc448c3a9e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01100b35520ffa85d18a78a588945aff" id="r_a01100b35520ffa85d18a78a588945aff"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Dim_ , typename Index_ , typename Float_ &gt; </td></tr>
 <tr class="memitem:a01100b35520ffa85d18a78a588945aff"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran_1_1build__snn__graph_1_1Results.html">Results</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran_1_1build__snn__graph.html#a01100b35520ffa85d18a78a588945aff">scran::build_snn_graph::compute</a> (const knncolle::Prebuilt&lt; Dim_, Index_, Float_ &gt; &amp;prebuilt, const <a class="el" href="structscran_1_1build__snn__graph_1_1Options.html">Options</a> &amp;options)</td></tr>
 <tr class="separator:a01100b35520ffa85d18a78a588945aff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81cfc0034027c4d19b30295255014cbb" id="r_a81cfc0034027c4d19b30295255014cbb"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = int, typename Weight_  = double, typename Float_  = double, typename Dim_  = int, typename Index_  = int, typename Value_  = double&gt; </td></tr>
+<tr class="memitem:a81cfc0034027c4d19b30295255014cbb" id="r_a81cfc0034027c4d19b30295255014cbb"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Dim_ , typename Index_ , typename Value_ , typename Float_ &gt; </td></tr>
 <tr class="memitem:a81cfc0034027c4d19b30295255014cbb"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran_1_1build__snn__graph_1_1Results.html">Results</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran_1_1build__snn__graph.html#a81cfc0034027c4d19b30295255014cbb">scran::build_snn_graph::compute</a> (Dim_ num_dims, Index_ num_cells, const Value_ *data, const knncolle::Builder&lt; knncolle::SimpleMatrix&lt; Dim_, Index_, Value_ &gt;, Float_ &gt; &amp;knn_method, const <a class="el" href="structscran_1_1build__snn__graph_1_1Options.html">Options</a> &amp;options)</td></tr>
 <tr class="separator:a81cfc0034027c4d19b30295255014cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

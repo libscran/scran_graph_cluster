@@ -315,7 +315,7 @@
       <type>Results&lt; Node_, Weight_ &gt;</type>
       <name>compute</name>
       <anchorfile>namespacescran_1_1build__snn__graph.html</anchorfile>
-      <anchor>a4d86f499eacf3bae1aa02cf5d67bf83d</anchor>
+      <anchor>a232e3a8285f1e19655e9bdc448c3a9e0</anchor>
       <arglist>(const std::vector&lt; std::vector&lt; Index_ &gt; &gt; &amp;neighbors, const Options &amp;options)</arglist>
     </member>
     <member kind="function">
