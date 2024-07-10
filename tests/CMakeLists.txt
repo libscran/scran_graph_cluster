@@ -33,6 +33,7 @@ macro(create_test name)
         src/cluster_multilevel.cpp
         src/cluster_walktrap.cpp
         src/cluster_leiden.cpp
+        src/edges_to_graph.cpp
     )
 
     target_link_libraries(
