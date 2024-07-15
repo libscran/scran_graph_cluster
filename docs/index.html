@@ -123,7 +123,8 @@ $(function() {
 <div class="line"> </div>
 <div class="line"># For libaries</div>
 <div class="line">target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)</div>
-</div><!-- fragment --><h2>CMake with <code>find_package()</code></h2>
+</div><!-- fragment --><p>This will fetch all external dependencies except for <a href="https://igraph.org"><b>igraph</b></a>, which should already be installed. We can instruct CMake to fetch and build <b>igraph</b> by setting <code>-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN_IGRAPH=ON</code>.</p>
+<h2>CMake with <code>find_package()</code></h2>
 <div class="fragment"><div class="line">find_package(libscran_scran_graph_cluster CONFIG REQUIRED)</div>
 <div class="line">target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)</div>
 </div><!-- fragment --><p>To install the library, use:</p>
