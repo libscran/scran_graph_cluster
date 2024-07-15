@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>scran_snn_clustering: Graph-based clustering</title>
+<title>scran_snn_clustering: Graph-based clustering for single-cell data</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,68 +71,69 @@ $(function() {
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Graph-based clustering </div></div>
+  <div class="headertitle"><div class="title">Graph-based clustering for single-cell data </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__2github_2workspace_2README"></a> <img src="https://github.com/libscran/snn_clustering/actions/workflows/run-tests.yaml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/> <img src="https://github.com/libscran/snn_clustering/actions/workflows/doxygenate.yaml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/libscran/snn_clustering"><img src="https://codecov.io/gh/libscran/snn_clustering/graph/badge.svg?token=qklLZtJSE9" alt="Codecov" style="pointer-events: none;" class="inline"/></a></p>
+<div class="textblock"><p><a class="anchor" id="md__2github_2workspace_2README"></a> <img src="https://github.com/libscran/scran_graph_cluster/actions/workflows/run-tests.yaml/badge.svg" alt="Unit tests" style="pointer-events: none;" class="inline"/> <img src="https://github.com/libscran/scran_graph_cluster/actions/workflows/doxygenate.yaml/badge.svg" alt="Documentation" style="pointer-events: none;" class="inline"/> <a href="https://codecov.io/gh/libscran/scran_graph_cluster"><img src="https://codecov.io/gh/libscran/scran_graph_cluster/graph/badge.svg?token=qklLZtJSE9" alt="Codecov" style="pointer-events: none;" class="inline"/></a></p>
 <h1>Overview</h1>
 <p>This repository implements functions for construction and clustering of a nearest-neighbor graph created from single-cell data. Each node in the graph is a cell where edges are formed between neighboring cells in expression space, thus allowing us to identify communities of closely-related cells. The code itself was originally derived from the <a href="https://bioconductor.org/packages/scran"><b>scran</b></a> R package, been factored out into a separate C++ library for easier re-use.</p>
 <h1>Quick start</h1>
-<p>Given a column-major array of cell coordinates (typically in some <a href="https://github.com/libscran/principal_component_analysis">low-dimensional space</a>), we can construct a shared-nearest-neighbor graph:</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="build__snn__graph_8hpp.html">scran/build_snn_graph.hpp</a>&quot;</span></div>
+<p>Given a column-major array of cell coordinates (typically in some <a href="https://github.com/libscran/scran_pca">low-dimensional space</a>), we can construct a shared-nearest-neighbor graph:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;scran_graph_cluster/scran_graph_cluster.hpp&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">size_t</span> ncells = 1000;</div>
 <div class="line"><span class="keywordtype">size_t</span> ndims = 100;</div>
 <div class="line">std::vector&lt;double&gt; coordinates(ndims * ncells);</div>
 <div class="line"><span class="comment">// Fill it with some coordinates...</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">auto</span> built = <a class="code hl_function" href="namespacescran_1_1build__snn__graph.html#ad7bb15027d07c0c217c0082746bb69ed">scran::build_snn_graph::compute</a>(</div>
+<div class="line"><span class="keyword">auto</span> built = scran_graph_cluster::build_snn_graph(</div>
 <div class="line">    ndims,</div>
 <div class="line">    ncells,</div>
 <div class="line">    coordinates.data(),</div>
 <div class="line">    knncolle::VptreeBuilder&lt;&gt;(),</div>
-<div class="line">    <a class="code hl_struct" href="structscran_1_1build__snn__graph_1_1Options.html">scran::build_snn_graph::Options</a>()</div>
+<div class="line">    scran_graph_cluster::BuildSnnGraphOptions()</div>
 <div class="line">);</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; graph = <a class="code hl_function" href="namespacescran_1_1build__snn__graph.html#ad7bb15027d07c0c217c0082746bb69ed">scran::build_snn_graph::convert_to_graph</a>(built);</div>
+<div class="line"><span class="keyword">auto</span> graph = scran_graph_cluster::convert_to_graph(built);</div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; weights = built.weights; <span class="comment">// edge weights</span></div>
-<div class="ttc" id="abuild__snn__graph_8hpp_html"><div class="ttname"><a href="build__snn__graph_8hpp.html">build_snn_graph.hpp</a></div><div class="ttdoc">Build a shared nearest-neighbor graph on the cells.</div></div>
-<div class="ttc" id="anamespacescran_1_1build__snn__graph_html_ad7bb15027d07c0c217c0082746bb69ed"><div class="ttname"><a href="namespacescran_1_1build__snn__graph.html#ad7bb15027d07c0c217c0082746bb69ed">scran::build_snn_graph::compute</a></div><div class="ttdeci">void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const Options &amp;options, Results&lt; Node_, Weight_ &gt; &amp;output)</div><div class="ttdef"><b>Definition</b> build_snn_graph.hpp:129</div></div>
-<div class="ttc" id="astructscran_1_1build__snn__graph_1_1Options_html"><div class="ttname"><a href="structscran_1_1build__snn__graph_1_1Options.html">scran::build_snn_graph::Options</a></div><div class="ttdoc">Options for SNN graph construction.</div><div class="ttdef"><b>Definition</b> build_snn_graph.hpp:56</div></div>
 </div><!-- fragment --><p>We can perform community detection via some convenience wrappers around the <a href="https://igraph.org"><b>igraph</b></a> C library functions:</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="cluster__multilevel_8hpp.html">scran/cluster_multilevel.hpp</a>&quot;</span></div>
-<div class="line"> </div>
-<div class="line"><a class="code hl_struct" href="structscran_1_1cluster__multilevel_1_1Options.html">scran::cluster_multilevel::Options</a> mlopt;</div>
-<div class="line"><span class="keyword">auto</span> mlres = <a class="code hl_function" href="namespacescran_1_1cluster__multilevel.html#a43d8c261ce896162de513bca8e404ced">scran::cluster_multilevel::compute</a>(graph, weights, mlopt);</div>
+<div class="fragment"><div class="line">scran_graph_cluster::ClusterMultilevelOptions mlopt;</div>
+<div class="line"><span class="keyword">auto</span> mlres = scran_graph_cluster::cluster_multilevel(graph, weights, mlopt);</div>
 <div class="line">mlres.membership; <span class="comment">// cluster assignments for each cell.</span></div>
 <div class="line"> </div>
-<div class="line"><a class="code hl_struct" href="structscran_1_1cluster__walktrap_1_1Options.html">scran::cluster_walktrap::Options</a> wkopt;</div>
-<div class="line"><span class="keyword">auto</span> mlres = <a class="code hl_function" href="namespacescran_1_1cluster__walktrap.html#a7c9246f9643ab758e1c267b33d21bc6f">scran::cluster_walktrap::compute</a>(graph, weights, wkopt);</div>
+<div class="line">scran_graph_cluster::ClusterWalktrapOptions wkopt;</div>
+<div class="line"><span class="keyword">auto</span> mlres = scran_graph_cluster::cluster_walktrap(graph, weights, wkopt);</div>
 <div class="line">wkres.membership; <span class="comment">// cluster assignments for each cell.</span></div>
-<div class="ttc" id="acluster__multilevel_8hpp_html"><div class="ttname"><a href="cluster__multilevel_8hpp.html">cluster_multilevel.hpp</a></div><div class="ttdoc">Wrapper around igraph's multi-level community detection algorithm.</div></div>
-<div class="ttc" id="anamespacescran_1_1cluster__multilevel_html_a43d8c261ce896162de513bca8e404ced"><div class="ttname"><a href="namespacescran_1_1cluster__multilevel.html#a43d8c261ce896162de513bca8e404ced">scran::cluster_multilevel::compute</a></div><div class="ttdeci">void compute(const igraph_t *graph, const igraph_vector_t *weights, const Options &amp;options, Results &amp;output)</div><div class="ttdef"><b>Definition</b> cluster_multilevel.hpp:93</div></div>
-<div class="ttc" id="anamespacescran_1_1cluster__walktrap_html_a7c9246f9643ab758e1c267b33d21bc6f"><div class="ttname"><a href="namespacescran_1_1cluster__walktrap.html#a7c9246f9643ab758e1c267b33d21bc6f">scran::cluster_walktrap::compute</a></div><div class="ttdeci">void compute(const igraph_t *graph, const igraph_vector_t *weights, const Options &amp;options, Results &amp;output)</div><div class="ttdef"><b>Definition</b> cluster_walktrap.hpp:89</div></div>
-<div class="ttc" id="astructscran_1_1cluster__multilevel_1_1Options_html"><div class="ttname"><a href="structscran_1_1cluster__multilevel_1_1Options.html">scran::cluster_multilevel::Options</a></div><div class="ttdoc">Options for compute().</div><div class="ttdef"><b>Definition</b> cluster_multilevel.hpp:29</div></div>
-<div class="ttc" id="astructscran_1_1cluster__walktrap_1_1Options_html"><div class="ttname"><a href="structscran_1_1cluster__walktrap_1_1Options.html">scran::cluster_walktrap::Options</a></div><div class="ttdoc">Options for compute().</div><div class="ttdef"><b>Definition</b> cluster_walktrap.hpp:29</div></div>
-</div><!-- fragment --><p>Check out the <a href="https://libscran.github.io/snn_clustering">reference documentation</a> for more details.</p>
+</div><!-- fragment --><p>Check out the <a href="https://libscran.github.io/scran_graph_cluster">reference documentation</a> for more details.</p>
 <h1>Building projects</h1>
-<p>This repository is part of the broader <a href="https://github.com/libscran/libscran"><b>libscran</b></a> library, so users are recommended to use the latter in their projects. <b>libscran</b> developers should just use CMake with <code>FetchContent</code>:</p>
+<h2>CMake with <code>FetchContent</code></h2>
+<p>If you're using CMake, you just need to add something like this to your <code>CMakeLists.txt</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>
 <div class="line"> </div>
 <div class="line">FetchContent_Declare(</div>
-<div class="line">  scran_snn_clustering </div>
-<div class="line">  GIT_REPOSITORY https://github.com/libscran/snn_clustering</div>
+<div class="line">  scran_graph_cluster</div>
+<div class="line">  GIT_REPOSITORY https://github.com/libscran/scran_graph_cluster</div>
 <div class="line">  GIT_TAG master # or any version of interest</div>
 <div class="line">)</div>
 <div class="line"> </div>
-<div class="line">FetchContent_MakeAvailable(scran_snn_clustering)</div>
-<div class="line"> </div>
-<div class="line"># For executables:</div>
-<div class="line">target_link_libraries(myexe scran_snn_clustering)</div>
+<div class="line">FetchContent_MakeAvailable(scran_graph_cluster)</div>
+</div><!-- fragment --><p>Then you can link to <b>scran_graph_cluster</b> to make the headers available during compilation:</p>
+<div class="fragment"><div class="line"># For executables:</div>
+<div class="line">target_link_libraries(myexe libscran::scran_graph_cluster)</div>
 <div class="line"> </div>
 <div class="line"># For libaries</div>
-<div class="line">target_link_libraries(mylib INTERFACE scran_snn_clustering)</div>
-</div><!-- fragment --> </div></div><!-- PageDoc -->
+<div class="line">target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)</div>
+</div><!-- fragment --><h2>CMake with <code>find_package()</code></h2>
+<div class="fragment"><div class="line">find_package(libscran_scran_graph_cluster CONFIG REQUIRED)</div>
+<div class="line">target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)</div>
+</div><!-- fragment --><p>To install the library, use:</p>
+<div class="fragment"><div class="line">mkdir build &amp;&amp; cd build</div>
+<div class="line">cmake .. -DSCRAN_GRAPH_CLUSTER_TESTS=OFF</div>
+<div class="line">cmake --build . --target install</div>
+</div><!-- fragment --><p>By default, this will use <code>FetchContent</code> to fetch all external dependencies. If you want to install them manually, use <code>-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN=OFF</code>. See the tags in <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> to find compatible versions of each dependency.</p>
+<h2>Manual</h2>
+<p>If you're not using CMake, the simple approach is to just copy the files in <code>include/</code> - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>. This requires the external dependencies listed in <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a>, which also need to be made available during compilation. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
