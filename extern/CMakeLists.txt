@@ -15,9 +15,9 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-  raiigraph
-  GIT_REPOSITORY https://github.com/LTLA/raiigraph
-  GIT_TAG master # ^1.0.0
+  igraph-cpp
+  GIT_REPOSITORY https://github.com/LTLA/igraph-cpp
+  GIT_TAG main # ^1.0.0
 )
 
 FetchContent_MakeAvailable(knncolle)
@@ -26,5 +26,4 @@ if (SCRAN_MARKERS_FETCH_EXTERN_IGRAPH)
     FetchContent_MakeAvailable(igraph)
 endif()
 
-FetchContent_MakeAvailable(raiigraph)
-
+FetchContent_MakeAvailable(igraph-cpp)
