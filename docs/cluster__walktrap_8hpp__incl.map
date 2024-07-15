@@ -1,0 +1,11 @@
+<map id="scran_graph_cluster/cluster_walktrap.hpp" name="scran_graph_cluster/cluster_walktrap.hpp">
+<area shape="rect" id="Node000001" title="Wrapper around igraph&#39;s Walktrap community detection algorithm." alt="" coords="118,5,262,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,63,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,49,73,89,70,84,150,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="86,94,161,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,48,146,83,141,80,171,45"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="184,94,332,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="209,45,240,80,236,84,205,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="356,94,422,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="241,44,345,85,343,90,239,49"/>
+</map>

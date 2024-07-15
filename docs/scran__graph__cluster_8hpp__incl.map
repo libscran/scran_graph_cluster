@@ -1,0 +1,33 @@
+<map id="scran_graph_cluster/scran_graph_cluster.hpp" name="scran_graph_cluster/scran_graph_cluster.hpp">
+<area shape="rect" id="Node000001" title="Graph&#45;based clustering of single&#45;cell data." alt="" coords="234,5,400,46"/>
+<area shape="rect" id="Node000002" href="$build__snn__graph_8hpp.html" title="Build a shared nearest&#45;neighbor graph on the cells." alt="" coords="490,94,630,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="379,44,509,86,507,91,377,49"/>
+<area shape="rect" id="Node000007" href="$cluster__multilevel_8hpp.html" title="Wrapper around igraph&#39;s multi&#45;level community detection algorithm." alt="" coords="5,94,152,120"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="258,49,130,91,129,86,257,44"/>
+<area shape="rect" id="Node000010" href="$cluster__leiden_8hpp.html" title="Wrapper around igraph&#39;s Leiden community detection algorithm." alt="" coords="176,94,301,120"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="300,48,263,85,259,81,296,45"/>
+<area shape="rect" id="Node000011" href="$cluster__walktrap_8hpp.html" title="Wrapper around igraph&#39;s Walktrap community detection algorithm." alt="" coords="326,94,466,120"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="338,45,375,81,371,85,335,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="286,168,343,193"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="519,123,359,169,357,164,517,118"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="367,168,441,193"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="534,123,445,163,443,158,532,118"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="500,168,567,193"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="558,121,545,154,540,152,553,119"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="591,168,737,193"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="579,118,635,156,632,161,576,122"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="119,118,272,164,270,169,118,123"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="138,118,352,164,351,169,136,123"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="25,168,172,193"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="84,119,94,152,88,153,79,121"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="196,168,262,193"/>
+<area shape="poly" id="edge10_Node000007_Node000009" title=" " alt="" coords="105,118,191,158,189,163,103,123"/>
+<area shape="poly" id="edge12_Node000010_Node000003" title=" " alt="" coords="253,118,293,155,289,159,250,122"/>
+<area shape="poly" id="edge13_Node000010_Node000004" title=" " alt="" coords="268,118,363,159,361,164,265,123"/>
+<area shape="poly" id="edge14_Node000010_Node000008" title=" " alt="" coords="216,123,137,163,135,158,214,118"/>
+<area shape="poly" id="edge15_Node000010_Node000009" title=" " alt="" coords="240,120,235,153,230,152,234,120"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="384,122,341,159,338,155,380,118"/>
+<area shape="poly" id="edge18_Node000011_Node000004" title=" " alt="" coords="400,120,403,152,398,153,395,120"/>
+<area shape="poly" id="edge19_Node000011_Node000008" title=" " alt="" coords="346,123,164,166,163,161,344,118"/>
+<area shape="poly" id="edge20_Node000011_Node000009" title=" " alt="" coords="369,123,273,164,270,159,367,118"/>
+</map>

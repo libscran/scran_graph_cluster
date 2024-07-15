@@ -1,0 +1,5 @@
+<map id="scran_graph_cluster/cluster_multilevel.hpp" name="scran_graph_cluster/cluster_multilevel.hpp">
+<area shape="rect" id="Node000001" title="Wrapper around igraph&#39;s multi&#45;level community detection algorithm." alt="" coords="13,5,164,46"/>
+<area shape="rect" id="Node000002" href="$scran__graph__cluster_8hpp.html" title="Graph&#45;based clustering of single&#45;cell data." alt="" coords="5,94,172,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,62,91,94,86,94,86,62"/>
+</map>
