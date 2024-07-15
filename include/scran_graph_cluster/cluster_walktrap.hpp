@@ -12,21 +12,12 @@
  * @brief Wrapper around **igraph**'s Walktrap community detection algorithm.
  */
 
-namespace scran {
+namespace scran_graph_cluster {
 
 /**
- * @namespace scran::cluster_walktrap
- * @brief Wrapper around **igraph**'s Walktrap community detection algorithm.
- *
- * This applies Walktrap clustering on a graph to obtain communities of highly inter-connected nodes.
- * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_walktrap) for more details on the Walktrap algorithm. 
+ * @brief Options for `cluster_walktrap()`.
  */
-namespace cluster_walktrap {
-
-/**
- * @brief Options for `compute()`.
- */
-struct Options {
+struct ClusterWalktrapOptions {
     /**
      * Number of steps of the random walk.
      * The default is based on the example in the **igraph** documentation.
@@ -45,9 +36,9 @@ struct Options {
 };
 
 /**
- * @brief Result of the **igraph** Walktrap community detection algorithm.
+ * @brief Result of `cluster_walktrap()`.
  */
-struct Results {
+struct ClusterWalktrapResults {
     /** 
      * Output status.
      * A value of zero indicates that the algorithm completed successfully.
@@ -77,7 +68,8 @@ struct Results {
 };
 
 /**
- * Run the Walktrap community detection algorithm on a pre-constructed graph. 
+ * Run the Walktrap community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
+ * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_walktrap) for more details on the Walktrap algorithm. 
  * 
  * @param graph An existing graph.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
@@ -86,7 +78,7 @@ struct Results {
  * @param[out] output On output, this is filtered with the clustering results.
  * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
  */
-inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results& output) {
+inline void cluster_walktrap(const igraph_t* graph, const igraph_vector_t* weights, const ClusterWalktrapOptions& options, ClusterWalktrapResults& output) {
     auto membership = output.membership.get();
     auto modularity = (options.report_modularity ? output.modularity.get() : NULL);
     auto merges = (options.report_merges ? output.merges.get() : NULL);
@@ -94,7 +86,7 @@ inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const
 }
 
 /**
- * Run the Walktrap community detection algorithm on a pre-constructed graph.
+ * Overload of `cluster_walktrap()` that accepts C++ containers instead of the raw **igraph** pointers.
  *
  * @param graph An existing graph.
  * @param weights Vector of weights of length equal to the number of edges in `graph`. 
@@ -103,19 +95,16 @@ inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const
  *
  * @return Clustering results for the nodes of the graph.
  */
-inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
+inline ClusterWalktrapResults cluster_walktrap(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const ClusterWalktrapOptions& options) {
     // No need to free this, as it's just a view.
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());
 
-    Results output;
-    compute(graph.get(), &weight_view, options, output);
+    ClusterWalktrapResults output;
+    cluster_walktrap(graph.get(), &weight_view, options, output);
     return output;
 }
 
 }
 
-}
-
 #endif
-

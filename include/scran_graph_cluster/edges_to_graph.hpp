@@ -1,19 +1,15 @@
-#ifndef SCRAN_EDGES_TO_GRAPH_HPP
-#define SCRAN_EDGES_TO_GRAPH_HPP
+#ifndef SCRAN_GRAPH_CLUSTER_EDGES_TO_GRAPH_HPP
+#define SCRAN_GRAPH_CLUSTER_EDGES_TO_GRAPH_HPP
 
 #include "raiigraph/raiigraph.hpp"
+#include "igraph.h"
 
 /**
  * @file edges_to_graph.hpp
  * @brief Convert a list of edges to a graph.
  */
-namespace scran {
 
-/**
- * @namespace scran::edges_to_graph
- * @brief Convert a list of edges to a graph.
- */
-namespace edges_to_graph {
+namespace scran_graph_cluster {
 
 /**
  * Create an `raiigraph:Graph` object from the edges.
@@ -31,7 +27,7 @@ namespace edges_to_graph {
  * @return A graph created from `edges`.
  */
 template<typename Vertex_>
-raiigraph::Graph compute(size_t double_edges, const Vertex_* edges, size_t num_vertices, igraph_bool_t directed) {
+raiigraph::Graph edges_to_graph(size_t double_edges, const Vertex_* edges, size_t num_vertices, igraph_bool_t directed) {
     if constexpr(std::is_same<Vertex_, igraph_integer_t>::value) {
         igraph_vector_int_t edge_view;
         igraph_vector_int_view(&edge_view, edges, double_edges);
@@ -44,8 +40,6 @@ raiigraph::Graph compute(size_t double_edges, const Vertex_* edges, size_t num_v
         }
         return raiigraph::Graph(tmp, num_vertices, directed);
     }
-}
-
 }
 
 }

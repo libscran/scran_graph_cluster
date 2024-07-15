@@ -1,5 +1,5 @@
-#ifndef SCRAN_BUILD_SNN_GRAPH_HPP
-#define SCRAN_BUILD_SNN_GRAPH_HPP
+#ifndef SCRAN_GRAPH_CLUSTER_BUILD_SNN_GRAPH_HPP
+#define SCRAN_GRAPH_CLUSTER_BUILD_SNN_GRAPH_HPP
 
 #include <vector>
 #include <algorithm>
@@ -17,17 +17,7 @@
  * @brief Build a shared nearest-neighbor graph on the cells.
  */
 
-namespace scran {
-
-/**
- * @brief Build a shared nearest-neighbor graph with cells as nodes.
- *
- * In a shared nearest neighbor graph, pairs of cells are connected to each other by an edge with weight determined from their shared nearest neighbors.
- * If two cells are close together but have distinct sets of neighbors, the corresponding edge is downweighted as the two cells are unlikely to be part of the same neighborhood.
- * In this manner, highly weighted edges will form within highly interconnected neighborhoods where many cells share the same neighbors.
- * This provides a more sophisticated definition of similarity between cells compared to a simpler (unweighted) nearest neighbor graph that just focuses on immediate proximity.
- */
-namespace build_snn_graph {
+namespace scran_graph_cluster {
 
 /** 
  * Choices for the edge weighting scheme during graph construction.
@@ -48,24 +38,24 @@ namespace build_snn_graph {
  * Identification of cell types from single-cell transcriptomes using a novel clustering method.
  * _Bioinformatics_ 31, 1974-80
  */
-enum class Scheme : char { RANKED, NUMBER, JACCARD };
+enum class SnnWeightScheme : char { RANKED, NUMBER, JACCARD };
 
 /**
  * @brief Options for SNN graph construction.
  */
-struct Options {
+struct BuildSnnGraphOptions {
     /**
      *
      * The number of nearest neighbors to use for graph construction.
      * Larger values increase the connectivity of the graph and reduce the granularity of subsequent community detection steps, at the cost of speed.
-     * Only relevant for the `compute()` overloads without pre-computed neighbors.
+     * Only relevant for the `build_snn_graph()` overloads without pre-computed neighbors.
      */
     int num_neighbors = 10;
 
     /**
      * Weighting scheme for each edge, based on the number of shared nearest neighbors of the two nodes.
      */
-    Scheme weighting_scheme = Scheme::RANKED;
+    SnnWeightScheme weighting_scheme = SnnWeightScheme::RANKED;
 
     /**
      * See `set_num_threads()`.
@@ -80,7 +70,7 @@ struct Options {
  * @tparam Weight_ Floating-point type for the edge weights.
  */
 template<typename Node_, typename Weight_>
-struct Results {
+struct BuildSnnGraphResults {
     /**
      * Number of cells in the dataset.
      */
@@ -108,6 +98,12 @@ typedef double DefaultWeight;
 #endif
 
 /**
+/
+ * In a shared nearest neighbor graph, pairs of cells are connected to each other by an edge with weight determined from their shared nearest neighbors.
+ * If two cells are close together but have distinct sets of neighbors, the corresponding edge is downweighted as the two cells are unlikely to be part of the same neighborhood.
+ * In this manner, highly weighted edges will form within highly interconnected neighborhoods where many cells share the same neighbors.
+ * This provides a more sophisticated definition of similarity between cells compared to a simpler (unweighted) nearest neighbor graph that just focuses on immediate proximity.
+ *
  * @tparam Node_ Integer type for the node indices.
  * @tparam Weight_ Floating-point type for the edge weights.
  * @tparam GetNeighbors_ Function that accepts a `size_t` cell index and returns a (const reference to) a container-like object.
@@ -117,21 +113,21 @@ typedef double DefaultWeight;
  * @param num_cells Number of cells in the dataset.
  * @param get_neighbors Function that accepts an integer cell index in `[0, num_cells)` and returns a container of that cell's neighbors.
  * Each element of the container corresponds to a neighbor, and neighbors should be sorted by increasing distance from the cell.
- * It is generally expected that the same number of neighbors are present for each cell, though differences between cells are supported.
+ * The same number of neighbors should be identified for each cell.
  * @param get_index Function to return the index of each neighbor, given an element of the container returned by `get_neighbors`.
  * In trivial cases, this is the identity function but it can be more complex depending on the contents of the inner container.
  * @param options Further options for graph construction.
  * Note that `Options::num_neighbors` is ignored here.
  * @param[out] output On output, the edges and weights of the SNN graph.
- * The input value is ignored so this can be re-used across multiple calls to `compute()`.
+ * The input value is ignored so this can be re-used across multiple calls to `build_snn_graph()`.
  */
 template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, class GetNeighbors_, class GetIndex_>
-void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const Options& options, Results<Node_, Weight_>& output) {
+void build_snn_graph(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const BuildSnnGraphOptions& options, BuildSnnGraphResults<Node_, Weight_>& output) {
     // Reverse mapping is not parallel-frendly, so we don't construct this with the neighbor search.
     std::vector<std::vector<Node_> > simple_hosts;
     std::vector<std::vector<std::pair<Node_, Weight_> > > ranked_hosts;
 
-    if (options.weighting_scheme == Scheme::RANKED) {
+    if (options.weighting_scheme == SnnWeightScheme::RANKED) {
         ranked_hosts.resize(num_cells);
         for (size_t i = 0; i < num_cells; ++i) {
             ranked_hosts[i].emplace_back(i, 0); // each point is its own 0-th nearest neighbor
@@ -191,7 +187,7 @@ void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index,
                 // Going through all observations 'h' for which 'cur_neighbor'
                 // is a nearest neighbor, a.k.a., 'cur_neighbor' is a shared
                 // neighbor of both 'h' and 'j'.
-                if (options.weighting_scheme == Scheme::RANKED) {
+                if (options.weighting_scheme == SnnWeightScheme::RANKED) {
                     Weight_ i_cast = i;
                     for (const auto& h : ranked_hosts[cur_neighbor]) {
                         auto othernode = h.first;
@@ -233,11 +229,11 @@ void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index,
             for (auto othernode : current_added) {
                 Weight_& otherscore = current_score[othernode];
                 Weight_ finalscore;
-                if (options.weighting_scheme == Scheme::RANKED) {
+                if (options.weighting_scheme == SnnWeightScheme::RANKED) {
                     finalscore = static_cast<Weight_>(nneighbors) - 0.5 * static_cast<Weight_>(otherscore);
                 } else {
                     finalscore = otherscore;
-                    if (options.weighting_scheme == Scheme::JACCARD) {
+                    if (options.weighting_scheme == SnnWeightScheme::JACCARD) {
                         finalscore = finalscore / (2 * (nneighbors + 1) - finalscore);
                     }
                 }
@@ -295,16 +291,16 @@ void compute(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index,
  * @param neighbors Vector of nearest-neighbor search results for each cell.
  * Each entry is a pair containing a vector of neighbor indices and a vector of distances to those neighbors.
  * Neighbors should be sorted by increasing distance.
- * It is generally expected that the same number of neighbors are present for each cell, though differences between cells are supported.
+ * The same number of neighbors should be present for each cell.
  * @param options Further options for graph construction.
- * Note that `Options::num_neighbors` is ignored here.
+ * Note that `BuildSnnGraphOptions::num_neighbors` is ignored here.
  *
  * @return The edges and weights of the SNN graph.
  */
 template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Index_, typename Distance_>
-Results<Node_, Weight_> compute(const knncolle::NeighborList<Index_, Distance_>& neighbors, const Options& options) {
-    Results<Node_, Weight_> output;
-    compute<Node_, Weight_>(
+BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const knncolle::NeighborList<Index_, Distance_>& neighbors, const BuildSnnGraphOptions& options) {
+    BuildSnnGraphResults<Node_, Weight_> output;
+    build_snn_graph(
         neighbors.size(), 
         [&](size_t i) -> const std::vector<Index_>& { return neighbors[i].first; }, 
         [](Index_ x) -> Node_ { return x; }, 
@@ -324,14 +320,14 @@ Results<Node_, Weight_> compute(const knncolle::NeighborList<Index_, Distance_>&
  * @param neighbors Vector of vectors of indices for the neighbors for each cell, sorted by increasing distance.
  * It is generally expected that the same number of neighbors are present for each cell, though differences between cells are supported.
  * @param options Further options for graph construction.
- * Note that `Options::num_neighbors` is ignored here.
+ * Note that `BuildSnnGraphOptions::num_neighbors` is ignored here.
  *
  * @return The edges and weights of the SNN graph.
  */
 template<typename Node_ = int, typename Weight_ = double, typename Index_>
-Results<Node_, Weight_> compute(const std::vector<std::vector<Index_> >& neighbors, const Options& options) {
-    Results<Node_, Weight_> output;
-    compute<Node_, Weight_>(
+BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const std::vector<std::vector<Index_> >& neighbors, const BuildSnnGraphOptions& options) {
+    BuildSnnGraphResults<Node_, Weight_> output;
+    build_snn_graph(
         neighbors.size(), 
         [&](size_t i) -> const std::vector<Index_>& { return neighbors[i]; }, 
         [](Index_ x) -> Node_ { return x; }, 
@@ -356,9 +352,9 @@ Results<Node_, Weight_> compute(const std::vector<std::vector<Index_> >& neighbo
  * @return The edges and weights of the SNN graph.
  */
 template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Dim_, typename Index_, typename Float_>
-Results<Node_, Weight_> compute(const knncolle::Prebuilt<Dim_, Index_, Float_>& prebuilt, const Options& options) {
+BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const knncolle::Prebuilt<Dim_, Index_, Float_>& prebuilt, const BuildSnnGraphOptions& options) {
     auto neighbors = knncolle::find_nearest_neighbors_index_only(prebuilt, options.num_neighbors, options.num_threads);
-    return compute<Node_, Weight_>(neighbors, options);
+    return build_snn_graph<Node_, Weight_>(neighbors, options);
 }
 
 /**
@@ -380,35 +376,33 @@ Results<Node_, Weight_> compute(const knncolle::Prebuilt<Dim_, Index_, Float_>& 
  * @return The edges and weights of the SNN graph.
  */
 template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Dim_, typename Index_, typename Value_, typename Float_>
-Results<Node_, Weight_> compute(
+BuildSnnGraphResults<Node_, Weight_> build_snn_graph(
     Dim_ num_dims, 
     Index_ num_cells, 
     const Value_* data, 
     const knncolle::Builder<knncolle::SimpleMatrix<Dim_, Index_, Value_>, Float_>& knn_method,
-    const Options& options) 
+    const BuildSnnGraphOptions& options) 
 {
     auto prebuilt = knn_method.build_unique(knncolle::SimpleMatrix<Dim_, Index_, Value_>(num_dims, num_cells, data));
-    return compute<Node_, Weight_>(*prebuilt, options);
+    return build_snn_graph<Node_, Weight_>(*prebuilt, options);
 }
 
 #if __has_include("igraph.h")
 /**
- * Convert the edges in `Results` to a **igraph** graph object for use in **igraph** functions.
+ * Convert the edges in `BuildSnnGraphResults` to a **igraph** graph object for use in **igraph** functions.
  *
  * @tparam Node_ Integer type for the node indices.
  * @tparam Weight_ Floating-point type for the edge weights.
  *
- * @param result Result of `compute()`, containing the edges of the SNN graph.
+ * @param result Result of `build_snn_graph()`, containing the edges of the SNN graph.
  *
  * @return The SNN graph as an **igraph**-compatible object.
  */
 template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight>
-raiigraph::Graph convert_to_graph(const Results<Node_, Weight_>& result) {
-    return edges_to_graph::compute(result.edges.size(), result.edges.data(), result.num_cells, IGRAPH_UNDIRECTED);
+raiigraph::Graph convert_to_graph(const BuildSnnGraphResults<Node_, Weight_>& result) {
+    return edges_to_graph(result.edges.size(), result.edges.data(), result.num_cells, IGRAPH_UNDIRECTED);
 }
 #endif
-
-}
 
 }
 

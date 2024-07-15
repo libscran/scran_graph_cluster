@@ -1,5 +1,5 @@
-#ifndef SCRAN_CLUSTER_LEIDEN_HPP
-#define SCRAN_CLUSTER_LEIDEN_HPP
+#ifndef SCRAN_GRAPH_CLUSTER_CLUSTER_LEIDEN_HPP
+#define SCRAN_GRAPH_CLUSTER_CLUSTER_LEIDEN_HPP
 
 #include <vector>
 #include <algorithm>
@@ -12,20 +12,12 @@
  * @brief Wrapper around **igraph**'s Leiden community detection algorithm.
  */
 
-namespace scran {
+namespace scran_graph_cluster {
 
 /**
- * @brief Wrapper around **igraph**'s Leiden community detection algorithm.
- *
- * This applies Leiden clustering on a graph to obtain communities of highly inter-connected nodes.
- * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_leiden) for more details on the Leiden algorithm. 
+ * @brief Options for `cluster_leiden()`.
  */
-namespace cluster_leiden {
-
-/**
- * @brief Options for `compute()`.
- */
-struct Options {
+struct ClusterLeidenOptions {
     /**
      * Resolution of the clustering.
      * Larger values result in more fine-grained communities.
@@ -65,9 +57,9 @@ struct Options {
 };
 
 /**
- * @brief Result of the **igraph** leiden community detection algorithm.
+ * @brief Result of `cluster_leiden()`.
  */
-struct Results {
+struct ClusterLeidenResults {
     /** 
      * Output status.
      * A value of zero indicates that the algorithm completed successfully.
@@ -87,7 +79,8 @@ struct Results {
 };
 
 /**
- * Run the Leiden community detection algorithm on a pre-constructed graph. 
+ * Run the Leiden community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
+ * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_leiden) for more details on the Leiden algorithm. 
  *
  * @param graph An existing graph.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
@@ -96,7 +89,7 @@ struct Results {
  * @param[out] output On output, this is filtered with the clustering results.
  * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
  */
-inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results& output) {
+inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights, const ClusterLeidenOptions& options, ClusterLeidenResults& output) {
     auto membership = output.membership.get();
     auto quality = (options.report_quality ? &(output.quality) : NULL);
 
@@ -141,7 +134,7 @@ inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const
 }
 
 /**
- * Run the Leiden community detection algorithm on a pre-constructed graph.
+ * Overload of `cluster_leiden()` that accepts C++ containers instead of the raw **igraph** pointers.
  *
  * @param graph An existing graph.
  * @param weights Vector of weights of length equal to the number of edges in `graph`. 
@@ -150,16 +143,14 @@ inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const
  *
  * @return Clustering results for the nodes of the graph.
  */
-inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
+inline ClusterLeidenResults cluster_leiden(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const ClusterLeidenOptions& options) {
     // No need to free this, as it's just a view.
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());
 
-    Results output;
-    compute(graph.get(), &weight_view, options, output);
+    ClusterLeidenResults output;
+    cluster_leiden(graph.get(), &weight_view, options, output);
     return output;
-}
-
 }
 
 }

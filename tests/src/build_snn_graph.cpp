@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include "simulate_vector.h"
+#include "scran_tests/scran_tests.hpp"
 
-#include "build_snn_graph.hpp"
+#include "scran_graph_cluster/build_snn_graph.hpp"
 
 #include <random>
 #include <cmath>
@@ -17,13 +17,19 @@ protected:
     static void assemble(int nd, int no) {
         ndim = nd;
         nobs = no;
-        data = simulate_vector(ndim * nobs, /* lower = */ 0.0, /* upper = */ 1.0, /* seed = */ ndim + nobs * 20);
+        data = scran_tests::simulate_vector(ndim * nobs, []{
+            scran_tests::SimulationParameters sparams;
+            sparams.lower = 0;
+            sparams.upper = 1;
+            sparams.seed = ndim + nobs * 20;
+            return sparams;
+        }());
     }
 
     typedef std::tuple<int, int, double> WeightedEdge;
 
     template<typename Node_, typename Weight_>
-    static std::vector<WeightedEdge> convert_to_vector(const scran::build_snn_graph::Results<Node_, Weight_>& res) {
+    static std::vector<WeightedEdge> convert_to_vector(const scran_graph_cluster::BuildSnnGraphResults<Node_, Weight_>& res) {
         std::vector<WeightedEdge> expected;
         expected.reserve(res.weights.size());
         for (size_t e = 0; e < res.weights.size(); ++e) {
@@ -37,7 +43,7 @@ protected:
  *****************************************/
 
 class BuildSnnGraphRefTest : 
-    public ::testing::TestWithParam<std::tuple<int, scran::build_snn_graph::Scheme, int> >, 
+    public ::testing::TestWithParam<std::tuple<int, scran_graph_cluster::SnnWeightScheme, int> >, 
     public BuildSnnGraphTestCore 
 {
 protected:
@@ -45,7 +51,7 @@ protected:
         assemble(10, 200); // dimensions, observations.
     }
 
-    static std::vector<WeightedEdge> reference(int k, scran::build_snn_graph::Scheme scheme) {
+    static std::vector<WeightedEdge> reference(int k, scran_graph_cluster::SnnWeightScheme scheme) {
         std::vector<WeightedEdge> output;
         knncolle::VptreePrebuilt<knncolle::EuclideanDistance, int, int, double, double> prebuilt(ndim, nobs, data);
         auto nnidx = prebuilt.initialize();
@@ -71,7 +77,7 @@ protected:
                     size_t candidate = (r == 0 ? j : static_cast<size_t>(neighbors_of_neighbors[r-1]));
                     auto rIt = rankings.find(candidate);
                     if (rIt != rankings.end()) {
-                        if (scheme == scran::build_snn_graph::Scheme::RANKED) {
+                        if (scheme == scran_graph_cluster::SnnWeightScheme::RANKED) {
                             double otherrank = rIt->second + r;
                             if (!found || otherrank < weight) {
                                 weight = otherrank;
@@ -85,9 +91,9 @@ protected:
                 }
 
                 if (found) {
-                    if (scheme == scran::build_snn_graph::Scheme::RANKED) {
+                    if (scheme == scran_graph_cluster::SnnWeightScheme::RANKED) {
                         weight = static_cast<double>(neighbors.size()) - 0.5 * weight;
-                    } else if (scheme == scran::build_snn_graph::Scheme::JACCARD) {
+                    } else if (scheme == scran_graph_cluster::SnnWeightScheme::JACCARD) {
                         weight /= (2 * (neighbors.size() + 1) - weight);
                     }
                     output.emplace_back(i, j, std::max(weight, 1e-6));
@@ -105,12 +111,12 @@ TEST_P(BuildSnnGraphRefTest, Reference) {
     auto scheme = std::get<1>(param);
     int nthreads = std::get<2>(param);
 
-    scran::build_snn_graph::Options opts;
+    scran_graph_cluster::BuildSnnGraphOptions opts;
     opts.num_neighbors = k;
     opts.weighting_scheme = scheme;
     opts.num_threads = nthreads;
     knncolle::VptreeBuilder<> vpbuilder;
-    auto res = scran::build_snn_graph::compute(ndim, nobs, data.data(), vpbuilder, opts);
+    auto res = scran_graph_cluster::build_snn_graph(ndim, nobs, data.data(), vpbuilder, opts);
 
     auto ref = reference(k, scheme);
     EXPECT_EQ(res.num_cells, nobs);
@@ -128,7 +134,7 @@ INSTANTIATE_TEST_SUITE_P(
     BuildSnnGraphRefTest,
     ::testing::Combine(
         ::testing::Values(2, 5, 10), // number of neighbors
-        ::testing::Values(scran::build_snn_graph::Scheme::RANKED, scran::build_snn_graph::Scheme::NUMBER, scran::build_snn_graph::Scheme::JACCARD), // weighting scheme
+        ::testing::Values(scran_graph_cluster::SnnWeightScheme::RANKED, scran_graph_cluster::SnnWeightScheme::NUMBER, scran_graph_cluster::SnnWeightScheme::JACCARD), // weighting scheme
         ::testing::Values(1, 3) // number of threads
     )
 );
@@ -136,7 +142,7 @@ INSTANTIATE_TEST_SUITE_P(
 /*****************************************
  *****************************************/
 
-class BuildSnnGraphSymmetryTest : public ::testing::TestWithParam<std::tuple<int, scran::build_snn_graph::Scheme> >, public BuildSnnGraphTestCore {
+class BuildSnnGraphSymmetryTest : public ::testing::TestWithParam<std::tuple<int, scran_graph_cluster::SnnWeightScheme> >, public BuildSnnGraphTestCore {
 protected:
     static void SetUpTestSuite() {
         assemble(5, 1000); // dimensions, observations.
@@ -148,7 +154,7 @@ TEST_P(BuildSnnGraphSymmetryTest, Symmetry) {
     int k = std::get<0>(param);
     auto scheme = std::get<1>(param);
 
-    scran::build_snn_graph::Options opts;
+    scran_graph_cluster::BuildSnnGraphOptions opts;
     opts.num_neighbors = k;
     opts.weighting_scheme = scheme;
     knncolle::VptreeBuilder<> vpbuilder;
@@ -158,7 +164,7 @@ TEST_P(BuildSnnGraphSymmetryTest, Symmetry) {
     // the SNN calculations hold, then the original results should be recoverable
     // by just flipping the indices of the edge.
     std::vector<double> revdata(data.rbegin(), data.rend());
-    auto revres = scran::build_snn_graph::compute(ndim, nobs, revdata.data(), vpbuilder, opts);
+    auto revres = scran_graph_cluster::build_snn_graph(ndim, nobs, revdata.data(), vpbuilder, opts);
     auto revd = convert_to_vector(revres);
 
     for (auto& e : revd) {
@@ -168,7 +174,7 @@ TEST_P(BuildSnnGraphSymmetryTest, Symmetry) {
     }
     std::sort(revd.begin(), revd.end());
 
-    auto refres = scran::build_snn_graph::compute(ndim, nobs, data.data(), vpbuilder, opts);
+    auto refres = scran_graph_cluster::build_snn_graph(ndim, nobs, data.data(), vpbuilder, opts);
     auto refd = convert_to_vector(refres);
     std::sort(refd.begin(), refd.end());
     EXPECT_EQ(refd, revd);
@@ -179,7 +185,7 @@ INSTANTIATE_TEST_SUITE_P(
     BuildSnnGraphSymmetryTest,
     ::testing::Combine(
         ::testing::Values(4, 9), // number of neighbors
-        ::testing::Values(scran::build_snn_graph::Scheme::RANKED, scran::build_snn_graph::Scheme::NUMBER, scran::build_snn_graph::Scheme::JACCARD) // weighting scheme
+        ::testing::Values(scran_graph_cluster::SnnWeightScheme::RANKED, scran_graph_cluster::SnnWeightScheme::NUMBER, scran_graph_cluster::SnnWeightScheme::JACCARD) // weighting scheme
     )
 );
 
@@ -196,15 +202,15 @@ protected:
 TEST_P(BuildSnnGraphCustomNeighborsTest, Custom) {
     auto k = GetParam();
 
-    scran::build_snn_graph::Options opts;
+    scran_graph_cluster::BuildSnnGraphOptions opts;
     opts.num_neighbors = k;
     knncolle::KmknnBuilder<> builder;
-    auto output = scran::build_snn_graph::compute(ndim, nobs, data.data(), builder, opts);
+    auto output = scran_graph_cluster::build_snn_graph(ndim, nobs, data.data(), builder, opts);
 
     // Same results as if we had run it manually.
     auto prebuilt = builder.build_unique(knncolle::SimpleMatrix(ndim, nobs, data.data()));
     auto nn3 = knncolle::find_nearest_neighbors(*prebuilt, k);
-    auto output3 = scran::build_snn_graph::compute(nn3, opts);
+    auto output3 = scran_graph_cluster::build_snn_graph(nn3, opts);
     EXPECT_EQ(output.edges, output3.edges);
     EXPECT_EQ(output.weights, output3.weights);
 }
@@ -226,11 +232,11 @@ protected:
 };
 
 TEST_F(BuildSnnGraphConvertTest, Custom) {
-    scran::build_snn_graph::Options opts;
+    scran_graph_cluster::BuildSnnGraphOptions opts;
     knncolle::KmknnBuilder<> builder;
-    auto output = scran::build_snn_graph::compute(ndim, nobs, data.data(), builder, opts);
+    auto output = scran_graph_cluster::build_snn_graph(ndim, nobs, data.data(), builder, opts);
 
-    auto g = scran::build_snn_graph::convert_to_graph(output);
+    auto g = scran_graph_cluster::convert_to_graph(output);
     EXPECT_EQ(g.vcount(), nobs);
     EXPECT_EQ(g.ecount(), output.edges.size() / 2);
     EXPECT_FALSE(g.is_directed());

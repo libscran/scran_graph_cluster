@@ -12,21 +12,12 @@
  * @brief Wrapper around **igraph**'s multi-level community detection algorithm.
  */
 
-namespace scran {
+namespace scran_graph_cluster {
 
 /**
- * @namespace scran::cluster_multilevel
- * @brief Wrapper around **igraph**'s multi-level community detection algorithm.
- *
- * This applies multi-level (i.e., "Louvain") clustering on a graph to obtain communities of highly inter-connected nodes.
- * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_multilevel) for more details on the multi-level algorithm. 
+ * @brief Options for `cluster_multilevel()`.
  */
-namespace cluster_multilevel {
-
-/**
- * @brief Options for `compute()`.
- */
-struct Options {
+struct ClusterMultilevelOptions {
     /**
      * Resolution of the clustering, must be non-negative.
      * Lower values favor fewer, larger communities; higher values favor more, smaller communities.
@@ -50,9 +41,9 @@ struct Options {
 };
 
 /**
- * @brief Result of the **igraph** multi-level community detection algorithm.
+ * @brief Result of `cluster_multilevel()`.
  */
-struct Results {
+struct ClusterMultilevelResults {
     /** 
      * Output status.
      * A value of zero indicates that the algorithm completed successfully.
@@ -81,7 +72,8 @@ struct Results {
 };
 
 /**
- * Run the multi-level community detection algorithm on a pre-constructed graph.
+ * Run the multi-level community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
+ * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_multilevel) for more details on the multi-level algorithm. 
  *
  * @param graph An existing graph.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
@@ -90,7 +82,7 @@ struct Results {
  * @param[out] output On output, this is filtered with the clustering results.
  * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
  */
-inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const Options& options, Results& output) {
+inline void cluster_multilevel(const igraph_t* graph, const igraph_vector_t* weights, const ClusterMultilevelOptions& options, ClusterMultilevelResults& output) {
     raiigraph::RNGScope rngs(options.seed);
 
     auto modularity = (options.report_modularity ? output.modularity.get() : NULL);
@@ -108,10 +100,7 @@ inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const
 }
 
 /**
- * Run the multi-level community detection algorithm on a pre-constructed graph.
- *
- * @tparam Cluster_ Integer type for cluster assignments.
- * @tparam Float_ Floating-point type for the modularity.
+ * Overload of `cluster_multilevel()` that accepts C++ containers instead of the raw **igraph** pointers.
  *
  * @param graph An existing graph.
  * @param weights Vector of weights of length equal to the number of edges in `graph`. 
@@ -120,19 +109,16 @@ inline void compute(const igraph_t* graph, const igraph_vector_t* weights, const
  *
  * @return Clustering results for the nodes of the graph.
  */
-inline Results compute(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const Options& options) {
+inline ClusterMultilevelResults cluster_multilevel(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const ClusterMultilevelOptions& options) {
     // No need to free this, as it's just a view.
     igraph_vector_t weight_view;
     igraph_vector_view(&weight_view, weights.data(), weights.size());
 
-    Results output;
-    compute(graph.get(), &weight_view, options, output);
+    ClusterMultilevelResults output;
+    cluster_multilevel(graph.get(), &weight_view, options, output);
     return output;
 }
 
 }
 
-}
-
 #endif
-

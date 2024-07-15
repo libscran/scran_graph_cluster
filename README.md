@@ -1,8 +1,8 @@
-# Graph-based clustering
+# Graph-based clustering for single-cell data
 
-![Unit tests](https://github.com/libscran/snn_clustering/actions/workflows/run-tests.yaml/badge.svg)
-![Documentation](https://github.com/libscran/snn_clustering/actions/workflows/doxygenate.yaml/badge.svg)
-[![Codecov](https://codecov.io/gh/libscran/snn_clustering/graph/badge.svg?token=qklLZtJSE9)](https://codecov.io/gh/libscran/snn_clustering)
+![Unit tests](https://github.com/libscran/scran_graph_cluster/actions/workflows/run-tests.yaml/badge.svg)
+![Documentation](https://github.com/libscran/scran_graph_cluster/actions/workflows/doxygenate.yaml/badge.svg)
+[![Codecov](https://codecov.io/gh/libscran/scran_graph_cluster/graph/badge.svg?token=qklLZtJSE9)](https://codecov.io/gh/libscran/scran_graph_cluster)
 
 ## Overview
 
@@ -13,65 +13,94 @@ been factored out into a separate C++ library for easier re-use.
 
 ## Quick start
 
-Given a column-major array of cell coordinates (typically in some [low-dimensional space](https://github.com/libscran/principal_component_analysis)),
+Given a column-major array of cell coordinates (typically in some [low-dimensional space](https://github.com/libscran/scran_pca)),
 we can construct a shared-nearest-neighbor graph:
 
 ```cpp
-#include "scran/build_snn_graph.hpp"
+#include "scran_graph_cluster/scran_graph_cluster.hpp"
 
 size_t ncells = 1000;
 size_t ndims = 100;
 std::vector<double> coordinates(ndims * ncells);
 // Fill it with some coordinates...
 
-auto built = scran::build_snn_graph::compute(
+auto built = scran_graph_cluster::build_snn_graph(
     ndims,
     ncells,
     coordinates.data(),
     knncolle::VptreeBuilder<>(),
-    scran::build_snn_graph::Options()
+    scran_graph_cluster::BuildSnnGraphOptions()
 );
 
-const auto& graph = scran::build_snn_graph::convert_to_graph(built);
+auto graph = scran_graph_cluster::convert_to_graph(built);
 const auto& weights = built.weights; // edge weights
 ```
 
 We can perform community detection via some convenience wrappers around the [**igraph**](https://igraph.org) C library functions:
 
 ```cpp
-#include "scran/cluster_multilevel.hpp"
-
-scran::cluster_multilevel::Options mlopt;
-auto mlres = scran::cluster_multilevel::compute(graph, weights, mlopt);
+scran_graph_cluster::ClusterMultilevelOptions mlopt;
+auto mlres = scran_graph_cluster::cluster_multilevel(graph, weights, mlopt);
 mlres.membership; // cluster assignments for each cell.
 
-scran::cluster_walktrap::Options wkopt;
-auto mlres = scran::cluster_walktrap::compute(graph, weights, wkopt);
+scran_graph_cluster::ClusterWalktrapOptions wkopt;
+auto mlres = scran_graph_cluster::cluster_walktrap(graph, weights, wkopt);
 wkres.membership; // cluster assignments for each cell.
 ```
 
-Check out the [reference documentation](https://libscran.github.io/snn_clustering) for more details.
+Check out the [reference documentation](https://libscran.github.io/scran_graph_cluster) for more details.
 
 ## Building projects
 
-This repository is part of the broader [**libscran**](https://github.com/libscran/libscran) library,
-so users are recommended to use the latter in their projects.
-**libscran** developers should just use CMake with `FetchContent`:
+### CMake with `FetchContent`
+
+If you're using CMake, you just need to add something like this to your `CMakeLists.txt`:
 
 ```cmake
 include(FetchContent)
 
 FetchContent_Declare(
-  scran_snn_clustering 
-  GIT_REPOSITORY https://github.com/libscran/snn_clustering
+  scran_graph_cluster
+  GIT_REPOSITORY https://github.com/libscran/scran_graph_cluster
   GIT_TAG master # or any version of interest
 )
 
-FetchContent_MakeAvailable(scran_snn_clustering)
+FetchContent_MakeAvailable(scran_graph_cluster)
+```
 
+Then you can link to **scran_graph_cluster** to make the headers available during compilation:
+
+```cmake
 # For executables:
-target_link_libraries(myexe scran_snn_clustering)
+target_link_libraries(myexe libscran::scran_graph_cluster)
 
 # For libaries
-target_link_libraries(mylib INTERFACE scran_snn_clustering)
+target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)
 ```
+
+This will fetch all external dependencies except for [**igraph**](https://igraph.org), which should already be installed.
+We can instruct CMake to fetch and build **igraph** by setting `-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN_IGRAPH=ON`.
+
+### CMake with `find_package()`
+
+```cmake
+find_package(libscran_scran_graph_cluster CONFIG REQUIRED)
+target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)
+```
+
+To install the library, use:
+
+```sh
+mkdir build && cd build
+cmake .. -DSCRAN_GRAPH_CLUSTER_TESTS=OFF
+cmake --build . --target install
+```
+
+By default, this will use `FetchContent` to fetch all external dependencies.
+If you want to install them manually, use `-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN=OFF`.
+See the tags in [`extern/CMakeLists.txt`](extern/CMakeLists.txt) to find compatible versions of each dependency.
+
+### Manual
+
+If you're not using CMake, the simple approach is to just copy the files in `include/` - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's `-I`.
+This requires the external dependencies listed in [`extern/CMakeLists.txt`](extern/CMakeLists.txt), which also need to be made available during compilation.

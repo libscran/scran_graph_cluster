@@ -1,5 +1,13 @@
 include(FetchContent)
 
+if (SCRAN_MARKERS_FETCH_EXTERN_IGRAPH)
+    FetchContent_Declare(
+      igraph
+      GIT_REPOSITORY https://github.com/igraph/igraph
+      GIT_TAG master # ^0.10.0
+    )
+endif()
+
 FetchContent_Declare(
   knncolle
   GIT_REPOSITORY https://github.com/knncolle/knncolle
@@ -13,4 +21,10 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(knncolle)
+
+if (SCRAN_MARKERS_FETCH_EXTERN_IGRAPH)
+    FetchContent_MakeAvailable(igraph)
+endif()
+
 FetchContent_MakeAvailable(raiigraph)
+
