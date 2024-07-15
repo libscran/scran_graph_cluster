@@ -93,7 +93,16 @@ struct BuildSnnGraphResults {
 typedef igraph_integer_t DefaultNode;
 typedef igraph_real_t DefaultWeight;
 #else
+/**
+ * Default type for the node indices.
+ * Set to `igraph_integer_t` if **igraph** is available.
+ */
 typedef int DefaultNode;
+
+/**
+ * Default type for the edge weights.
+ * Set to `igraph_real_t` if **igraph** is available.
+ */
 typedef double DefaultWeight;
 #endif
 
