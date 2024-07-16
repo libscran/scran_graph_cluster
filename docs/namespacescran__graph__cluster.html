@@ -12,13 +12,6 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  extensions: ["tex2jax.js"],
-  jax: ["input/TeX","output/HTML-CSS"],
-});
-</script>
-<script type="text/javascript" async="async" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -218,10 +211,10 @@ Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Choices for the edge weighting scheme during graph construction. Let \(k\) be the number of nearest neighbors for each node.</p>
+<p>Choices for the edge weighting scheme during graph construction. Let <picture><source srcset="form_0_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$k$" src="form_0.png"/></picture> be the number of nearest neighbors for each node.</p>
 <ul>
-<li><code>RANKED</code> defines the weight between two nodes as \(k - r/2\) where \(r\) is the smallest sum of ranks for any shared neighboring node (Xu and Su, 2015). For the purposes of this ranking, each node has a rank of zero in its own nearest-neighbor set. More shared neighbors, or shared neighbors that are close to both observations, will generally yield larger weights.</li>
-<li><code>NUMBER</code> defines the weight between two nodes as the number of shared nearest neighbors between them. The weight can range from zero to \(k + 1\), as the node itself is included in its own nearest-neighbor set. This is a simpler scheme that is also slightly faster but does not account for the ranking of neighbors within each set.</li>
+<li><code>RANKED</code> defines the weight between two nodes as <picture><source srcset="form_1_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$k - r/2$" src="form_1.png"/></picture> where <picture><source srcset="form_2_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$r$" src="form_2.png"/></picture> is the smallest sum of ranks for any shared neighboring node (Xu and Su, 2015). For the purposes of this ranking, each node has a rank of zero in its own nearest-neighbor set. More shared neighbors, or shared neighbors that are close to both observations, will generally yield larger weights.</li>
+<li><code>NUMBER</code> defines the weight between two nodes as the number of shared nearest neighbors between them. The weight can range from zero to $k + 1$, as the node itself is included in its own nearest-neighbor set. This is a simpler scheme that is also slightly faster but does not account for the ranking of neighbors within each set.</li>
 <li><code>JACCARD</code> defines the weight between two nodes as the Jaccard index of their neighbor sets, motivated by the algorithm used by the <a href="https://cran.r-project.org/package=seurat"><b>Seurat</b> R package</a>. This weight can range from zero to 1, and is a monotonic transformation of the weight used by <code>NUMBER</code>.</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">Xu</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">C</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">and</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">Su</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">Z</a> (2015). <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">Identification</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">of</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">cell</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">types</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">from</a> single-cell <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">transcriptomes</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">using</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">a</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">novel</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">clustering</a> <a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">method</a>. <em><a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">Bioinformatics</a></em> 31, 1974-80 </dd></dl>
