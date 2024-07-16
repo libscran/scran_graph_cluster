@@ -27,7 +27,7 @@ namespace scran_graph_cluster {
  * For the purposes of this ranking, each node has a rank of zero in its own nearest-neighbor set. 
  * More shared neighbors, or shared neighbors that are close to both observations, will generally yield larger weights.
  * - `NUMBER` defines the weight between two nodes as the number of shared nearest neighbors between them. 
- * The weight can range from zero to \$k + 1\$, as the node itself is included in its own nearest-neighbor set. 
+ * The weight can range from zero to \f$k + 1\f$, as the node itself is included in its own nearest-neighbor set. 
  * This is a simpler scheme that is also slightly faster but does not account for the ranking of neighbors within each set.
  * - `JACCARD` defines the weight between two nodes as the Jaccard index of their neighbor sets,
  * motivated by the algorithm used by the [**Seurat** R package](https://cran.r-project.org/package=seurat).
