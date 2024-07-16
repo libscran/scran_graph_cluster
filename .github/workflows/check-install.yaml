@@ -1,0 +1,57 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+name: Check CMake install
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Get latest CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Cache installed igraph
+      id: cache-igraph
+      uses: actions/cache@v4
+      with:
+        path: _deps
+        key: libigraph
+
+    - name: Make and install igraph
+      if: ${{ steps.cache-igraph.outputs.cache-hit != 'true' }}
+      run: |
+        version=0.10.13
+        path=$(pwd)
+        wget https://github.com/igraph/igraph/releases/download/${version}/igraph-${version}.tar.gz
+        tar -xf igraph-${version}.tar.gz
+        cd igraph-${version}
+        mkdir build && cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX=${path}/_deps
+        cmake --build .
+        sudo cmake --install .
+
+    - name: Configure the build
+      run: cmake -S . -B build -DSCRAN_GRAPH_CLUSTER_TESTS=OFF -DCMAKE_PREFIX_PATH=_deps
+
+    - name: Install the library
+      run: sudo cmake --install build
+
+    - name: Test downstream usage
+      run: |
+        mkdir _downstream
+        touch _downstream/source.cpp
+        cat << EOF > _downstream/CMakeLists.txt
+        cmake_minimum_required(VERSION 3.24)
+        project(test_install)
+        add_executable(whee source.cpp)
+        find_package(libscran_scran_graph_cluster)
+        target_link_libraries(whee libscran::scran_graph_cluster)
+        EOF
+        wd=$(pwd)
+        cd _downstream && cmake -S . -B build -DCMAKE_PREFIX_PATH=${wd}/_deps

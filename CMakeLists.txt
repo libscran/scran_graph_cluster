@@ -5,6 +5,9 @@ project(scran_graph_cluster
     DESCRIPTION "Cluster cells using graph-based methods"
     LANGUAGES CXX)
 
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
 # Library
 add_library(scran_graph_cluster INTERFACE)
 add_library(libscran::scran_graph_cluster ALIAS scran_graph_cluster)
@@ -15,16 +18,16 @@ target_include_directories(scran_graph_cluster INTERFACE
 target_compile_features(scran_graph_cluster INTERFACE cxx_std_17)
 
 # Dependencies
-option(SCRAN_MARKERS_FETCH_EXTERN "Automatically fetch scran_graph_cluster's external dependencies (except for igraph)." ON)
-option(SCRAN_MARKERS_FETCH_EXTERN_IGRAPH "Automatically fetch scran_graph_cluster's external igraph dependency." OFF)
+option(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN "Automatically fetch scran_graph_cluster's external dependencies (except for igraph)." ON)
+option(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN_IGRAPH "Automatically fetch scran_graph_cluster's external igraph dependency." OFF)
 
-if (NOT SCRAN_MARKERS_FETCH_EXTERN_IGRAPH)
+if (NOT SCRAN_GRAPH_CLUSTER_FETCH_EXTERN_IGRAPH)
     # igraph needs compilation so we just try to get it from the system by
     # default, rather than pulling it down and building the whole thing.
     find_package(igraph 0.10.0 CONFIG REQUIRED)
 endif()
 
-if(SCRAN_MARKERS_FETCH_EXTERN)
+if(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN)
     add_subdirectory(extern)
 else()
     find_package(ltla_raiigraph 1.0.0 CONFIG REQUIRED)
@@ -35,12 +38,12 @@ target_link_libraries(scran_graph_cluster INTERFACE igraph::igraph ltla::raiigra
 
 # Tests
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    option(SCRAN_MARKERS_TESTS "Build scran_graph_cluster's test suite." ON)
+    option(SCRAN_GRAPH_CLUSTER_TESTS "Build scran_graph_cluster's test suite." ON)
 else()
-    option(SCRAN_MARKERS_TESTS "Build scran_graph_cluster's test suite." OFF)
+    option(SCRAN_GRAPH_CLUSTER_TESTS "Build scran_graph_cluster's test suite." OFF)
 endif()
 
-if(SCRAN_MARKERS_TESTS)
+if(SCRAN_GRAPH_CLUSTER_TESTS)
     include(CTest)
     if(BUILD_TESTING)
         add_subdirectory(tests)
