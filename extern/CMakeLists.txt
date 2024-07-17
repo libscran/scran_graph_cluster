@@ -17,7 +17,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   raiigraph
   GIT_REPOSITORY https://github.com/LTLA/raiigraph
-  GIT_TAG master # ^1.0.0
+  GIT_TAG master # ^1.1.0
 )
 
 FetchContent_MakeAvailable(knncolle)

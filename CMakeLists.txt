@@ -30,7 +30,7 @@ endif()
 if(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN)
     add_subdirectory(extern)
 else()
-    find_package(ltla_raiigraph 1.0.0 CONFIG REQUIRED)
+    find_package(ltla_raiigraph 1.1.0 CONFIG REQUIRED)
     find_package(knncolle_knncolle 2.0.0 CONFIG REQUIRED)
 endif()
 

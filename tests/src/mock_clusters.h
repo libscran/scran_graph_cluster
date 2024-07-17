@@ -35,15 +35,12 @@ inline void check_multiple_clusters(const raiigraph::IntegerVector& clustering) 
     // Actually generates multiple clusters.
     bool has_multiple = false;
     size_t ncells = clustering.size();
-    const auto& clust = *(clustering.get());
-
     for (size_t i = 0; i < ncells; ++i) {
-        if (VECTOR(clust)[i] > 0) {
+        if (clustering[i] > 0) {
             has_multiple = true;
             break;
         }
     }
-
     EXPECT_TRUE(has_multiple);
 }
 
@@ -53,11 +50,8 @@ inline bool compare_clusters(const raiigraph::IntegerVector& clustering1, const 
         return true;
     }
 
-    const auto& clust1 = *(clustering1.get());
-    const auto& clust2 = *(clustering2.get());
-
     for (size_t i = 0; i < ncells; ++i) {
-        if (VECTOR(clust1)[i] != VECTOR(clust2)[i]) {
+        if (clustering1[i] != clustering2[i]) {
             return true;
         }
     }
@@ -69,9 +63,8 @@ inline void validate(const raiigraph::IntegerVector& clustering, size_t ncluster
     // Each cluster should be of length > 1 and should only contain cells from the same modulo.
     std::map<int, std::vector<int> > by_clusters;
     size_t ncells = clustering.size();
-    const auto& myclust = *(clustering.get());
     for (size_t c = 0; c < ncells; ++c) {
-        by_clusters[VECTOR(myclust)[c]].push_back(c);
+        by_clusters[clustering[c]].push_back(c);
     }
 
     ASSERT_TRUE(by_clusters.size() >= nclusters);

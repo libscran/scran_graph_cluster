@@ -111,9 +111,8 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
 
     } else {
         // More-or-less translated from igraph::cluster_leiden in the R package.
-        raiigraph::RealVector strength_holder(igraph_vcount(graph));
-        auto strength = strength_holder.get();
-        igraph_strength(graph, strength, igraph_vss_all(), IGRAPH_ALL, 1, weights);
+        raiigraph::RealVector strengths(igraph_vcount(graph));
+        igraph_strength(graph, strengths, igraph_vss_all(), IGRAPH_ALL, 1, weights);
 
         double total_weights = igraph_vector_sum(weights);
         double mod_resolution = options.resolution / total_weights;
@@ -121,7 +120,7 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
         output.status = igraph_community_leiden(
             graph, 
             weights, 
-            strength, 
+            strengths, 
             mod_resolution, 
             options.beta, 
             false, 
