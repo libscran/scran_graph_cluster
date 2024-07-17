@@ -56,8 +56,17 @@ TEST(ClusterLeiden, Sanity) {
     size_t nclusters = 4;
     auto mock = mock_clusters(ncells, nclusters, 0.5, 0);
 
-    scran_graph_cluster::ClusterLeidenOptions opts;
-    opts.resolution = 0.5;
-    auto output = scran_graph_cluster::cluster_leiden(mock.first, mock.second, opts);
-    validate(output.membership, nclusters);
+    {
+        scran_graph_cluster::ClusterLeidenOptions opts;
+        opts.modularity = true;
+        auto output = scran_graph_cluster::cluster_leiden(mock.first, mock.second, opts);
+        validate(output.membership, nclusters);
+    }
+
+    {
+        scran_graph_cluster::ClusterLeidenOptions opts;
+        opts.resolution = 0.1;
+        auto output = scran_graph_cluster::cluster_leiden(mock.first, mock.second, opts);
+        validate(output.membership, nclusters);
+    }
 }
