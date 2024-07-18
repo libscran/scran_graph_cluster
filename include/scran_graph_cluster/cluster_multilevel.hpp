@@ -59,14 +59,14 @@ struct ClusterMultilevelResults {
     /**
      * Matrix of clusterings for each level.
      * Each row corresponds to a level and contains 0-indexed cluster identities for all cells (columns).
-     * This should only be used if `Options::report_levels = true`.
+     * This should only be used if `ClusterMultilevelOptions::report_levels = true`.
      */
     raiigraph::IntegerMatrix levels;
 
     /**
      * Modularity scores at each level.
      * This is of the same length as the number of rows in `levels`.
-     * It should only be used if `Options::report_modularity = true`.
+     * It should only be used if `ClusterMultilevelOptions::report_modularity = true`.
      */
     raiigraph::RealVector modularity;
 };
@@ -80,7 +80,7 @@ struct ClusterMultilevelResults {
  * This should be in the same order as the edge list in `graph`.
  * @param options Further options.
  * @param[out] output On output, this is filtered with the clustering results.
- * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
+ * The input value is ignored, so this object can be re-used across multiple calls to `cluster_multilevel()`.
  */
 inline void cluster_multilevel(const igraph_t* graph, const igraph_vector_t* weights, const ClusterMultilevelOptions& options, ClusterMultilevelResults& output) {
     raiigraph::RNGScope rngs(options.seed);

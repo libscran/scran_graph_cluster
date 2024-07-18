@@ -126,7 +126,7 @@ typedef double DefaultWeight;
  * @param get_index Function to return the index of each neighbor, given an element of the container returned by `get_neighbors`.
  * In trivial cases, this is the identity function but it can be more complex depending on the contents of the inner container.
  * @param options Further options for graph construction.
- * Note that `Options::num_neighbors` is ignored here.
+ * Note that `BuildSnnGraphOptions::num_neighbors` is ignored here.
  * @param[out] output On output, the edges and weights of the SNN graph.
  * The input value is ignored so this can be re-used across multiple calls to `build_snn_graph()`.
  */

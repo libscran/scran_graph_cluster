@@ -55,14 +55,14 @@ struct ClusterWalktrapResults {
      * Each row corresponds to a successive merge step, while the two columns contain the identities of the two clusters being merged.
      * Note that cluster IDs here are not the same as those in `membership` - 
      * see [the documentation](https://igraph.org/c/doc/igraph-Community.html#igraph_community_walktrap) for more details.
-     * This should only be used if `Options::report_merges = true`.
+     * This should only be used if `ClusterWalktrapOptions::report_merges = true`.
      */
     raiigraph::IntegerMatrix merges;
 
     /**
      * Vector of length equal to the number of rows in `merges` plus 1, containing the modularity score before and after each merge step.
      * The maximum value is the modularity corresponding to the clustering in `membership`.
-     * This should only be used if `Options::report_modularity = true`.
+     * This should only be used if `ClusterWalktrapOptions::report_modularity = true`.
      */
     raiigraph::RealVector modularity;
 };
@@ -76,7 +76,7 @@ struct ClusterWalktrapResults {
  * This should be in the same order as the edge list in `graph`.
  * @param options Further options.
  * @param[out] output On output, this is filtered with the clustering results.
- * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
+ * The input value is ignored, so this object can be re-used across multiple calls to `cluster_walktrap()`.
  */
 inline void cluster_walktrap(const igraph_t* graph, const igraph_vector_t* weights, const ClusterWalktrapOptions& options, ClusterWalktrapResults& output) {
     auto membership = output.membership.get();

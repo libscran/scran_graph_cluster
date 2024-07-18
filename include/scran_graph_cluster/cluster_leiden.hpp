@@ -73,7 +73,7 @@ struct ClusterLeidenResults {
 
     /**
      * Quality of the clustering, closely related to the modularity.
-     * This is only defined if `Options::report_quality = true`.
+     * This is only defined if `ClusterLeidenOptions::report_quality = true`.
      */
     igraph_real_t quality = 0;
 };
@@ -87,7 +87,7 @@ struct ClusterLeidenResults {
  * This should be in the same order as the edge list in `graph`.
  * @param options Further options.
  * @param[out] output On output, this is filtered with the clustering results.
- * The input value is ignored, so this object can be re-used across multiple calls to `compute()`.
+ * The input value is ignored, so this object can be re-used across multiple calls to `cluster_leiden()`.
  */
 inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights, const ClusterLeidenOptions& options, ClusterLeidenResults& output) {
     auto membership = output.membership.get();
