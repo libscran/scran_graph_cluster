@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>scran_snn_clustering: scran_graph_cluster Namespace Reference</title>
+<title>snn_graph_cluster: scran_graph_cluster Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -29,7 +29,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">scran_snn_clustering
+   <div id="projectname">snn_graph_cluster
    </div>
    <div id="projectbrief">Graph-based clustering of cells</div>
   </td>
@@ -289,7 +289,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, cl
     <tr><td class="paramdir"></td><td class="paramname">num_cells</td><td>Number of cells in the dataset. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">get_neighbors</td><td>Function that accepts an integer cell index in <code>[0, num_cells)</code> and returns a container of that cell's neighbors. Each element of the container corresponds to a neighbor, and neighbors should be sorted by increasing distance from the cell. The same number of neighbors should be identified for each cell. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">get_index</td><td>Function to return the index of each neighbor, given an element of the container returned by <code>get_neighbors</code>. In trivial cases, this is the identity function but it can be more complex depending on the contents of the inner container. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options for graph construction. Note that <code>Options::num_neighbors</code> is ignored here. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options for graph construction. Note that <code><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html#a18c2ab10d91d0d369ffbb2de073477fc">BuildSnnGraphOptions::num_neighbors</a></code> is ignored here. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, the edges and weights of the SNN graph. The input value is ignored so this can be re-used across multiple calls to <code><a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">build_snn_graph()</a></code>. </td></tr>
   </table>
   </dd>
@@ -563,7 +563,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
     <tr><td class="paramdir"></td><td class="paramname">graph</td><td>An existing graph. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">weights</td><td>Pointer to an array of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">compute()</a></code>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="namespacescran__graph__cluster.html#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden()</a></code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -673,7 +673,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
     <tr><td class="paramdir"></td><td class="paramname">graph</td><td>An existing graph. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">weights</td><td>Pointer to an array of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">compute()</a></code>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="namespacescran__graph__cluster.html#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel()</a></code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -783,7 +783,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
     <tr><td class="paramdir"></td><td class="paramname">graph</td><td>An existing graph. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">weights</td><td>Pointer to an array of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="namespacescran__graph__cluster.html#a9edd73d18f2e9207cf24e42dd0ee6d0b">compute()</a></code>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="namespacescran__graph__cluster.html#aa6b332af6bc15dc8fcc0d974c4d4fc2b">cluster_walktrap()</a></code>. </td></tr>
   </table>
   </dd>
 </dl>
