@@ -48,7 +48,7 @@ struct ClusterLeidenOptions {
     /**
      * Whether to report the quality of the clustering in `Results::quality`.
      */
-    bool report_quality = false;
+    bool report_quality = true;
 
     /**
      * Seed for the **igraph** random number generator.
