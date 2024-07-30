@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(scran_graph_cluster
-    VERSION 0.1.0
+    VERSION 0.1.1
     DESCRIPTION "Cluster cells using graph-based methods"
     LANGUAGES CXX)
 
