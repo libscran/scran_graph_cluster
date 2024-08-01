@@ -45,7 +45,6 @@ enum class SnnWeightScheme : char { RANKED, NUMBER, JACCARD };
  */
 struct BuildSnnGraphOptions {
     /**
-     *
      * The number of nearest neighbors to use for graph construction.
      * Larger values increase the connectivity of the graph and reduce the granularity of subsequent community detection steps, at the cost of speed.
      * Only relevant for the `build_snn_graph()` overloads without pre-computed neighbors.
@@ -107,8 +106,7 @@ typedef double DefaultWeight;
 #endif
 
 /**
-/
- * In a shared nearest neighbor graph, pairs of cells are connected to each other by an edge with weight determined from their shared nearest neighbors.
+ * In a shared nearest-neighbor graph, pairs of cells are connected to each other by an edge with weight determined from their shared nearest neighbors.
  * If two cells are close together but have distinct sets of neighbors, the corresponding edge is downweighted as the two cells are unlikely to be part of the same neighborhood.
  * In this manner, highly weighted edges will form within highly interconnected neighborhoods where many cells share the same neighbors.
  * This provides a more sophisticated definition of similarity between cells compared to a simpler (unweighted) nearest neighbor graph that just focuses on immediate proximity.

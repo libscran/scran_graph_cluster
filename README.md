@@ -14,7 +14,7 @@ been factored out into a separate C++ library for easier re-use.
 ## Quick start
 
 Given a column-major array of cell coordinates (typically in some [low-dimensional space](https://github.com/libscran/scran_pca)),
-we can construct a shared-nearest-neighbor graph:
+we can construct a shared nearest-neighbor (SNN) graph from each cell's list of neighbors:
 
 ```cpp
 #include "scran_graph_cluster/scran_graph_cluster.hpp"
@@ -36,7 +36,7 @@ auto graph = scran_graph_cluster::convert_to_graph(built);
 const auto& weights = built.weights; // edge weights
 ```
 
-We can perform community detection via some convenience wrappers around the [**igraph**](https://igraph.org) C library functions:
+We perform community detection via some convenience wrappers around the [**igraph**](https://igraph.org) library:
 
 ```cpp
 scran_graph_cluster::ClusterMultilevelOptions mlopt;
