@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['weighting_5fscheme_0',['weighting_scheme',['../structscran__graph__cluster_1_1BuildSnnGraphOptions.html#ad0216c58dfc31ec1bd383a0b7bbd7b3c',1,'scran_graph_cluster::BuildSnnGraphOptions']]],
-  ['weights_1',['weights',['../structscran__graph__cluster_1_1BuildSnnGraphResults.html#aafc31c61931638d6b6998a7a2e809503',1,'scran_graph_cluster::BuildSnnGraphResults']]]
+  ['quality_0',['quality',['../structscran__graph__cluster_1_1ClusterLeidenResults.html#a3d3b9954ac37cb27ad09deaa285b4a37',1,'scran_graph_cluster::ClusterLeidenResults']]]
 ];

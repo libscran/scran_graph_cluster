@@ -416,6 +416,6 @@
     <name>index</name>
     <title>Graph-based clustering for single-cell data</title>
     <filename>index.html</filename>
-    <docanchor file="index.html" title="Graph-based clustering for single-cell data">md__2github_2workspace_2README</docanchor>
+    <docanchor file="index.html">md__2github_2workspace_2README</docanchor>
   </compound>
 </tagfile>
