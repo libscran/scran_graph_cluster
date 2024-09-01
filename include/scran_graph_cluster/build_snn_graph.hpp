@@ -57,7 +57,8 @@ struct BuildSnnGraphOptions {
     SnnWeightScheme weighting_scheme = SnnWeightScheme::RANKED;
 
     /**
-     * See `set_num_threads()`.
+     * Number of threads to use.
+     * The parallelization scheme is defined by `knncolle::parallelize()`.
      */
     int num_threads = 1;
 };
@@ -160,27 +161,12 @@ void build_snn_graph(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
     std::vector<std::vector<Node_> > edge_stores(num_cells);
     std::vector<std::vector<Weight_> > weight_stores(num_cells);
 
-#ifndef SCRAN_CUSTOM_PARALLEL
-#ifdef _OPENMP
-    #pragma omp parallel num_threads(options.num_threads)
-#endif
-    {
-#else
-    SCRAN_CUSTOM_PARALLEL([&](size_t, size_t start, size_t length) -> void {
-#endif
-
+    knncolle::parallelize(options.num_threads, num_cells, [&](int, size_t start, size_t length) -> void {
         std::vector<Weight_> current_score(num_cells);
         std::vector<Node_> current_added;
         current_added.reserve(num_cells);
 
-#ifndef SCRAN_CUSTOM_PARALLEL
-#ifdef _OPENMP
-        #pragma omp for
-#endif
-        for (size_t j = 0; j < num_cells; ++j) {
-#else
         for (size_t j = start, end = start + length; j < end; ++j) {
-#endif
             const Node_ j_cast = j;
 
             const auto& current_neighbors = get_neighbors(j);
@@ -253,14 +239,8 @@ void build_snn_graph(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
                 otherscore = 0;
             }
             current_added.clear();
-
-#ifndef SCRAN_CUSTOM_PARALLEL
         }
-    } 
-#else
-        }
-    }, num_cells, options.num_threads);
-#endif
+    });
 
     // Collating the total number of edges.
     size_t nedges = 0;
@@ -309,8 +289,8 @@ BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const knncolle::NeighborLis
     BuildSnnGraphResults<Node_, Weight_> output;
     build_snn_graph(
         neighbors.size(), 
-        [&](size_t i) -> const std::vector<Index_>& { return neighbors[i].first; }, 
-        [](Index_ x) -> Node_ { return x; }, 
+        [&](size_t i) -> const auto& { return neighbors[i]; }, 
+        [](const auto& x) -> Node_ { return x.first; }, 
         options,
         output
     );
