@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(scran_graph_cluster
-    VERSION 0.1.1
+    VERSION 0.1.2
     DESCRIPTION "Cluster cells using graph-based methods"
     LANGUAGES CXX)
 
@@ -19,14 +19,6 @@ target_compile_features(scran_graph_cluster INTERFACE cxx_std_17)
 
 # Dependencies
 option(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN "Automatically fetch scran_graph_cluster's external dependencies (except for igraph)." ON)
-option(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN_IGRAPH "Automatically fetch scran_graph_cluster's external igraph dependency." OFF)
-
-if (NOT SCRAN_GRAPH_CLUSTER_FETCH_EXTERN_IGRAPH)
-    # igraph needs compilation so we just try to get it from the system by
-    # default, rather than pulling it down and building the whole thing.
-    find_package(igraph 0.10.0 CONFIG REQUIRED)
-endif()
-
 if(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN)
     add_subdirectory(extern)
 else()
@@ -34,7 +26,15 @@ else()
     find_package(knncolle_knncolle 2.0.0 CONFIG REQUIRED)
 endif()
 
-target_link_libraries(scran_graph_cluster INTERFACE igraph::igraph ltla::raiigraph knncolle::knncolle)
+target_link_libraries(scran_graph_cluster INTERFACE ltla::raiigraph knncolle::knncolle)
+
+option(SCRAN_GRAPH_CLUSTER_FIND_IGRAPH "Search for the igraph package." ON)
+if(SCRAN_GRAPH_CLUSTER_FIND_IGRAPH)
+    find_package(igraph 0.10.0 CONFIG)
+    if (igraph_FOUND)
+        target_link_libraries(scran_graph_cluster INTERFACE igraph::igraph)
+    endif()
+endif()
 
 # Tests
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)

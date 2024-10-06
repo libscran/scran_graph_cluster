@@ -16,26 +16,6 @@ jobs:
     - name: Get latest CMake
       uses: lukka/get-cmake@latest
 
-    - name: Cache installed igraph
-      id: cache-igraph
-      uses: actions/cache@v4
-      with:
-        path: _deps
-        key: libigraph
-
-    - name: Make and install igraph
-      if: ${{ steps.cache-igraph.outputs.cache-hit != 'true' }}
-      run: |
-        version=0.10.13
-        path=$(pwd)
-        wget https://github.com/igraph/igraph/releases/download/${version}/igraph-${version}.tar.gz
-        tar -xf igraph-${version}.tar.gz
-        cd igraph-${version}
-        mkdir build && cd build
-        cmake .. -DCMAKE_INSTALL_PREFIX=${path}/_deps
-        cmake --build .
-        sudo cmake --install .
-
     - name: Configure the build
       run: cmake -S . -B build -DSCRAN_GRAPH_CLUSTER_TESTS=OFF -DCMAKE_PREFIX_PATH=_deps
 

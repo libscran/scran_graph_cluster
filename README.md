@@ -78,8 +78,9 @@ target_link_libraries(myexe libscran::scran_graph_cluster)
 target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)
 ```
 
-This will fetch all external dependencies except for [**igraph**](https://igraph.org), which should already be installed.
-We can instruct CMake to fetch and build **igraph** by setting `-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN_IGRAPH=ON`.
+This will fetch all external dependencies except for [**igraph**](https://igraph.org), which should already be installed and available via `find_package()`.
+Users can set the `SCRAN_GRAPH_CLUSTER_FIND_IGRAPH` option to disable **igraph** discovery (e.g., to supply a custom **igraph** installation),
+in which case they will need to link to **igraph** manually in their `target_link_libraries()` call.
 
 ### CMake with `find_package()`
 
@@ -99,8 +100,9 @@ cmake --build . --target install
 By default, this will use `FetchContent` to fetch all external dependencies.
 If you want to install them manually, use `-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN=OFF`.
 See the tags in [`extern/CMakeLists.txt`](extern/CMakeLists.txt) to find compatible versions of each dependency.
+Again, **igraph** is assumed to be installed and available via `find_package()`.
 
 ### Manual
 
 If you're not using CMake, the simple approach is to just copy the files in `include/` - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's `-I`.
-This requires the external dependencies listed in [`extern/CMakeLists.txt`](extern/CMakeLists.txt), which also need to be made available during compilation.
+This requires the external dependencies listed in [`extern/CMakeLists.txt`](extern/CMakeLists.txt) as well as the **igraph** library.
