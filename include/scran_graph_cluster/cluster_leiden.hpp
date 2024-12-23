@@ -114,7 +114,7 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
         raiigraph::RealVector strengths(igraph_vcount(graph));
         igraph_strength(graph, strengths, igraph_vss_all(), IGRAPH_ALL, 1, weights);
 
-        double total_weights = igraph_vector_sum(weights);
+        double total_weights = igraph_vector_sum(strengths);
         double mod_resolution = options.resolution / total_weights;
 
         output.status = igraph_community_leiden(
