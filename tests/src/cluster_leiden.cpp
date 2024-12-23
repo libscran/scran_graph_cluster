@@ -70,3 +70,16 @@ TEST(ClusterLeiden, Sanity) {
         validate(output.membership, nclusters);
     }
 }
+
+TEST(ClusterLeiden, Unweighted) {
+    auto mock = mock_clusters(899, 6);
+
+    scran_graph_cluster::ClusterLeidenResults output;
+    scran_graph_cluster::ClusterLeidenOptions opts;
+    scran_graph_cluster::cluster_leiden(mock.first.get(), NULL, opts, output);
+    EXPECT_EQ(output.membership.size(), 899);
+
+    opts.modularity = true;
+    scran_graph_cluster::cluster_leiden(mock.first.get(), NULL, opts, output);
+    EXPECT_EQ(output.membership.size(), 899);
+}

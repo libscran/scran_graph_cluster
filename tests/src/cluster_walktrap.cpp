@@ -59,3 +59,12 @@ TEST(ClusterWalktrap, Sanity) {
     auto output = scran_graph_cluster::cluster_walktrap(mock.first, mock.second, opts);
     validate(output.membership, nclusters);
 }
+
+TEST(ClusterWalktrap, Unweighted) {
+    auto mock = mock_clusters(899, 6);
+
+    scran_graph_cluster::ClusterWalktrapResults output;
+    scran_graph_cluster::ClusterWalktrapOptions opts;
+    scran_graph_cluster::cluster_walktrap(mock.first.get(), NULL, opts, output);
+    EXPECT_EQ(output.membership.size(), 899);
+}

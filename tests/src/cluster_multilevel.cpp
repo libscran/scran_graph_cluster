@@ -82,3 +82,12 @@ TEST(ClusterMultilevel, Sanity) {
     auto output = scran_graph_cluster::cluster_multilevel(mock.first, mock.second, opts);
     validate(output.membership, nclusters);
 }
+
+TEST(ClusterMultilevel, Unweighted) {
+    auto mock = mock_clusters(899, 6);
+
+    scran_graph_cluster::ClusterMultilevelResults output;
+    scran_graph_cluster::ClusterMultilevelOptions opts;
+    scran_graph_cluster::cluster_multilevel(mock.first.get(), NULL, opts, output);
+    EXPECT_EQ(output.membership.size(), 899);
+}
