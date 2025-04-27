@@ -22,13 +22,19 @@ we can construct a shared nearest-neighbor (SNN) graph from each cell's list of 
 size_t ncells = 1000;
 size_t ndims = 100;
 std::vector<double> coordinates(ndims * ncells);
-// Fill it with some coordinates...
+// Fill it with some coordinates as a column-major array of ndims * nobs.
+
+// Configuring the neighbor search algorithm; here, we'll be using an exact
+// search based on VP trees with a Euclidean distance metric.
+knncolle::VptreeBuilder<int, double, double> vp_builder(
+    std::make_shared<knncolle::EuclideanDistance<double, double> >()
+);
 
 auto built = scran_graph_cluster::build_snn_graph(
     ndims,
     ncells,
     coordinates.data(),
-    knncolle::VptreeBuilder<>(),
+    vp_builder,
     scran_graph_cluster::BuildSnnGraphOptions()
 );
 

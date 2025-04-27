@@ -52,11 +52,12 @@ protected:
     }
 
     static std::vector<WeightedEdge> reference(int k, scran_graph_cluster::SnnWeightScheme scheme) {
-        std::vector<WeightedEdge> output;
-        knncolle::VptreePrebuilt<knncolle::EuclideanDistance, int, int, double, double> prebuilt(ndim, nobs, data);
-        auto nnidx = prebuilt.initialize();
-        auto ncells = prebuilt.num_observations();
+        knncolle::VptreeBuilder<int, double, double> builder(std::make_shared<knncolle::EuclideanDistance<double, double> >());
+        auto prebuilt = builder.build_unique(knncolle::SimpleMatrix(ndim, nobs, data.data()));
+        auto nnidx = prebuilt->initialize();
+        auto ncells = prebuilt->num_observations();
 
+        std::vector<WeightedEdge> output;
         std::vector<int> neighbors;
         std::vector<int> neighbors_of_neighbors;
 
@@ -115,7 +116,7 @@ TEST_P(BuildSnnGraphRefTest, Reference) {
     opts.num_neighbors = k;
     opts.weighting_scheme = scheme;
     opts.num_threads = nthreads;
-    knncolle::VptreeBuilder<> vpbuilder;
+    knncolle::VptreeBuilder<int, double, double> vpbuilder(std::make_shared<knncolle::EuclideanDistance<double, double> >());
     auto res = scran_graph_cluster::build_snn_graph(ndim, nobs, data.data(), vpbuilder, opts);
 
     auto ref = reference(k, scheme);
@@ -157,7 +158,7 @@ TEST_P(BuildSnnGraphSymmetryTest, Symmetry) {
     scran_graph_cluster::BuildSnnGraphOptions opts;
     opts.num_neighbors = k;
     opts.weighting_scheme = scheme;
-    knncolle::VptreeBuilder<> vpbuilder;
+    knncolle::VptreeBuilder<int, double, double> vpbuilder(std::make_shared<knncolle::EuclideanDistance<double, double> >());
 
     // Checking for symmetry by flipping the matrix. The idea is that the
     // identities of the first and second nodes are flipped, but if symmetry of
@@ -192,22 +193,22 @@ INSTANTIATE_TEST_SUITE_P(
 /*****************************************
  *****************************************/
 
-class BuildSnnGraphCustomNeighborsTest : public ::testing::TestWithParam<int>, public BuildSnnGraphTestCore {
+class BuildSnnGraphNeighborListTest : public ::testing::TestWithParam<int>, public BuildSnnGraphTestCore {
 protected:
     static void SetUpTestSuite() {
         assemble(20, 500); // dimensions, observations.
     }
 };
 
-TEST_P(BuildSnnGraphCustomNeighborsTest, Custom) {
+TEST_P(BuildSnnGraphNeighborListTest, Basic) {
     auto k = GetParam();
 
     scran_graph_cluster::BuildSnnGraphOptions opts;
     opts.num_neighbors = k;
-    knncolle::KmknnBuilder<> builder;
+    knncolle::VptreeBuilder<int, double, double> builder(std::make_shared<knncolle::EuclideanDistance<double, double> >());
     auto output = scran_graph_cluster::build_snn_graph(ndim, nobs, data.data(), builder, opts);
 
-    // Same results as if we had run it manually.
+    // Same results as if we had created the neighbor list explicitly.
     auto prebuilt = builder.build_unique(knncolle::SimpleMatrix(ndim, nobs, data.data()));
     auto nn3 = knncolle::find_nearest_neighbors(*prebuilt, k);
     auto output3 = scran_graph_cluster::build_snn_graph(nn3, opts);
@@ -217,7 +218,7 @@ TEST_P(BuildSnnGraphCustomNeighborsTest, Custom) {
 
 INSTANTIATE_TEST_SUITE_P(
     BuildSnnGraph,
-    BuildSnnGraphCustomNeighborsTest,
+    BuildSnnGraphNeighborListTest,
     ::testing::Values(17, 32) // number of neighbors
 );
 
@@ -231,9 +232,9 @@ protected:
     }
 };
 
-TEST_F(BuildSnnGraphConvertTest, Custom) {
+TEST_F(BuildSnnGraphConvertTest, Basic) {
     scran_graph_cluster::BuildSnnGraphOptions opts;
-    knncolle::KmknnBuilder<> builder;
+    knncolle::VptreeBuilder<int, double, double> builder(std::make_shared<knncolle::EuclideanDistance<double, double> >());
     auto output = scran_graph_cluster::build_snn_graph(ndim, nobs, data.data(), builder, opts);
 
     auto g = scran_graph_cluster::convert_to_graph(output);
