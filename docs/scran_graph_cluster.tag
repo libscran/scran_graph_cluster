@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
-<tagfile doxygen_version="1.9.8">
+<tagfile doxygen_version="1.12.0">
   <compound kind="file">
     <name>build_snn_graph.hpp</name>
     <path>scran_graph_cluster/</path>
@@ -79,10 +79,10 @@
     <templarg>typename Node_</templarg>
     <templarg>typename Weight_</templarg>
     <member kind="variable">
-      <type>size_t</type>
+      <type>Node_</type>
       <name>num_cells</name>
       <anchorfile>structscran__graph__cluster_1_1BuildSnnGraphResults.html</anchorfile>
-      <anchor>ad552b86debe94f53c5e4cd11c8494d2d</anchor>
+      <anchor>a1cd6cc3c7ed80966cc734bb42a2db56b</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -331,8 +331,8 @@
       <type>void</type>
       <name>build_snn_graph</name>
       <anchorfile>namespacescran__graph__cluster.html</anchorfile>
-      <anchor>a9edd73d18f2e9207cf24e42dd0ee6d0b</anchor>
-      <arglist>(size_t num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const BuildSnnGraphOptions &amp;options, BuildSnnGraphResults&lt; Node_, Weight_ &gt; &amp;output)</arglist>
+      <anchor>ae1a71cbc88649a7e3e19e677b200f7fe</anchor>
+      <arglist>(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const BuildSnnGraphOptions &amp;options, BuildSnnGraphResults&lt; Node_, Weight_ &gt; &amp;output)</arglist>
     </member>
     <member kind="function">
       <type>BuildSnnGraphResults&lt; Node_, Weight_ &gt;</type>
@@ -352,15 +352,15 @@
       <type>BuildSnnGraphResults&lt; Node_, Weight_ &gt;</type>
       <name>build_snn_graph</name>
       <anchorfile>namespacescran__graph__cluster.html</anchorfile>
-      <anchor>a09b48900008e56e235d8e2bbd3b6b52c</anchor>
-      <arglist>(const knncolle::Prebuilt&lt; Dim_, Index_, Float_ &gt; &amp;prebuilt, const BuildSnnGraphOptions &amp;options)</arglist>
+      <anchor>afb4a0a02c439c6c87e6f08a33b17c03d</anchor>
+      <arglist>(const knncolle::Prebuilt&lt; Index_, Input_, Distance_ &gt; &amp;prebuilt, const BuildSnnGraphOptions &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>BuildSnnGraphResults&lt; Node_, Weight_ &gt;</type>
       <name>build_snn_graph</name>
       <anchorfile>namespacescran__graph__cluster.html</anchorfile>
-      <anchor>a2c6f491ab8d359a96b31fad8b536f1d2</anchor>
-      <arglist>(Dim_ num_dims, Index_ num_cells, const Value_ *data, const knncolle::Builder&lt; knncolle::SimpleMatrix&lt; Dim_, Index_, Value_ &gt;, Float_ &gt; &amp;knn_method, const BuildSnnGraphOptions &amp;options)</arglist>
+      <anchor>a9cbbb847cfdc359de4e2e162b0e623f7</anchor>
+      <arglist>(std::size_t num_dims, Index_ num_cells, const Input_ *data, const knncolle::Builder&lt; Index_, Input_, Distance_, Matrix_ &gt; &amp;knn_method, const BuildSnnGraphOptions &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>void</type>

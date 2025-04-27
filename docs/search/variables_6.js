@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['power_0',['power',['https://knncolle.github.io/knncolle/structknncolle_1_1KmknnOptions.html#ad46d8aa236754eb65ea9983d355c3280',1,'knncolle::KmknnOptions']]]
+  ['quality_0',['quality',['../structscran__graph__cluster_1_1ClusterLeidenResults.html#a3d3b9954ac37cb27ad09deaa285b4a37',1,'scran_graph_cluster::ClusterLeidenResults']]]
 ];

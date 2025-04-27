@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['edges_0',['edges',['../structscran__graph__cluster_1_1BuildSnnGraphResults.html#a6b513245799f779cbc00f4a2c4aa4089',1,'scran_graph_cluster::BuildSnnGraphResults']]],
-  ['edges_5fto_5fgraph_1',['edges_to_graph',['../namespacescran__graph__cluster.html#a783e1e6c915120239eb0638c74bbdb06',1,'scran_graph_cluster']]],
-  ['edges_5fto_5fgraph_2ehpp_2',['edges_to_graph.hpp',['../edges__to__graph_8hpp.html',1,'']]],
-  ['euclideandistance_3',['EuclideanDistance',['https://knncolle.github.io/knncolle/structknncolle_1_1EuclideanDistance.html',1,'knncolle']]]
+  ['data_0',['Graph-based clustering for single-cell data',['../index.html',1,'']]],
+  ['defaultnode_1',['DefaultNode',['../namespacescran__graph__cluster.html#ac4dcb712a766e6c187e61289ce5bd2ab',1,'scran_graph_cluster']]],
+  ['defaultweight_2',['DefaultWeight',['../namespacescran__graph__cluster.html#a94345511cbc563ce789fa8f6883bbee2',1,'scran_graph_cluster']]],
+  ['denormalize_3',['denormalize',['https://knncolle.github.io/knncolle/classknncolle_1_1DistanceMetric.html#a8810b699e11a1c354470dee9051c935b',1,'knncolle::DistanceMetric']]],
+  ['distancemetric_4',['DistanceMetric',['https://knncolle.github.io/knncolle/classknncolle_1_1DistanceMetric.html',1,'knncolle']]],
+  ['distancemetric_3c_20data_5f_2c_20distance_5f_20_3e_5',['DistanceMetric&lt; Data_, Distance_ &gt;',['https://knncolle.github.io/knncolle/classknncolle_1_1DistanceMetric.html',1,'knncolle']]],
+  ['distances_2ehpp_6',['distances.hpp',['https://knncolle.github.io/knncolle/distances_8hpp.html',1,'']]]
 ];

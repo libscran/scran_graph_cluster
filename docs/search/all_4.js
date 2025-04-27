@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['find_5fnearest_5fneighbors_0',['find_nearest_neighbors',['https://knncolle.github.io/knncolle/namespaceknncolle.html#a22e035b2d5eb293fd828a67e61f3213d',1,'knncolle']]],
-  ['find_5fnearest_5fneighbors_2ehpp_1',['find_nearest_neighbors.hpp',['https://knncolle.github.io/knncolle/find__nearest__neighbors_8hpp.html',1,'']]],
-  ['find_5fnearest_5fneighbors_5findex_5fonly_2',['find_nearest_neighbors_index_only',['https://knncolle.github.io/knncolle/namespaceknncolle.html#a0b726765329530a709095ba304033a0d',1,'knncolle']]],
-  ['for_20single_20cell_20data_3',['Graph-based clustering for single-cell data',['../index.html',1,'']]]
+  ['edges_0',['edges',['../structscran__graph__cluster_1_1BuildSnnGraphResults.html#a6b513245799f779cbc00f4a2c4aa4089',1,'scran_graph_cluster::BuildSnnGraphResults']]],
+  ['edges_5fto_5fgraph_1',['edges_to_graph',['../namespacescran__graph__cluster.html#a783e1e6c915120239eb0638c74bbdb06',1,'scran_graph_cluster']]],
+  ['edges_5fto_5fgraph_2ehpp_2',['edges_to_graph.hpp',['../edges__to__graph_8hpp.html',1,'']]],
+  ['euclideandistance_3',['EuclideanDistance',['https://knncolle.github.io/knncolle/classknncolle_1_1EuclideanDistance.html',1,'knncolle']]]
 ];

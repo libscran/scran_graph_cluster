@@ -4,6 +4,7 @@ var searchData=
   ['bruteforceprebuilt_1',['BruteforcePrebuilt',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforcePrebuilt.html',1,'knncolle']]],
   ['bruteforcesearcher_2',['BruteforceSearcher',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceSearcher.html',1,'knncolle']]],
   ['builder_3',['Builder',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
-  ['buildsnngraphoptions_4',['BuildSnnGraphOptions',['../structscran__graph__cluster_1_1BuildSnnGraphOptions.html',1,'scran_graph_cluster']]],
-  ['buildsnngraphresults_5',['BuildSnnGraphResults',['../structscran__graph__cluster_1_1BuildSnnGraphResults.html',1,'scran_graph_cluster']]]
+  ['builder_3c_20index_5f_2c_20data_5f_2c_20distance_5f_2c_20matrix_5f_20_3e_4',['Builder&lt; Index_, Data_, Distance_, Matrix_ &gt;',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
+  ['buildsnngraphoptions_5',['BuildSnnGraphOptions',['../structscran__graph__cluster_1_1BuildSnnGraphOptions.html',1,'scran_graph_cluster']]],
+  ['buildsnngraphresults_6',['BuildSnnGraphResults',['../structscran__graph__cluster_1_1BuildSnnGraphResults.html',1,'scran_graph_cluster']]]
 ];
