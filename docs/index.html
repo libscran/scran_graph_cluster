@@ -151,7 +151,7 @@ $(function(){ initResizable(false); });
 <div class="line">FetchContent_Declare(</div>
 <div class="line">  scran_graph_cluster</div>
 <div class="line">  GIT_REPOSITORY https://github.com/libscran/scran_graph_cluster</div>
-<div class="line">  GIT_TAG master # or any version of interest</div>
+<div class="line">  GIT_TAG master # replace with a pinned release</div>
 <div class="line">)</div>
 <div class="line"> </div>
 <div class="line">FetchContent_MakeAvailable(scran_graph_cluster)</div>
@@ -161,7 +161,7 @@ $(function(){ initResizable(false); });
 <div class="line"> </div>
 <div class="line"># For libaries</div>
 <div class="line">target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)</div>
-</div><!-- fragment --><p>This will fetch all external dependencies except for <a href="https://igraph.org"><b>igraph</b></a>, which should already be installed and available via <code>find_package()</code>. Users can set the <code>SCRAN_GRAPH_CLUSTER_FIND_IGRAPH</code> option to disable <b>igraph</b> discovery (e.g., to supply a custom <b>igraph</b> installation), in which case they will need to link to <b>igraph</b> manually in their <code>target_link_libraries()</code> call.</p>
+</div><!-- fragment --><p>This will fetch all external dependencies except for <a href="https://igraph.org"><b>igraph</b></a>, which should already be installed and available via <code>find_package()</code>. Users can set the <code>SCRAN_GRAPH_CLUSTER_FIND_IGRAPH</code> option to disable <b>igraph</b> discovery (e.g., to supply a custom <b>igraph</b> installation), in which case they will need to link to <b>igraph</b> manually in their <code>target_link_libraries()</code> call. Users are also advised to pin the versions of all dependencies - see <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> for suggested versions. If you want to install each dependency, use <code>-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN=OFF</code>.</p>
 <h2>CMake with <code>find_package()</code></h2>
 <div class="fragment"><div class="line">find_package(libscran_scran_graph_cluster CONFIG REQUIRED)</div>
 <div class="line">target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)</div>
@@ -169,7 +169,7 @@ $(function(){ initResizable(false); });
 <div class="fragment"><div class="line">mkdir build &amp;&amp; cd build</div>
 <div class="line">cmake .. -DSCRAN_GRAPH_CLUSTER_TESTS=OFF</div>
 <div class="line">cmake --build . --target install</div>
-</div><!-- fragment --><p>By default, this will use <code>FetchContent</code> to fetch all external dependencies. If you want to install them manually, use <code>-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN=OFF</code>. See the tags in <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> to find compatible versions of each dependency. Again, <b>igraph</b> is assumed to be installed and available via <code>find_package()</code>.</p>
+</div><!-- fragment --><p>Again, this will use <code>FetchContent</code> to fetch all external dependencies except for <b>igraph</b>, see comments above.</p>
 <h2>Manual</h2>
 <p>If you're not using CMake, the simple approach is to just copy the files in <code>include/</code> - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>. This requires the external dependencies listed in <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> as well as the <b>igraph</b> library. </p>
 </div></div><!-- PageDoc -->
