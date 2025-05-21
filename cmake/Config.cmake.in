@@ -1,7 +1,7 @@
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
-find_dependency(knncolle_knncolle 2.0.0 CONFIG REQUIRED)
+find_dependency(knncolle_knncolle 3.0.0 CONFIG REQUIRED)
 find_dependency(ltla_raiigraph 1.1.0 CONFIG REQUIRED)
 
 if(@SCRAN_GRAPH_CLUSTER_FIND_IGRAPH@)

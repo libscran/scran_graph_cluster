@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(scran_graph_cluster
-    VERSION 0.1.3
+    VERSION 0.2.0
     DESCRIPTION "Cluster cells using graph-based methods"
     LANGUAGES CXX)
 
@@ -23,7 +23,7 @@ if(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN)
     add_subdirectory(extern)
 else()
     find_package(ltla_raiigraph 1.1.0 CONFIG REQUIRED)
-    find_package(knncolle_knncolle 2.0.0 CONFIG REQUIRED)
+    find_package(knncolle_knncolle 3.0.0 CONFIG REQUIRED)
 endif()
 
 target_link_libraries(scran_graph_cluster INTERFACE ltla::raiigraph knncolle::knncolle)

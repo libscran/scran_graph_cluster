@@ -68,7 +68,7 @@ include(FetchContent)
 FetchContent_Declare(
   scran_graph_cluster
   GIT_REPOSITORY https://github.com/libscran/scran_graph_cluster
-  GIT_TAG master # or any version of interest
+  GIT_TAG master # replace with a pinned release
 )
 
 FetchContent_MakeAvailable(scran_graph_cluster)
@@ -87,6 +87,8 @@ target_link_libraries(mylib INTERFACE libscran::scran_graph_cluster)
 This will fetch all external dependencies except for [**igraph**](https://igraph.org), which should already be installed and available via `find_package()`.
 Users can set the `SCRAN_GRAPH_CLUSTER_FIND_IGRAPH` option to disable **igraph** discovery (e.g., to supply a custom **igraph** installation),
 in which case they will need to link to **igraph** manually in their `target_link_libraries()` call.
+Users are also advised to pin the versions of all dependencies - see [`extern/CMakeLists.txt`](extern/CMakeLists.txt) for suggested versions.
+If you want to install each dependency, use `-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN=OFF`.
 
 ### CMake with `find_package()`
 
@@ -103,10 +105,7 @@ cmake .. -DSCRAN_GRAPH_CLUSTER_TESTS=OFF
 cmake --build . --target install
 ```
 
-By default, this will use `FetchContent` to fetch all external dependencies.
-If you want to install them manually, use `-DSCRAN_GRAPH_CLUSTER_FETCH_EXTERN=OFF`.
-See the tags in [`extern/CMakeLists.txt`](extern/CMakeLists.txt) to find compatible versions of each dependency.
-Again, **igraph** is assumed to be installed and available via `find_package()`.
+Again, this will use `FetchContent` to fetch all external dependencies except for **igraph**, see comments above.
 
 ### Manual
 
