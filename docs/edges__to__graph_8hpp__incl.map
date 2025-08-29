@@ -1,7 +1,11 @@
 <map id="scran_graph_cluster/edges_to_graph.hpp" name="scran_graph_cluster/edges_to_graph.hpp">
-<area shape="rect" id="Node000001" title="Convert a list of edges to a graph." alt="" coords="74,5,215,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,153,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,48,101,83,97,80,126,45"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="176,94,243,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,45,192,80,188,83,158,48"/>
+<area shape="rect" id="Node000001" title="Convert a list of edges to a graph." alt="" coords="183,5,324,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,70,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,49,85,91,83,86,199,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="93,94,240,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="234,48,193,85,190,81,230,44"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="264,94,416,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="277,44,317,81,314,85,273,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="440,94,507,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="309,44,426,86,424,91,308,49"/>
 </map>

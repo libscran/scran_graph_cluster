@@ -114,22 +114,25 @@ $(function(){ initResizable(false); });
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &quot;<a class="elRef" href="https://knncolle.github.io/knncolle/knncolle_8hpp.html">knncolle/knncolle.hpp</a>&quot;</code><br />
+<code>#include &quot;sanisizer/sanisizer.hpp&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for build_snn_graph.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="build__snn__graph_8hpp__incl.png" border="0" usemap="#ascran__graph__cluster_2build__snn__graph_8hpp" alt=""/></div>
 <map name="ascran__graph__cluster_2build__snn__graph_8hpp" id="ascran__graph__cluster_2build__snn__graph_8hpp">
-<area shape="rect" title="Build a shared nearest&#45;neighbor graph on the cells." alt="" coords="146,5,290,46"/>
+<area shape="rect" title="Build a shared nearest&#45;neighbor graph on the cells." alt="" coords="190,5,334,46"/>
 <area shape="rect" title=" " alt="" coords="5,94,63,120"/>
-<area shape="poly" title=" " alt="" coords="173,49,77,90,75,85,171,44"/>
+<area shape="poly" title=" " alt="" coords="206,49,78,93,77,88,204,44"/>
 <area shape="rect" title=" " alt="" coords="86,94,160,120"/>
-<area shape="poly" title=" " alt="" coords="196,48,151,86,148,82,193,44"/>
+<area shape="poly" title=" " alt="" coords="229,49,159,88,156,84,226,44"/>
 <area shape="rect" title=" " alt="" coords="184,94,252,120"/>
-<area shape="poly" title=" " alt="" coords="221,46,221,78,215,78,215,46"/>
+<area shape="poly" title=" " alt="" coords="253,48,234,82,230,79,249,45"/>
 <area shape="rect" title=" " alt="" coords="275,94,340,120"/>
-<area shape="poly" title=" " alt="" coords="242,44,284,82,281,86,238,48"/>
+<area shape="poly" title=" " alt="" coords="276,45,295,79,290,82,271,48"/>
 <area shape="rect" target="_parent" href="https://knncolle.github.io/knncolle/knncolle_8hpp.html" title=" " alt="" coords="364,94,509,120"/>
-<area shape="poly" title=" " alt="" coords="274,44,390,86,388,91,272,49"/>
+<area shape="poly" title=" " alt="" coords="307,44,397,85,395,90,305,49"/>
+<area shape="rect" title=" " alt="" coords="533,94,684,120"/>
+<area shape="poly" title=" " alt="" coords="335,41,541,87,540,93,334,46"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -177,9 +180,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae1a71cbc88649a7e3e19e677b200f7fe" id="r_ae1a71cbc88649a7e3e19e677b200f7fe"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , class GetNeighbors_ , class GetIndex_ &gt; </td></tr>
-<tr class="memitem:ae1a71cbc88649a7e3e19e677b200f7fe"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran__graph__cluster.html#ae1a71cbc88649a7e3e19e677b200f7fe">scran_graph_cluster::build_snn_graph</a> (Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options, <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt; &amp;output)</td></tr>
-<tr class="separator:ae1a71cbc88649a7e3e19e677b200f7fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e46800e435e9c40623776399081946d" id="r_a4e46800e435e9c40623776399081946d"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , class GetNeighbors_ , class GetIndex_ &gt; </td></tr>
+<tr class="memitem:a4e46800e435e9c40623776399081946d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran__graph__cluster.html#a4e46800e435e9c40623776399081946d">scran_graph_cluster::build_snn_graph</a> (const Index_ num_cells, const GetNeighbors_ get_neighbors, const GetIndex_ get_index, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options, <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt; &amp;output)</td></tr>
+<tr class="separator:a4e46800e435e9c40623776399081946d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e1cdafb49d79cbb879e9c16b75afb12" id="r_a3e1cdafb49d79cbb879e9c16b75afb12"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Distance_ &gt; </td></tr>
 <tr class="memitem:a3e1cdafb49d79cbb879e9c16b75afb12"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran__graph__cluster.html#a3e1cdafb49d79cbb879e9c16b75afb12">scran_graph_cluster::build_snn_graph</a> (const <a class="elRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a97693d779b6041859ffa0ef2d9c1500b">knncolle::NeighborList</a>&lt; Index_, Distance_ &gt; &amp;neighbors, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options)</td></tr>
 <tr class="separator:a3e1cdafb49d79cbb879e9c16b75afb12"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,9 +192,9 @@ Functions</h2></td></tr>
 <tr class="memitem:afb4a0a02c439c6c87e6f08a33b17c03d" id="r_afb4a0a02c439c6c87e6f08a33b17c03d"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Input_ , typename Distance_ &gt; </td></tr>
 <tr class="memitem:afb4a0a02c439c6c87e6f08a33b17c03d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran__graph__cluster.html#afb4a0a02c439c6c87e6f08a33b17c03d">scran_graph_cluster::build_snn_graph</a> (const <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a>&lt; Index_, Input_, Distance_ &gt; &amp;prebuilt, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options)</td></tr>
 <tr class="separator:afb4a0a02c439c6c87e6f08a33b17c03d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cbbb847cfdc359de4e2e162b0e623f7" id="r_a9cbbb847cfdc359de4e2e162b0e623f7"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Input_ , typename Distance_ , class Matrix_  = knncolle::Matrix&lt;Index_, Input_&gt;&gt; </td></tr>
-<tr class="memitem:a9cbbb847cfdc359de4e2e162b0e623f7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran__graph__cluster.html#a9cbbb847cfdc359de4e2e162b0e623f7">scran_graph_cluster::build_snn_graph</a> (std::size_t num_dims, Index_ num_cells, const Input_ *data, const <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html">knncolle::Builder</a>&lt; Index_, Input_, Distance_, Matrix_ &gt; &amp;knn_method, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options)</td></tr>
-<tr class="separator:a9cbbb847cfdc359de4e2e162b0e623f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac98a55cdd0911a396b3d81be098959dc" id="r_ac98a55cdd0911a396b3d81be098959dc"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Input_ , typename Distance_ , class Matrix_  = knncolle::Matrix&lt;Index_, Input_&gt;&gt; </td></tr>
+<tr class="memitem:ac98a55cdd0911a396b3d81be098959dc"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran__graph__cluster.html#ac98a55cdd0911a396b3d81be098959dc">scran_graph_cluster::build_snn_graph</a> (const std::size_t num_dims, const Index_ num_cells, const Input_ *data, const <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html">knncolle::Builder</a>&lt; Index_, Input_, Distance_, Matrix_ &gt; &amp;knn_method, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options)</td></tr>
+<tr class="separator:ac98a55cdd0911a396b3d81be098959dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Build a shared nearest-neighbor graph on the cells. </p>

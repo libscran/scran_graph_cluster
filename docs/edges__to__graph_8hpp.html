@@ -106,18 +106,24 @@ $(function(){ initResizable(false); });
 
 <p>Convert a list of edges to a graph.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;raiigraph/raiigraph.hpp&quot;</code><br />
+<div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &quot;raiigraph/raiigraph.hpp&quot;</code><br />
+<code>#include &quot;sanisizer/sanisizer.hpp&quot;</code><br />
 <code>#include &quot;igraph.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for edges_to_graph.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="edges__to__graph_8hpp__incl.png" border="0" usemap="#ascran__graph__cluster_2edges__to__graph_8hpp" alt=""/></div>
 <map name="ascran__graph__cluster_2edges__to__graph_8hpp" id="ascran__graph__cluster_2edges__to__graph_8hpp">
-<area shape="rect" title="Convert a list of edges to a graph." alt="" coords="74,5,215,46"/>
-<area shape="rect" title=" " alt="" coords="5,94,153,120"/>
-<area shape="poly" title=" " alt="" coords="130,48,101,83,97,80,126,45"/>
-<area shape="rect" title=" " alt="" coords="176,94,243,120"/>
-<area shape="poly" title=" " alt="" coords="163,45,192,80,188,83,158,48"/>
+<area shape="rect" title="Convert a list of edges to a graph." alt="" coords="183,5,324,46"/>
+<area shape="rect" title=" " alt="" coords="5,94,70,120"/>
+<area shape="poly" title=" " alt="" coords="200,49,85,91,83,86,199,44"/>
+<area shape="rect" title=" " alt="" coords="93,94,240,120"/>
+<area shape="poly" title=" " alt="" coords="234,48,193,85,190,81,230,44"/>
+<area shape="rect" title=" " alt="" coords="264,94,416,120"/>
+<area shape="poly" title=" " alt="" coords="277,44,317,81,314,85,273,48"/>
+<area shape="rect" title=" " alt="" coords="440,94,507,120"/>
+<area shape="poly" title=" " alt="" coords="309,44,426,86,424,91,308,49"/>
 </map>
 </div>
 </div>
@@ -131,9 +137,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a783e1e6c915120239eb0638c74bbdb06" id="r_a783e1e6c915120239eb0638c74bbdb06"><td class="memTemplParams" colspan="2">template&lt;typename Vertex_ &gt; </td></tr>
-<tr class="memitem:a783e1e6c915120239eb0638c74bbdb06"><td class="memTemplItemLeft" align="right" valign="top">raiigraph::Graph&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran__graph__cluster.html#a783e1e6c915120239eb0638c74bbdb06">scran_graph_cluster::edges_to_graph</a> (size_t double_edges, const Vertex_ *edges, size_t num_vertices, igraph_bool_t directed)</td></tr>
-<tr class="separator:a783e1e6c915120239eb0638c74bbdb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acba7ab7ec47934c88e2f34fadbd78253" id="r_acba7ab7ec47934c88e2f34fadbd78253"><td class="memTemplParams" colspan="2">template&lt;typename Vertex_ &gt; </td></tr>
+<tr class="memitem:acba7ab7ec47934c88e2f34fadbd78253"><td class="memTemplItemLeft" align="right" valign="top">raiigraph::Graph&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacescran__graph__cluster.html#acba7ab7ec47934c88e2f34fadbd78253">scran_graph_cluster::edges_to_graph</a> (const std::size_t double_edges, const Vertex_ *const edges, const std::size_t num_vertices, const igraph_bool_t directed)</td></tr>
+<tr class="separator:acba7ab7ec47934c88e2f34fadbd78253"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Convert a list of edges to a graph. </p>

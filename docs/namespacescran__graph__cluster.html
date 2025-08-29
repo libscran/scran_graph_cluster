@@ -149,9 +149,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae1a71cbc88649a7e3e19e677b200f7fe" id="r_ae1a71cbc88649a7e3e19e677b200f7fe"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , class GetNeighbors_ , class GetIndex_ &gt; </td></tr>
-<tr class="memitem:ae1a71cbc88649a7e3e19e677b200f7fe"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae1a71cbc88649a7e3e19e677b200f7fe">build_snn_graph</a> (Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options, <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt; &amp;output)</td></tr>
-<tr class="separator:ae1a71cbc88649a7e3e19e677b200f7fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e46800e435e9c40623776399081946d" id="r_a4e46800e435e9c40623776399081946d"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , class GetNeighbors_ , class GetIndex_ &gt; </td></tr>
+<tr class="memitem:a4e46800e435e9c40623776399081946d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4e46800e435e9c40623776399081946d">build_snn_graph</a> (const Index_ num_cells, const GetNeighbors_ get_neighbors, const GetIndex_ get_index, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options, <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt; &amp;output)</td></tr>
+<tr class="separator:a4e46800e435e9c40623776399081946d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e1cdafb49d79cbb879e9c16b75afb12" id="r_a3e1cdafb49d79cbb879e9c16b75afb12"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Distance_ &gt; </td></tr>
 <tr class="memitem:a3e1cdafb49d79cbb879e9c16b75afb12"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3e1cdafb49d79cbb879e9c16b75afb12">build_snn_graph</a> (const <a class="elRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a97693d779b6041859ffa0ef2d9c1500b">knncolle::NeighborList</a>&lt; Index_, Distance_ &gt; &amp;neighbors, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options)</td></tr>
 <tr class="separator:a3e1cdafb49d79cbb879e9c16b75afb12"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,9 +161,9 @@ Functions</h2></td></tr>
 <tr class="memitem:afb4a0a02c439c6c87e6f08a33b17c03d" id="r_afb4a0a02c439c6c87e6f08a33b17c03d"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Input_ , typename Distance_ &gt; </td></tr>
 <tr class="memitem:afb4a0a02c439c6c87e6f08a33b17c03d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#afb4a0a02c439c6c87e6f08a33b17c03d">build_snn_graph</a> (const <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a>&lt; Index_, Input_, Distance_ &gt; &amp;prebuilt, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options)</td></tr>
 <tr class="separator:afb4a0a02c439c6c87e6f08a33b17c03d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cbbb847cfdc359de4e2e162b0e623f7" id="r_a9cbbb847cfdc359de4e2e162b0e623f7"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Input_ , typename Distance_ , class Matrix_  = knncolle::Matrix&lt;Index_, Input_&gt;&gt; </td></tr>
-<tr class="memitem:a9cbbb847cfdc359de4e2e162b0e623f7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9cbbb847cfdc359de4e2e162b0e623f7">build_snn_graph</a> (std::size_t num_dims, Index_ num_cells, const Input_ *data, const <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html">knncolle::Builder</a>&lt; Index_, Input_, Distance_, Matrix_ &gt; &amp;knn_method, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options)</td></tr>
-<tr class="separator:a9cbbb847cfdc359de4e2e162b0e623f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac98a55cdd0911a396b3d81be098959dc" id="r_ac98a55cdd0911a396b3d81be098959dc"><td class="memTemplParams" colspan="2">template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, typename Index_ , typename Input_ , typename Distance_ , class Matrix_  = knncolle::Matrix&lt;Index_, Input_&gt;&gt; </td></tr>
+<tr class="memitem:ac98a55cdd0911a396b3d81be098959dc"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac98a55cdd0911a396b3d81be098959dc">build_snn_graph</a> (const std::size_t num_dims, const Index_ num_cells, const Input_ *data, const <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html">knncolle::Builder</a>&lt; Index_, Input_, Distance_, Matrix_ &gt; &amp;knn_method, const <a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html">BuildSnnGraphOptions</a> &amp;options)</td></tr>
+<tr class="separator:ac98a55cdd0911a396b3d81be098959dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e0fa194d21cbd65d66186ab2c0dc3c0" id="r_a7e0fa194d21cbd65d66186ab2c0dc3c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden</a> (const igraph_t *graph, const igraph_vector_t *weights, const <a class="el" href="structscran__graph__cluster_1_1ClusterLeidenOptions.html">ClusterLeidenOptions</a> &amp;options, <a class="el" href="structscran__graph__cluster_1_1ClusterLeidenResults.html">ClusterLeidenResults</a> &amp;output)</td></tr>
 <tr class="separator:a7e0fa194d21cbd65d66186ab2c0dc3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a668653597ebdff4b8a560bf092d5bd8b" id="r_a668653597ebdff4b8a560bf092d5bd8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1ClusterLeidenResults.html">ClusterLeidenResults</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a668653597ebdff4b8a560bf092d5bd8b">cluster_leiden</a> (const raiigraph::Graph &amp;graph, const std::vector&lt; igraph_real_t &gt; &amp;weights, const <a class="el" href="structscran__graph__cluster_1_1ClusterLeidenOptions.html">ClusterLeidenOptions</a> &amp;options)</td></tr>
@@ -176,9 +176,9 @@ Functions</h2></td></tr>
 <tr class="separator:aa6b332af6bc15dc8fcc0d974c4d4fc2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa82ceda0bfd680ca4439dc83c7fe6939" id="r_aa82ceda0bfd680ca4439dc83c7fe6939"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1ClusterWalktrapResults.html">ClusterWalktrapResults</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa82ceda0bfd680ca4439dc83c7fe6939">cluster_walktrap</a> (const raiigraph::Graph &amp;graph, const std::vector&lt; igraph_real_t &gt; &amp;weights, const <a class="el" href="structscran__graph__cluster_1_1ClusterWalktrapOptions.html">ClusterWalktrapOptions</a> &amp;options)</td></tr>
 <tr class="separator:aa82ceda0bfd680ca4439dc83c7fe6939"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a783e1e6c915120239eb0638c74bbdb06" id="r_a783e1e6c915120239eb0638c74bbdb06"><td class="memTemplParams" colspan="2">template&lt;typename Vertex_ &gt; </td></tr>
-<tr class="memitem:a783e1e6c915120239eb0638c74bbdb06"><td class="memTemplItemLeft" align="right" valign="top">raiigraph::Graph&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a783e1e6c915120239eb0638c74bbdb06">edges_to_graph</a> (size_t double_edges, const Vertex_ *edges, size_t num_vertices, igraph_bool_t directed)</td></tr>
-<tr class="separator:a783e1e6c915120239eb0638c74bbdb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acba7ab7ec47934c88e2f34fadbd78253" id="r_acba7ab7ec47934c88e2f34fadbd78253"><td class="memTemplParams" colspan="2">template&lt;typename Vertex_ &gt; </td></tr>
+<tr class="memitem:acba7ab7ec47934c88e2f34fadbd78253"><td class="memTemplItemLeft" align="right" valign="top">raiigraph::Graph&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#acba7ab7ec47934c88e2f34fadbd78253">edges_to_graph</a> (const std::size_t double_edges, const Vertex_ *const edges, const std::size_t num_vertices, const igraph_bool_t directed)</td></tr>
+<tr class="separator:acba7ab7ec47934c88e2f34fadbd78253"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Graph-based clustering of single-cell data. </p>
@@ -194,7 +194,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Default type for the node indices. Set to <code>igraph_integer_t</code> if <b>igraph</b> is available. </p>
+<p>Default type of the node indices. Set to <code>igraph_integer_t</code> if <b>igraph</b> is available. </p>
 
 </div>
 </div>
@@ -209,7 +209,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Default type for the edge weights. Set to <code>igraph_real_t</code> if <b>igraph</b> is available. </p>
+<p>Default type of the edge weights. Set to <code>igraph_real_t</code> if <b>igraph</b> is available. </p>
 
 </div>
 </div>
@@ -233,19 +233,20 @@ Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Choices for the edge weighting scheme during graph construction. Let \(k\) be the number of nearest neighbors for each node.</p>
+<p>Choice of edge weighting schemes during graph construction in <code><a class="el" href="#a4e46800e435e9c40623776399081946d">build_snn_graph()</a></code>.</p>
+<p>Let \(k\) be the number of nearest neighbors for each node, not including the node itself.</p>
 <ul>
-<li><code>RANKED</code> defines the weight between two nodes as \(k - r/2\) where \(r\) is the smallest sum of ranks for any shared neighboring node (Xu and Su, 2015). For the purposes of this ranking, each node has a rank of zero in its own nearest-neighbor set. More shared neighbors, or shared neighbors that are close to both observations, will generally yield larger weights.</li>
-<li><code>NUMBER</code> defines the weight between two nodes as the number of shared nearest neighbors between them. The weight can range from zero to \(k + 1\), as the node itself is included in its own nearest-neighbor set. This is a simpler scheme that is also slightly faster but does not account for the ranking of neighbors within each set.</li>
-<li><code>JACCARD</code> defines the weight between two nodes as the Jaccard index of their neighbor sets, motivated by the algorithm used by the <a href="https://cran.r-project.org/package=seurat"><b>Seurat</b> R package</a>. This weight can range from zero to 1, and is a monotonic transformation of the weight used by <code>NUMBER</code>.</li>
+<li><code>RANKED</code> defines the weight of the edge between two nodes as \(k - r/2\) where \(r\) is the smallest sum of ranks for any shared neighboring node (Xu and Su, 2015). More shared neighbors, or shared neighbors that are close to both observations, will generally yield larger weights. For the purposes of this ranking, each node has a rank of zero in its own nearest-neighbor set. If only the furthest neighbor is shared between nodes (i.e., \(r = 2f\), the weight is set to 1e-6 to distinguish this edge from pairs of cells with no shared neighbors.</li>
+<li><code>NUMBER</code> defines the weight of the edge between two nodes as the number of shared nearest neighbors between them. The weight can range from zero to \(k + 1\), as we include the node itself. This is a simpler scheme that is also slightly faster but does not account for the ranking of neighbors within each set.</li>
+<li><code>JACCARD</code> defines the weight of the edge between two nodes as the Jaccard index of their neighbor sets, motivated by the algorithm used by the <a href="https://cran.r-project.org/package=seurat"><b>Seurat</b> R package</a>. This weight can range from zero to 1, and is a monotonic transformation of the weight used by <code>NUMBER</code>.</li>
 </ul>
 <dl class="section see"><dt>See also</dt><dd>Xu C and Su Z (2015). Identification of cell types from single-cell transcriptomes using a novel clustering method. <em>Bioinformatics</em> 31, 1974-80 </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ae1a71cbc88649a7e3e19e677b200f7fe" name="ae1a71cbc88649a7e3e19e677b200f7fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1a71cbc88649a7e3e19e677b200f7fe">&#9670;&#160;</a></span>build_snn_graph() <span class="overload">[1/5]</span></h2>
+<a id="a4e46800e435e9c40623776399081946d" name="a4e46800e435e9c40623776399081946d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e46800e435e9c40623776399081946d">&#9670;&#160;</a></span>build_snn_graph() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -255,17 +256,17 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
         <tr>
           <td class="memname">void scran_graph_cluster::build_snn_graph </td>
           <td>(</td>
-          <td class="paramtype">Index_</td>          <td class="paramname"><span class="paramname"><em>num_cells</em></span>, </td>
+          <td class="paramtype">const Index_</td>          <td class="paramname"><span class="paramname"><em>num_cells</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GetNeighbors_</td>          <td class="paramname"><span class="paramname"><em>get_neighbors</em></span>, </td>
+          <td class="paramtype">const GetNeighbors_</td>          <td class="paramname"><span class="paramname"><em>get_neighbors</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GetIndex_</td>          <td class="paramname"><span class="paramname"><em>get_index</em></span>, </td>
+          <td class="paramtype">const GetIndex_</td>          <td class="paramname"><span class="paramname"><em>get_index</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -279,12 +280,12 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
         </tr>
       </table>
 </div><div class="memdoc">
-<p>In a shared nearest-neighbor graph, pairs of cells are connected to each other by an edge with weight determined from their shared nearest neighbors. If two cells are close together but have distinct sets of neighbors, the corresponding edge is downweighted as the two cells are unlikely to be part of the same neighborhood. In this manner, highly weighted edges will form within highly interconnected neighborhoods where many cells share the same neighbors. This provides a more sophisticated definition of similarity between cells compared to a simpler (unweighted) nearest neighbor graph that just focuses on immediate proximity.</p>
+<p>In a shared nearest-neighbor graph, two cells are connected to each other by an edge if they share any of their nearest neighbors. The weight of this edge is determined from the number or ranking of their shared nearest neighbors. If two cells are close together but have distinct sets of neighbors, the corresponding edge is downweighted as the two cells are unlikely to be part of the same neighborhood. In this manner, strongly weighted edges will only form within highly interconnected neighborhoods where many cells share the same neighbors. This provides a more sophisticated definition of similarity between cells compared to a simpler (unweighted) nearest neighbor graph that just focuses on immediate proximity. Community detection algorithms (e.g., <code><a class="el" href="#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel()</a></code>) can then be applied to the graph to identify clusters of cells.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Node_</td><td>Integer type for the node indices. </td></tr>
-    <tr><td class="paramname">Weight_</td><td>Floating-point type for the edge weights. </td></tr>
-    <tr><td class="paramname">Index_</td><td>Integer type for the observation index. </td></tr>
+    <tr><td class="paramname">Node_</td><td>Integer type of the node indices. </td></tr>
+    <tr><td class="paramname">Weight_</td><td>Floating-point type of the edge weights. </td></tr>
+    <tr><td class="paramname">Index_</td><td>Integer type of the observation index. </td></tr>
     <tr><td class="paramname">GetNeighbors_</td><td>Function that accepts an <code>Index_</code> cell index and returns a (const reference to) a container-like object. The container should be iterable in a range-based for loop, support the <code>[]</code> operator, and have a <code>size()</code> method. </td></tr>
     <tr><td class="paramname">GetIndex_</td><td>Function that accepts an element of the container type returned by <code>GetNeighbors_</code> and returns an <code>Index_</code> containing its observation index.</td></tr>
   </table>
@@ -296,7 +297,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
     <tr><td class="paramdir"></td><td class="paramname">get_neighbors</td><td>Function that accepts an integer cell index in <code>[0, num_cells)</code> and returns a container of that cell's neighbors. Each element of the container corresponds to a neighbor, and neighbors should be sorted by increasing distance from the cell. The same number of neighbors should be identified for each cell. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">get_index</td><td>Function to return the index of each neighbor, given an element of the container returned by <code>get_neighbors</code>. In trivial cases, this is the identity function but it can be more complex depending on the contents of the inner container. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options for graph construction. Note that <code><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html#a18c2ab10d91d0d369ffbb2de073477fc">BuildSnnGraphOptions::num_neighbors</a></code> is ignored here. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, the edges and weights of the SNN graph. The input value is ignored so this can be re-used across multiple calls to <code><a class="el" href="#ae1a71cbc88649a7e3e19e677b200f7fe">build_snn_graph()</a></code>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, the edges and weights of the SNN graph. The input value is ignored so this can be re-used across multiple calls to <code><a class="el" href="#a4e46800e435e9c40623776399081946d">build_snn_graph()</a></code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -323,13 +324,13 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Overload to enable convenient usage with pre-computed neighbors from <b>knncolle</b>. Distances are ignored here; only the ordering of neighbor indices is used.</p>
+<p>Overload of <code><a class="el" href="#a4e46800e435e9c40623776399081946d">build_snn_graph()</a></code> to enable convenient usage with pre-computed neighbors from <b>knncolle</b>. Distances are ignored here; only the ordering of neighbor indices is used.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Node_</td><td>Integer type for the node indices. </td></tr>
-    <tr><td class="paramname">Weight_</td><td>Floating-point type for the edge weights. </td></tr>
-    <tr><td class="paramname">Index_</td><td>Integer type for the neighbor indices. </td></tr>
-    <tr><td class="paramname">Distance_</td><td>Floating-point type for the distances.</td></tr>
+    <tr><td class="paramname">Node_</td><td>Integer type of the node indices. </td></tr>
+    <tr><td class="paramname">Weight_</td><td>Floating-point type of the edge weights. </td></tr>
+    <tr><td class="paramname">Index_</td><td>Integer type of the neighbor indices. </td></tr>
+    <tr><td class="paramname">Distance_</td><td>Floating-point type of the distances.</td></tr>
   </table>
   </dd>
 </dl>
@@ -364,18 +365,18 @@ template&lt;typename Node_  = int, typename Weight_  = double, typename Index_ &
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Overload to enable convenient usage with pre-computed neighbors from <b>knncolle</b>.</p>
+<p>Overload of <code><a class="el" href="#a4e46800e435e9c40623776399081946d">build_snn_graph()</a></code> to enable convenient usage with pre-computed neighbors from <b>knncolle</b>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Node_</td><td>Integer type for the node indices. </td></tr>
-    <tr><td class="paramname">Weight_</td><td>Floating-point type for the edge weights. </td></tr>
-    <tr><td class="paramname">Index_</td><td>Integer type for the neighbor indices.</td></tr>
+    <tr><td class="paramname">Node_</td><td>Integer type of the node indices. </td></tr>
+    <tr><td class="paramname">Weight_</td><td>Floating-point type of the edge weights. </td></tr>
+    <tr><td class="paramname">Index_</td><td>Integer type of the neighbor indices.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">neighbors</td><td>Vector of vectors of indices for the neighbors for each cell, sorted by increasing distance. It is generally expected that the same number of neighbors are present for each cell, though differences between cells are supported. </td></tr>
+    <tr><td class="paramname">neighbors</td><td>Vector of vectors of indices for the neighbors for each cell, sorted by increasing distance. It is generally expected (though not strictly required) that the same number of neighbors are present for each cell. </td></tr>
     <tr><td class="paramname">options</td><td>Further options for graph construction. Note that <code><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphOptions.html#a18c2ab10d91d0d369ffbb2de073477fc">BuildSnnGraphOptions::num_neighbors</a></code> is ignored here.</td></tr>
   </table>
   </dd>
@@ -404,14 +405,14 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Overload to enable convenient usage with a prebuilt nearest-neighbor search index from <b>knncolle</b>.</p>
+<p>Overload of <code><a class="el" href="#a4e46800e435e9c40623776399081946d">build_snn_graph()</a></code> to enable convenient usage with a prebuilt nearest-neighbor search index from <b>knncolle</b>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Node_</td><td>Integer type for the node indices. </td></tr>
-    <tr><td class="paramname">Weight_</td><td>Floating-point type for the edge weights. </td></tr>
-    <tr><td class="paramname">Index_</td><td>Integer type for the cell index. </td></tr>
-    <tr><td class="paramname">Input_</td><td>Numeric type for the input data used to build the search index. This is only required to define the <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a></code> class and is otherwise ignored. </td></tr>
-    <tr><td class="paramname">Distance_</td><td>Floating-point type for the distances.</td></tr>
+    <tr><td class="paramname">Node_</td><td>Integer type of the node indices. </td></tr>
+    <tr><td class="paramname">Weight_</td><td>Floating-point type of the edge weights. </td></tr>
+    <tr><td class="paramname">Index_</td><td>Integer type of the cell index. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input data used to build the search index. This is only required to define the <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a></code> class and is otherwise ignored. </td></tr>
+    <tr><td class="paramname">Distance_</td><td>Floating-point type of the distances.</td></tr>
   </table>
   </dd>
 </dl>
@@ -426,8 +427,8 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 
 </div>
 </div>
-<a id="a9cbbb847cfdc359de4e2e162b0e623f7" name="a9cbbb847cfdc359de4e2e162b0e623f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9cbbb847cfdc359de4e2e162b0e623f7">&#9670;&#160;</a></span>build_snn_graph() <span class="overload">[5/5]</span></h2>
+<a id="ac98a55cdd0911a396b3d81be098959dc" name="ac98a55cdd0911a396b3d81be098959dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac98a55cdd0911a396b3d81be098959dc">&#9670;&#160;</a></span>build_snn_graph() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -437,12 +438,12 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
         <tr>
           <td class="memname"><a class="el" href="structscran__graph__cluster_1_1BuildSnnGraphResults.html">BuildSnnGraphResults</a>&lt; Node_, Weight_ &gt; scran_graph_cluster::build_snn_graph </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_dims</em></span>, </td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_dims</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Index_</td>          <td class="paramname"><span class="paramname"><em>num_cells</em></span>, </td>
+          <td class="paramtype">const Index_</td>          <td class="paramname"><span class="paramname"><em>num_cells</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -461,14 +462,14 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Overload to enable convenient usage with a column-major array of cell coordinates.</p>
+<p>Overload of <code><a class="el" href="#a4e46800e435e9c40623776399081946d">build_snn_graph()</a></code> to enable convenient usage with a column-major array of cell coordinates.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Node_</td><td>Integer type for the node indices. </td></tr>
-    <tr><td class="paramname">Weight_</td><td>Floating-point type for the edge weights. </td></tr>
-    <tr><td class="paramname">Index_</td><td>Integer type for the cell index. </td></tr>
-    <tr><td class="paramname">Input_</td><td>Numeric type for the input data. </td></tr>
-    <tr><td class="paramname">Distance_</td><td>Floating-point type for the distances. </td></tr>
+    <tr><td class="paramname">Node_</td><td>Integer type of the node indices. </td></tr>
+    <tr><td class="paramname">Weight_</td><td>Floating-point type of the edge weights. </td></tr>
+    <tr><td class="paramname">Index_</td><td>Integer type of the cell index. </td></tr>
+    <tr><td class="paramname">Input_</td><td>Numeric type of the input data. </td></tr>
+    <tr><td class="paramname">Distance_</td><td>Floating-point type of the distances. </td></tr>
     <tr><td class="paramname">Matrix_</td><td>Class of the input data matrix for the neighbor search. This should satisfy the <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Matrix.html">knncolle::Matrix</a></code> interface.</td></tr>
   </table>
   </dd>
@@ -478,7 +479,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
     <tr><td class="paramdir"></td><td class="paramname">num_dims</td><td>Number of dimensions for the cell coordinates. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">num_cells</td><td>Number of cells in the dataset. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Pointer to a <code>num_dims</code>-by-<code>num_cells</code> column-major array of cell coordinates where rows are dimensions and columns are cells. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">knn_method</td><td>Specification of the nearest-neighbor search algorithm, e.g., <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1VptreeBuilder.html">knncolle::VptreeBuilder</a></code>, <code>knncolle::KmknnBuilder</code>. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">knn_method</td><td>Specification of the nearest-neighbor search algorithm, e.g., <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1VptreeBuilder.html">knncolle::VptreeBuilder</a></code>. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options for graph construction.</td></tr>
   </table>
   </dd>
@@ -526,7 +527,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 <p>Run the Leiden community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes. See <a href="https://igraph.org/c/doc/igraph-Community.html#igraph_community_leiden">here</a> for more details on the Leiden algorithm.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">graph</td><td>An existing graph. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">weights</td><td>Pointer to an array of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. Alternatively <code>NULL</code>, if the graph is unweighted. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden()</a></code>. </td></tr>
@@ -570,7 +571,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 <p>Overload of <code><a class="el" href="#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden()</a></code> that accepts C++ containers instead of the raw <b>igraph</b> pointers.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">graph</td><td>An existing graph. </td></tr>
+    <tr><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
     <tr><td class="paramname">weights</td><td>Vector of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. </td></tr>
     <tr><td class="paramname">options</td><td>Further options.</td></tr>
   </table>
@@ -619,7 +620,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 <p>Run the multi-level community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes. See <a href="https://igraph.org/c/doc/igraph-Community.html#igraph_community_multilevel">here</a> for more details on the multi-level algorithm.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">graph</td><td>An existing graph. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">weights</td><td>Pointer to an array of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. Alternatively <code>NULL</code>, if the graph is unweighted. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel()</a></code>. </td></tr>
@@ -663,7 +664,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 <p>Overload of <code><a class="el" href="#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel()</a></code> that accepts C++ containers instead of the raw <b>igraph</b> pointers.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">graph</td><td>An existing graph. </td></tr>
+    <tr><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
     <tr><td class="paramname">weights</td><td>Vector of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. </td></tr>
     <tr><td class="paramname">options</td><td>Further options.</td></tr>
   </table>
@@ -712,7 +713,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 <p>Run the Walktrap community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes. See <a href="https://igraph.org/c/doc/igraph-Community.html#igraph_community_walktrap">here</a> for more details on the Walktrap algorithm.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">graph</td><td>An existing graph. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">weights</td><td>Pointer to an array of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. Alternatively <code>NULL</code>, if the graph is unweighted. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">options</td><td>Further options. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>On output, this is filtered with the clustering results. The input value is ignored, so this object can be re-used across multiple calls to <code><a class="el" href="#aa6b332af6bc15dc8fcc0d974c4d4fc2b">cluster_walktrap()</a></code>. </td></tr>
@@ -756,7 +757,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 <p>Overload of <code><a class="el" href="#aa6b332af6bc15dc8fcc0d974c4d4fc2b">cluster_walktrap()</a></code> that accepts C++ containers instead of the raw <b>igraph</b> pointers.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">graph</td><td>An existing graph. </td></tr>
+    <tr><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
     <tr><td class="paramname">weights</td><td>Vector of weights of length equal to the number of edges in <code>graph</code>. This should be in the same order as the edge list in <code>graph</code>. </td></tr>
     <tr><td class="paramname">options</td><td>Further options.</td></tr>
   </table>
@@ -766,8 +767,8 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 
 </div>
 </div>
-<a id="a783e1e6c915120239eb0638c74bbdb06" name="a783e1e6c915120239eb0638c74bbdb06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a783e1e6c915120239eb0638c74bbdb06">&#9670;&#160;</a></span>edges_to_graph()</h2>
+<a id="acba7ab7ec47934c88e2f34fadbd78253" name="acba7ab7ec47934c88e2f34fadbd78253"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acba7ab7ec47934c88e2f34fadbd78253">&#9670;&#160;</a></span>edges_to_graph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -777,36 +778,36 @@ template&lt;typename Vertex_ &gt; </div>
         <tr>
           <td class="memname">raiigraph::Graph scran_graph_cluster::edges_to_graph </td>
           <td>(</td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>double_edges</em></span>, </td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>double_edges</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const Vertex_ *</td>          <td class="paramname"><span class="paramname"><em>edges</em></span>, </td>
+          <td class="paramtype">const Vertex_ *const</td>          <td class="paramname"><span class="paramname"><em>edges</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>num_vertices</em></span>, </td>
+          <td class="paramtype">const std::size_t</td>          <td class="paramname"><span class="paramname"><em>num_vertices</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">igraph_bool_t</td>          <td class="paramname"><span class="paramname"><em>directed</em></span>&#160;)</td>
+          <td class="paramtype">const igraph_bool_t</td>          <td class="paramname"><span class="paramname"><em>directed</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Create an <code>raiigraph:Graph</code> object from the edges.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Vertex_</td><td>Integer type for the vertex IDs.</td></tr>
+    <tr><td class="paramname">Vertex_</td><td>Integer type of the vertex IDs.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">double_edges</td><td>The number of edges times two. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">edges</td><td>Pointer to an array of length <code>double_edges</code>. <code>edges[2*i]</code> and <code>edges[2*i+1]</code> define the vertices for edge <code>i</code>. For directed graphs, the edge goes from the first vertex to the second vertex. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">double_edges</td><td>The number of edges multiplied by two. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">edges</td><td>Pointer to an array of length <code>double_edges</code>. <code>edges[2*i]</code> and <code>edges[2*i+1]</code> define the vertices for edge <code>i</code>. For directed graphs, the edge starts from the first vertex and ends at the second vertex. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">num_vertices</td><td>Number of vertices in the graph. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">directed</td><td>Whether the graph is directed. This should be one of <code>IGRAPH_DIRECTED</code> or <code>IGRAPH_UNDIRECTED</code>.</td></tr>
   </table>

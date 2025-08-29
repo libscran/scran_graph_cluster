@@ -331,8 +331,8 @@
       <type>void</type>
       <name>build_snn_graph</name>
       <anchorfile>namespacescran__graph__cluster.html</anchorfile>
-      <anchor>ae1a71cbc88649a7e3e19e677b200f7fe</anchor>
-      <arglist>(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const BuildSnnGraphOptions &amp;options, BuildSnnGraphResults&lt; Node_, Weight_ &gt; &amp;output)</arglist>
+      <anchor>a4e46800e435e9c40623776399081946d</anchor>
+      <arglist>(const Index_ num_cells, const GetNeighbors_ get_neighbors, const GetIndex_ get_index, const BuildSnnGraphOptions &amp;options, BuildSnnGraphResults&lt; Node_, Weight_ &gt; &amp;output)</arglist>
     </member>
     <member kind="function">
       <type>BuildSnnGraphResults&lt; Node_, Weight_ &gt;</type>
@@ -359,8 +359,8 @@
       <type>BuildSnnGraphResults&lt; Node_, Weight_ &gt;</type>
       <name>build_snn_graph</name>
       <anchorfile>namespacescran__graph__cluster.html</anchorfile>
-      <anchor>a9cbbb847cfdc359de4e2e162b0e623f7</anchor>
-      <arglist>(std::size_t num_dims, Index_ num_cells, const Input_ *data, const knncolle::Builder&lt; Index_, Input_, Distance_, Matrix_ &gt; &amp;knn_method, const BuildSnnGraphOptions &amp;options)</arglist>
+      <anchor>ac98a55cdd0911a396b3d81be098959dc</anchor>
+      <arglist>(const std::size_t num_dims, const Index_ num_cells, const Input_ *data, const knncolle::Builder&lt; Index_, Input_, Distance_, Matrix_ &gt; &amp;knn_method, const BuildSnnGraphOptions &amp;options)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -408,8 +408,8 @@
       <type>raiigraph::Graph</type>
       <name>edges_to_graph</name>
       <anchorfile>namespacescran__graph__cluster.html</anchorfile>
-      <anchor>a783e1e6c915120239eb0638c74bbdb06</anchor>
-      <arglist>(size_t double_edges, const Vertex_ *edges, size_t num_vertices, igraph_bool_t directed)</arglist>
+      <anchor>acba7ab7ec47934c88e2f34fadbd78253</anchor>
+      <arglist>(const std::size_t double_edges, const Vertex_ *const edges, const std::size_t num_vertices, const igraph_bool_t directed)</arglist>
     </member>
   </compound>
   <compound kind="page">
