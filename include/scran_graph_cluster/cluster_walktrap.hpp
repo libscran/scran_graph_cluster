@@ -82,9 +82,9 @@ struct ClusterWalktrapResults {
  * The input value is ignored, so this object can be re-used across multiple calls to `cluster_walktrap()`.
  */
 inline void cluster_walktrap(const igraph_t* graph, const igraph_vector_t* weights, const ClusterWalktrapOptions& options, ClusterWalktrapResults& output) {
-    auto membership = output.membership.get();
-    auto modularity = (options.report_modularity ? output.modularity.get() : NULL);
-    auto merges = (options.report_merges ? output.merges.get() : NULL);
+    const auto membership = output.membership.get();
+    const auto modularity = (options.report_modularity ? output.modularity.get() : static_cast<igraph_vector_t*>(NULL));
+    const auto merges = (options.report_merges ? output.merges.get() : static_cast<igraph_matrix_int_t*>(NULL));
     output.status = igraph_community_walktrap(graph, weights, options.steps, merges, modularity, membership);
 }
 

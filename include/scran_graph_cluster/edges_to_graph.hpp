@@ -1,6 +1,8 @@
 #ifndef SCRAN_GRAPH_CLUSTER_EDGES_TO_GRAPH_HPP
 #define SCRAN_GRAPH_CLUSTER_EDGES_TO_GRAPH_HPP
 
+#include <cstddef>
+
 #include "raiigraph/raiigraph.hpp"
 #include "sanisizer/sanisizer.hpp"
 
@@ -29,7 +31,7 @@ namespace scran_graph_cluster {
  * @return A graph created from `edges`.
  */
 template<typename Vertex_>
-raiigraph::Graph edges_to_graph(size_t double_edges, const Vertex_* edges, size_t num_vertices, igraph_bool_t directed) {
+raiigraph::Graph edges_to_graph(const std::size_t double_edges, const Vertex_* const edges, const std::size_t num_vertices, const igraph_bool_t directed) {
     if constexpr(std::is_same<Vertex_, igraph_integer_t>::value) {
         igraph_vector_int_t edge_view{};
         igraph_vector_int_view(&edge_view, edges, sanisizer::cast<igraph_integer_t>(double_edges));
@@ -37,7 +39,7 @@ raiigraph::Graph edges_to_graph(size_t double_edges, const Vertex_* edges, size_
     } else {
         auto tmp = sanisizer::create<raiigraph::IntegerVector>(double_edges);
         auto& payload = *(tmp.get());
-        for (size_t x = 0; x < double_edges; ++x) {
+        for (std::size_t x = 0; x < double_edges; ++x) {
             VECTOR(payload)[x] = edges[x];
         }
         return raiigraph::Graph(tmp, num_vertices, directed);

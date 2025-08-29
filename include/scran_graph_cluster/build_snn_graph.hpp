@@ -109,6 +109,17 @@ typedef double DefaultWeight;
 #endif
 
 /**
+ * @cond
+ */
+template<typename Input_>
+std::remove_cv_t<std::remove_reference_t<Input_> > I(Input_ x) {
+    return x;
+}
+/**
+ * @endcond
+ */
+
+/**
  * In a shared nearest-neighbor graph, pairs of cells are connected to each other by an edge with weight determined from their shared nearest neighbors.
  * If two cells are close together but have distinct sets of neighbors, the corresponding edge is downweighted as the two cells are unlikely to be part of the same neighborhood.
  * In this manner, highly weighted edges will form within highly interconnected neighborhoods where many cells share the same neighbors.
@@ -133,7 +144,7 @@ typedef double DefaultWeight;
  * The input value is ignored so this can be re-used across multiple calls to `build_snn_graph()`.
  */
 template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Index_, class GetNeighbors_, class GetIndex_>
-void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ get_index, const BuildSnnGraphOptions& options, BuildSnnGraphResults<Node_, Weight_>& output) {
+void build_snn_graph(const Index_ num_cells, const GetNeighbors_ get_neighbors, const GetIndex_ get_index, const BuildSnnGraphOptions& options, BuildSnnGraphResults<Node_, Weight_>& output) {
     // Reverse mapping is not parallel-frendly, so we don't construct this with the neighbor search.
     std::vector<std::vector<Node_> > simple_hosts;
     std::vector<std::vector<std::pair<Node_, Weight_> > > ranked_hosts;
@@ -147,7 +158,7 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
             ranked_hosts[i].emplace_back(i, 0); // each point is its own 0-th nearest neighbor
             const auto& current = get_neighbors(i);
             Weight_ rank = 1;
-            for (auto x : current) {
+            for (const auto& x : current) {
                 ranked_hosts[get_index(x)].emplace_back(i, rank);
                 ++rank;
             }
@@ -157,7 +168,7 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
         for (Index_ i = 0; i < num_cells; ++i) {
             simple_hosts[i].emplace_back(i); // each point is its own 0-th nearest neighbor
             const auto& current = get_neighbors(i);
-            for (auto x : current) {
+            for (const auto& x : current) {
                 simple_hosts[get_index(x)].emplace_back(i);
             }
         }
@@ -167,18 +178,16 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
     auto edge_stores = sanisizer::create<std::vector<std::vector<Node_> > >(num_cells);
     auto weight_stores = sanisizer::create<std::vector<std::vector<Weight_> > >(num_cells);
 
-    knncolle::parallelize(options.num_threads, num_cells, [&](int, Index_ start, Index_ length) -> void {
+    knncolle::parallelize(options.num_threads, num_cells, [&](const int, const Index_ start, const Index_ length) -> void {
         auto current_score = sanisizer::create<std::vector<Weight_> >(num_cells);
         std::vector<Node_> current_added;
         current_added.reserve(num_cells);
 
         for (Index_ j = start, end = start + length; j < end; ++j) {
-            const Node_ j_cast = j;
-
             const auto& current_neighbors = get_neighbors(j);
-            auto nneighbors = current_neighbors.size();
+            const auto nneighbors = current_neighbors.size();
 
-            for (decltype(nneighbors) i = 0; i <= nneighbors; ++i) {
+            for (decltype(I(nneighbors)) i = 0; i <= nneighbors; ++i) {
                 // First iteration treats 'j' as the zero-th neighbor.
                 // Remaining iterations go through the neighbors of 'j'.
                 const Node_ cur_neighbor = (i == 0 ? j : get_index(current_neighbors[i-1]));
@@ -187,14 +196,13 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
                 // is a nearest neighbor, a.k.a., 'cur_neighbor' is a shared
                 // neighbor of both 'h' and 'j'.
                 if (options.weighting_scheme == SnnWeightScheme::RANKED) {
-                    Weight_ i_cast = i;
                     for (const auto& h : ranked_hosts[cur_neighbor]) {
-                        auto othernode = h.first;
-                        if (othernode < j_cast) { // avoid duplicates from symmetry in the SNN calculations.
+                        const auto othernode = h.first;
+                        if (othernode < static_cast<Node_>(j)) { // avoid duplicates from symmetry in the SNN calculations.
                             auto& existing_other = current_score[othernode];
 
                             // Recording the lowest combined rank per neighbor (casting to avoid overflow on Node_).
-                            Weight_ currank = h.second + i_cast;
+                            const Weight_ currank = h.second + static_cast<Weight_>(i);
                             if (existing_other == 0) { 
                                 existing_other = currank;
                                 current_added.push_back(othernode);
@@ -206,7 +214,7 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
 
                 } else {
                     for (const auto& othernode : simple_hosts[cur_neighbor]) {
-                        if (othernode < j_cast) { // avoid duplicates from symmetry in the SNN calculations.
+                        if (othernode < static_cast<Node_>(j)) { // avoid duplicates from symmetry in the SNN calculations.
                             auto& existing_other = current_score[othernode];
 
                             // Recording the number of shared neighbors.
@@ -225,17 +233,17 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
             auto& current_weights = weight_stores[j];
             current_weights.reserve(current_added.size());
 
-            for (auto othernode : current_added) {
+            for (const auto othernode : current_added) {
                 Weight_& otherscore = current_score[othernode];
-                Weight_ finalscore;
-                if (options.weighting_scheme == SnnWeightScheme::RANKED) {
-                    finalscore = static_cast<Weight_>(nneighbors) - 0.5 * static_cast<Weight_>(otherscore);
-                } else {
-                    finalscore = otherscore;
-                    if (options.weighting_scheme == SnnWeightScheme::JACCARD) {
-                        finalscore = finalscore / (2 * (static_cast<Weight_>(nneighbors) + 1) - finalscore);
+                const Weight_ finalscore = [&]{
+                    if (options.weighting_scheme == SnnWeightScheme::RANKED) {
+                        return static_cast<Weight_>(nneighbors) - otherscore / 2;
+                    } else if (options.weighting_scheme == SnnWeightScheme::JACCARD) {
+                        return otherscore / (2 * (static_cast<Weight_>(nneighbors) + 1) - otherscore);
+                    } else {
+                        return otherscore;
                     }
-                }
+                }();
 
                 current_edges.push_back(j);
                 current_edges.push_back(othernode);
@@ -295,7 +303,7 @@ BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const knncolle::NeighborLis
     BuildSnnGraphResults<Node_, Weight_> output;
     build_snn_graph(
         sanisizer::cast<Index_>(neighbors.size()), 
-        [&](Index_ i) -> const std::vector<std::pair<Index_, Distance_> >& { return neighbors[i]; }, 
+        [&](const Index_ i) -> const std::vector<std::pair<Index_, Distance_> >& { return neighbors[i]; }, 
         [](const std::pair<Index_, Distance_>& x) -> Index_ { return x.first; }, 
         options,
         output
@@ -322,8 +330,8 @@ BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const std::vector<std::vect
     BuildSnnGraphResults<Node_, Weight_> output;
     build_snn_graph(
         sanisizer::cast<Index_>(neighbors.size()),
-        [&](Index_ i) -> const std::vector<Index_>& { return neighbors[i]; }, 
-        [](Index_ x) -> Index_ { return x; }, 
+        [&](const Index_ i) -> const std::vector<Index_>& { return neighbors[i]; }, 
+        [](const Index_ x) -> Index_ { return x; }, 
         options,
         output
     );
@@ -347,7 +355,7 @@ BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const std::vector<std::vect
  */
 template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Index_, typename Input_, typename Distance_>
 BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const knncolle::Prebuilt<Index_, Input_, Distance_>& prebuilt, const BuildSnnGraphOptions& options) {
-    auto neighbors = knncolle::find_nearest_neighbors_index_only(prebuilt, options.num_neighbors, options.num_threads);
+    const auto neighbors = knncolle::find_nearest_neighbors_index_only(prebuilt, options.num_neighbors, options.num_threads);
     return build_snn_graph<Node_, Weight_>(neighbors, options);
 }
 
@@ -372,13 +380,13 @@ BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const knncolle::Prebuilt<In
  */
 template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typename Index_, typename Input_, typename Distance_, class Matrix_ = knncolle::Matrix<Index_, Input_> >
 BuildSnnGraphResults<Node_, Weight_> build_snn_graph(
-    std::size_t num_dims, 
-    Index_ num_cells, 
+    const std::size_t num_dims, 
+    const Index_ num_cells, 
     const Input_* data, 
     const knncolle::Builder<Index_, Input_, Distance_, Matrix_>& knn_method,
     const BuildSnnGraphOptions& options) 
 {
-    auto prebuilt = knn_method.build_unique(knncolle::SimpleMatrix(num_dims, num_cells, data));
+    const auto prebuilt = knn_method.build_unique(knncolle::SimpleMatrix(num_dims, num_cells, data));
     return build_snn_graph<Node_, Weight_>(*prebuilt, options);
 }
 

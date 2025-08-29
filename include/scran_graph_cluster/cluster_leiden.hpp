@@ -93,10 +93,10 @@ struct ClusterLeidenResults {
  * The input value is ignored, so this object can be re-used across multiple calls to `cluster_leiden()`.
  */
 inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights, const ClusterLeidenOptions& options, ClusterLeidenResults& output) {
-    auto membership = output.membership.get();
-    auto quality = (options.report_quality ? &(output.quality) : NULL);
+    const auto membership = output.membership.get();
+    const auto quality = (options.report_quality ? &(output.quality) : static_cast<igraph_real_t*>(NULL));
 
-    raiigraph::RNGScope rngs(options.seed);
+    const raiigraph::RNGScope rngs(options.seed);
 
     if (!options.modularity) {
         output.status = igraph_community_leiden(
@@ -117,8 +117,8 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
         auto strengths = sanisizer::create<raiigraph::RealVector>(igraph_vcount(graph));
         igraph_strength(graph, strengths, igraph_vss_all(), IGRAPH_ALL, 1, weights);
 
-        double total_weights = igraph_vector_sum(strengths);
-        double mod_resolution = options.resolution / total_weights;
+        const double total_weights = igraph_vector_sum(strengths);
+        const double mod_resolution = options.resolution / total_weights;
 
         output.status = igraph_community_leiden(
             graph, 
