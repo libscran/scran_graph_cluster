@@ -5,6 +5,8 @@
 #include <algorithm>
 
 #include "raiigraph/raiigraph.hpp"
+#include "sanisizer/sanisizer.hpp"
+
 #include "igraph.h"
 
 /**
@@ -112,7 +114,7 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
 
     } else {
         // More-or-less translated from igraph::cluster_leiden in the R package.
-        raiigraph::RealVector strengths(igraph_vcount(graph));
+        auto strengths = sanisizer::create<raiigraph::RealVector>(igraph_vcount(graph));
         igraph_strength(graph, strengths, igraph_vss_all(), IGRAPH_ALL, 1, weights);
 
         double total_weights = igraph_vector_sum(strengths);
@@ -146,7 +148,7 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
 inline ClusterLeidenResults cluster_leiden(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const ClusterLeidenOptions& options) {
     // No need to free this, as it's just a view.
     igraph_vector_t weight_view;
-    igraph_vector_view(&weight_view, weights.data(), weights.size());
+    igraph_vector_view(&weight_view, weights.data(), sanisizer::cast<igraph_integer_t>(weights.size()));
 
     ClusterLeidenResults output;
     cluster_leiden(graph.get(), &weight_view, options, output);

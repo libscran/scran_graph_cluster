@@ -5,6 +5,8 @@
 #include <algorithm>
 
 #include "raiigraph/raiigraph.hpp"
+#include "sanisizer/sanisizer.hpp"
+
 #include "igraph.h"
 
 /**
@@ -113,7 +115,7 @@ inline void cluster_multilevel(const igraph_t* graph, const igraph_vector_t* wei
 inline ClusterMultilevelResults cluster_multilevel(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const ClusterMultilevelOptions& options) {
     // No need to free this, as it's just a view.
     igraph_vector_t weight_view;
-    igraph_vector_view(&weight_view, weights.data(), weights.size());
+    igraph_vector_view(&weight_view, weights.data(), sanisizer::cast<igraph_integer_t>(weights.size()));
 
     ClusterMultilevelResults output;
     cluster_multilevel(graph.get(), &weight_view, options, output);

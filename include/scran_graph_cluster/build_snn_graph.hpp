@@ -7,6 +7,7 @@
 #include <cstddef>
 
 #include "knncolle/knncolle.hpp"
+#include "sanisizer/sanisizer.hpp"
 
 #if __has_include("igraph.h")
 #include "raiigraph/raiigraph.hpp"
@@ -137,8 +138,11 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
     std::vector<std::vector<Node_> > simple_hosts;
     std::vector<std::vector<std::pair<Node_, Weight_> > > ranked_hosts;
 
+    // Check that all implicit casts from Index_ to Node_ will be safe.
+    sanisizer::cast<Node_>(num_cells);
+
     if (options.weighting_scheme == SnnWeightScheme::RANKED) {
-        ranked_hosts.resize(num_cells);
+        sanisizer::resize(ranked_hosts, num_cells);
         for (Index_ i = 0; i < num_cells; ++i) {
             ranked_hosts[i].emplace_back(i, 0); // each point is its own 0-th nearest neighbor
             const auto& current = get_neighbors(i);
@@ -149,7 +153,7 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
             }
         }
     } else {
-        simple_hosts.resize(num_cells);
+        sanisizer::resize(simple_hosts, num_cells);
         for (Index_ i = 0; i < num_cells; ++i) {
             simple_hosts[i].emplace_back(i); // each point is its own 0-th nearest neighbor
             const auto& current = get_neighbors(i);
@@ -160,11 +164,11 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
     }
 
     // Constructing the shared neighbor graph.
-    std::vector<std::vector<Node_> > edge_stores(num_cells);
-    std::vector<std::vector<Weight_> > weight_stores(num_cells);
+    auto edge_stores = sanisizer::create<std::vector<std::vector<Node_> > >(num_cells);
+    auto weight_stores = sanisizer::create<std::vector<std::vector<Weight_> > >(num_cells);
 
     knncolle::parallelize(options.num_threads, num_cells, [&](int, Index_ start, Index_ length) -> void {
-        std::vector<Weight_> current_score(num_cells);
+        auto current_score = sanisizer::create<std::vector<Weight_> >(num_cells);
         std::vector<Node_> current_added;
         current_added.reserve(num_cells);
 
@@ -229,13 +233,13 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
                 } else {
                     finalscore = otherscore;
                     if (options.weighting_scheme == SnnWeightScheme::JACCARD) {
-                        finalscore = finalscore / (2 * (nneighbors + 1) - finalscore);
+                        finalscore = finalscore / (2 * (static_cast<Weight_>(nneighbors) + 1) - finalscore);
                     }
                 }
 
                 current_edges.push_back(j);
                 current_edges.push_back(othernode);
-                current_weights.push_back(std::max(finalscore, 1e-6)); // Ensuring that an edge with a positive weight is always reported.
+                current_weights.push_back(std::max(finalscore, static_cast<Weight_>(1e-6))); // Ensuring that an edge with a positive weight is always reported.
 
                 // Resetting all those added to zero.
                 otherscore = 0;
@@ -247,7 +251,7 @@ void build_snn_graph(Index_ num_cells, GetNeighbors_ get_neighbors, GetIndex_ ge
     // Collating the total number of edges.
     std::size_t nedges = 0;
     for (const auto& w : weight_stores) {
-        nedges += w.size();
+        nedges = sanisizer::sum<std::size_t>(nedges, w.size());
     }
 
     output.num_cells = num_cells;
@@ -290,7 +294,7 @@ template<typename Node_ = DefaultNode, typename Weight_ = DefaultWeight, typenam
 BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const knncolle::NeighborList<Index_, Distance_>& neighbors, const BuildSnnGraphOptions& options) {
     BuildSnnGraphResults<Node_, Weight_> output;
     build_snn_graph(
-        static_cast<Index_>(neighbors.size()), 
+        sanisizer::cast<Index_>(neighbors.size()), 
         [&](Index_ i) -> const std::vector<std::pair<Index_, Distance_> >& { return neighbors[i]; }, 
         [](const std::pair<Index_, Distance_>& x) -> Index_ { return x.first; }, 
         options,
@@ -317,7 +321,7 @@ template<typename Node_ = int, typename Weight_ = double, typename Index_>
 BuildSnnGraphResults<Node_, Weight_> build_snn_graph(const std::vector<std::vector<Index_> >& neighbors, const BuildSnnGraphOptions& options) {
     BuildSnnGraphResults<Node_, Weight_> output;
     build_snn_graph(
-        static_cast<Index_>(neighbors.size()),
+        sanisizer::cast<Index_>(neighbors.size()),
         [&](Index_ i) -> const std::vector<Index_>& { return neighbors[i]; }, 
         [](Index_ x) -> Index_ { return x; }, 
         options,
