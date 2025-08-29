@@ -18,12 +18,12 @@ namespace scran_graph_cluster {
 /**
  * Create an `raiigraph:Graph` object from the edges.
  *
- * @tparam Vertex_ Integer type for the vertex IDs.
+ * @tparam Vertex_ Integer type of the vertex IDs.
  *
- * @param double_edges The number of edges times two.
+ * @param double_edges The number of edges multiplied by two.
  * @param[in] edges Pointer to an array of length `double_edges`.
  * `edges[2*i]` and `edges[2*i+1]` define the vertices for edge `i`.
- * For directed graphs, the edge goes from the first vertex to the second vertex.
+ * For directed graphs, the edge starts from the first vertex and ends at the second vertex.
  * @param num_vertices Number of vertices in the graph.
  * @param directed Whether the graph is directed.
  * This should be one of `IGRAPH_DIRECTED` or `IGRAPH_UNDIRECTED`.
