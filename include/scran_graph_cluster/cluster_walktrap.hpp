@@ -22,6 +22,9 @@ namespace scran_graph_cluster {
 struct ClusterWalktrapOptions {
     /**
      * Number of steps of the random walk.
+     * This determines the ability of the Walktrap algorithm to distinguish highly interconnected communities from the rest of the graph.
+     * Ideally, a random walk of the specified length from a node should easily reach any other node in the same community but not a node of a different community
+     * (i.e., it is "trapped" in the same community, hence the name of the method).
      * The default is based on the example in the **igraph** documentation.
      */
     int steps = 4;
@@ -73,7 +76,8 @@ struct ClusterWalktrapResults {
  * Run the Walktrap community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
  * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_walktrap) for more details on the Walktrap algorithm. 
  * 
- * @param graph An existing graph.
+ * @param graph A graph.
+ * Typically, the nodes are cells and edges are formed between similar cells.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
  * This should be in the same order as the edge list in `graph`.
  * Alternatively `NULL`, if the graph is unweighted.
@@ -91,7 +95,8 @@ inline void cluster_walktrap(const igraph_t* graph, const igraph_vector_t* weigh
 /**
  * Overload of `cluster_walktrap()` that accepts C++ containers instead of the raw **igraph** pointers.
  *
- * @param graph An existing graph.
+ * @param graph A graph.
+ * Typically, the nodes are cells and edges are formed between similar cells.
  * @param weights Vector of weights of length equal to the number of edges in `graph`. 
  * This should be in the same order as the edge list in `graph`.
  * @param options Further options.

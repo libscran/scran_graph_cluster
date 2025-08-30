@@ -77,7 +77,8 @@ struct ClusterMultilevelResults {
  * Run the multi-level community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
  * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_multilevel) for more details on the multi-level algorithm. 
  *
- * @param graph An existing graph.
+ * @param graph A graph.
+ * Typically, the nodes are cells and edges are formed between similar cells.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
  * This should be in the same order as the edge list in `graph`.
  * Alternatively `NULL`, if the graph is unweighted.
@@ -105,7 +106,8 @@ inline void cluster_multilevel(const igraph_t* graph, const igraph_vector_t* wei
 /**
  * Overload of `cluster_multilevel()` that accepts C++ containers instead of the raw **igraph** pointers.
  *
- * @param graph An existing graph.
+ * @param graph A graph.
+ * Typically, the nodes are cells and edges are formed between similar cells.
  * @param weights Vector of weights of length equal to the number of edges in `graph`. 
  * This should be in the same order as the edge list in `graph`.
  * @param options Further options.

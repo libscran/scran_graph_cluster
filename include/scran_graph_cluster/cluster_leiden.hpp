@@ -41,8 +41,9 @@ struct ClusterLeidenOptions {
     int iterations = 2;
 
     /**
-     * Whether to optimize the modularity instead of the Constant Potts Model.
-     * The two are closely related but the magnitude of the resolution is different.
+     * Whether to optimize the modularity instead of the Constant Potts Model (CPM).
+     * The two are closely related but the magnitude of the resolution is different -
+     * CPM typically yields more fine-grained clusters at the same choice of `ClusterLeidenOptions::resolution`.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
     bool modularity = false;
@@ -84,7 +85,8 @@ struct ClusterLeidenResults {
  * Run the Leiden community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
  * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_leiden) for more details on the Leiden algorithm. 
  *
- * @param graph An existing graph.
+ * @param graph A graph.
+ * Typically, the nodes are cells and edges are formed between similar cells.
  * @param weights Pointer to an array of weights of length equal to the number of edges in `graph`. 
  * This should be in the same order as the edge list in `graph`.
  * Alternatively `NULL`, if the graph is unweighted.
@@ -138,7 +140,8 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
 /**
  * Overload of `cluster_leiden()` that accepts C++ containers instead of the raw **igraph** pointers.
  *
- * @param graph An existing graph.
+ * @param graph A graph. 
+ * Typically, the nodes are cells and edges are formed between similar cells.
  * @param weights Vector of weights of length equal to the number of edges in `graph`. 
  * This should be in the same order as the edge list in `graph`.
  * @param options Further options.
