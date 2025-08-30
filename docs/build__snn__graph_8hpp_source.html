@@ -214,7 +214,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>                        if (othernode &lt; static_cast&lt;Node_&gt;(j)) { <span class="comment">// avoid duplicates from symmetry in the SNN calculations.</span></div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>                            auto&amp; existing_other = current_score[othernode];</div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>                            <span class="comment">// Recording the lowest combined rank per neighbor (casting to avoid overflow on Node_).</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>                            <span class="comment">// Recording the lowest combined rank per neighbor. </span></div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>                            const Weight_ currank = h.second + static_cast&lt;Weight_&gt;(i);</div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>                            if (existing_other == 0) { </div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>                                existing_other = currank;</div>
