@@ -234,20 +234,20 @@ void build_snn_graph(const Index_ num_cells, const GetNeighbors_ get_neighbors, 
             current_weights.reserve(current_added.size());
 
             for (const auto othernode : current_added) {
+                current_edges.push_back(j);
+                current_edges.push_back(othernode);
+
                 Weight_& otherscore = current_score[othernode];
-                const Weight_ finalscore = [&]{
+                current_weights.push_back([&]{
                     if (options.weighting_scheme == SnnWeightScheme::RANKED) {
-                        return static_cast<Weight_>(nneighbors) - otherscore / 2;
+                        const Weight_ preliminary = static_cast<Weight_>(nneighbors) - otherscore / 2;
+                        return std::max(preliminary, static_cast<Weight_>(1e-6)); // Ensuring that an edge with a positive weight is always reported.
                     } else if (options.weighting_scheme == SnnWeightScheme::JACCARD) {
                         return otherscore / (2 * (static_cast<Weight_>(nneighbors) + 1) - otherscore);
                     } else {
                         return otherscore;
                     }
-                }();
-
-                current_edges.push_back(j);
-                current_edges.push_back(othernode);
-                current_weights.push_back(std::max(finalscore, static_cast<Weight_>(1e-6))); // Ensuring that an edge with a positive weight is always reported.
+                }());
 
                 // Resetting all those added to zero.
                 otherscore = 0;
