@@ -26,8 +26,7 @@ inline std::pair<raiigraph::Graph, std::vector<igraph_real_t> > mock_clusters(si
         }
     }
 
-    igraph_vector_int_t edge_view;
-    igraph_vector_int_view(&edge_view, edges.data(), edges.size());
+    const auto edge_view = igraph_vector_int_view(edges.data(), edges.size());
     return std::make_pair(raiigraph::Graph(&edge_view, num_cells, IGRAPH_UNDIRECTED), std::move(weights));
 }
 

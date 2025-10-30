@@ -24,12 +24,12 @@ struct ClusterMultilevelOptions {
      * Resolution of the clustering, must be non-negative.
      * Lower values favor fewer, larger communities; higher values favor more, smaller communities.
      */
-    double resolution = 1;
+    igraph_real_t resolution = 1;
 
     /**
      * Seed for the **igraph** random number generator.
      */
-    int seed = 42;
+    igraph_uint_t seed = 42;
 
     /**
      * Whether to report the multi-level clusterings in `Results::memberships`.
@@ -50,7 +50,7 @@ struct ClusterMultilevelResults {
      * Output status.
      * A value of zero indicates that the algorithm completed successfully.
      */
-    int status = 0;
+    igraph_error_t status = IGRAPH_SUCCESS;
 
     /**
      * Vector of length equal to the number of cells, containing 0-indexed cluster identities.
@@ -76,6 +76,8 @@ struct ClusterMultilevelResults {
 /**
  * Run the multi-level community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
  * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_multilevel) for more details on the multi-level algorithm. 
+ *
+ * It is assumed that `igraph_setup()` has already been called before running this function.
  *
  * @param graph A graph.
  * Typically, the nodes are cells and edges are formed between similar cells.
@@ -116,8 +118,7 @@ inline void cluster_multilevel(const igraph_t* graph, const igraph_vector_t* wei
  */
 inline ClusterMultilevelResults cluster_multilevel(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const ClusterMultilevelOptions& options) {
     // No need to free this, as it's just a view.
-    igraph_vector_t weight_view;
-    igraph_vector_view(&weight_view, weights.data(), sanisizer::cast<igraph_integer_t>(weights.size()));
+    const auto weight_view = igraph_vector_view(weights.data(), sanisizer::cast<igraph_int_t>(weights.size()));
 
     ClusterMultilevelResults output;
     cluster_multilevel(graph.get(), &weight_view, options, output);

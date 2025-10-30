@@ -16,7 +16,8 @@
 namespace scran_graph_cluster {
 
 /**
- * Create an `raiigraph:Graph` object from the edges.
+ * Create an `raiigraph:Graph` object from an array of edges.
+ * This assumes that `igraph_setup()` has already been called.
  *
  * @tparam Vertex_ Integer type of the vertex IDs.
  *
@@ -32,9 +33,8 @@ namespace scran_graph_cluster {
  */
 template<typename Vertex_>
 raiigraph::Graph edges_to_graph(const std::size_t double_edges, const Vertex_* const edges, const std::size_t num_vertices, const igraph_bool_t directed) {
-    if constexpr(std::is_same<Vertex_, igraph_integer_t>::value) {
-        igraph_vector_int_t edge_view{};
-        igraph_vector_int_view(&edge_view, edges, sanisizer::cast<igraph_integer_t>(double_edges));
+    if constexpr(std::is_same<Vertex_, igraph_int_t>::value) {
+        const auto edge_view = igraph_vector_int_view(edges, sanisizer::cast<igraph_int_t>(double_edges));
         return raiigraph::Graph(&edge_view, num_vertices, directed);
     } else {
         auto tmp = sanisizer::create<raiigraph::IntegerVector>(double_edges);

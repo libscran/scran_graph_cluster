@@ -25,28 +25,29 @@ struct ClusterLeidenOptions {
      * Larger values result in more fine-grained communities.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
-    double resolution = 1;
+    igraph_real_t resolution = 1;
 
     /**
      * Level of randomness used during refinement.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
-    double beta = 0.01;
+    igraph_real_t beta = 0.01;
 
     /**
      * Number of iterations of the Leiden algorithm.
      * More iterations can improve separation at the cost of computational time.
+     * If negative, the algorithm will iterate until convergence.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
-    int iterations = 2;
+    igraph_int_t iterations = 2;
 
     /**
-     * Whether to optimize the modularity instead of the Constant Potts Model (CPM).
-     * The two are closely related but the magnitude of the resolution is different -
+     * Objective function to optimize.
+     * This should be one of `IGRAPH_LEIDEN_OBJECTIVE_MODULARITY`, `IGRAPH_LEIDEN_OBJECTIVE_CPM` or `IGRAPH_LEIDEN_OBJECTIVE_ER`.
      * CPM typically yields more fine-grained clusters at the same choice of `ClusterLeidenOptions::resolution`.
      * The default is based on `?cluster_leiden` in the **igraph** R package.
      */
-    bool modularity = false;
+    igraph_leiden_objective_t objective = IGRAPH_LEIDEN_OBJECTIVE_CPM;
 
     /**
      * Whether to report the quality of the clustering in `Results::quality`.
@@ -67,7 +68,7 @@ struct ClusterLeidenResults {
      * Output status.
      * A value of zero indicates that the algorithm completed successfully.
      */
-    int status = 0;
+    igraph_error_t status = IGRAPH_SUCCESS;
     
     /**
      * Vector of length equal to the number of cells, containing 0-indexed cluster identities.
@@ -83,7 +84,9 @@ struct ClusterLeidenResults {
 
 /**
  * Run the Leiden community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
- * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_leiden) for more details on the Leiden algorithm. 
+ * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_leiden) for more details on the Leiden algorithm.
+ *
+ * It is assumed that `igraph_setup()` has already been called before running this function.
  *
  * @param graph A graph.
  * Typically, the nodes are cells and edges are formed between similar cells.
@@ -100,41 +103,18 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
 
     const raiigraph::RNGScope rngs(options.seed);
 
-    if (!options.modularity) {
-        output.status = igraph_community_leiden(
-            graph, 
-            weights,
-            NULL,
-            options.resolution, 
-            options.beta,
-            false, 
-            options.iterations, 
-            membership, 
-            NULL,
-            quality
-        );
-
-    } else {
-        // More-or-less translated from igraph::cluster_leiden in the R package.
-        auto strengths = sanisizer::create<raiigraph::RealVector>(igraph_vcount(graph));
-        igraph_strength(graph, strengths, igraph_vss_all(), IGRAPH_ALL, 1, weights);
-
-        const double total_weights = igraph_vector_sum(strengths);
-        const double mod_resolution = options.resolution / total_weights;
-
-        output.status = igraph_community_leiden(
-            graph, 
-            weights, 
-            strengths, 
-            mod_resolution, 
-            options.beta, 
-            false, 
-            options.iterations, 
-            membership, 
-            NULL, 
-            quality
-        );
-    }
+    output.status = igraph_community_leiden_simple(
+        graph, 
+        weights, 
+        options.objective,
+        options.resolution, 
+        options.beta, 
+        false, 
+        options.iterations, 
+        membership, 
+        NULL, 
+        quality
+    );
 }
 
 /**
@@ -150,8 +130,7 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
  */
 inline ClusterLeidenResults cluster_leiden(const raiigraph::Graph& graph, const std::vector<igraph_real_t>& weights, const ClusterLeidenOptions& options) {
     // No need to free this, as it's just a view.
-    igraph_vector_t weight_view;
-    igraph_vector_view(&weight_view, weights.data(), sanisizer::cast<igraph_integer_t>(weights.size()));
+    const auto weight_view = igraph_vector_view(weights.data(), sanisizer::cast<igraph_int_t>(weights.size()));
 
     ClusterLeidenResults output;
     cluster_leiden(graph.get(), &weight_view, options, output);
