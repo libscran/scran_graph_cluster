@@ -2,13 +2,13 @@
 
 include(CMakeFindDependencyMacro)
 find_dependency(knncolle_knncolle 3.0.0 CONFIG REQUIRED)
-find_dependency(ltla_raiigraph 1.1.0 CONFIG REQUIRED)
+find_dependency(ltla_raiigraph 1.2.0 CONFIG REQUIRED)
 find_dependency(ltla_sanisizer 0.1.2 CONFIG REQUIRED)
 
 if(@SCRAN_GRAPH_CLUSTER_FIND_IGRAPH@)
     # Not REQUIRED, so don't use find_dependency according to
     # https://stackoverflow.com/questions/64846805/how-do-i-specify-an-optional-dependency-in-a-cmake-package-configuration-file
-    find_package(igraph 0.10.0 CONFIG)
+    find_package(igraph 1.0.0 CONFIG)
 endif()
 
 include("${CMAKE_CURRENT_LIST_DIR}/libscran_scran_graph_clusterTargets.cmake")

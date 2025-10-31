@@ -31,7 +31,7 @@ TEST(ClusterLeiden, Parameters) {
 
     {
         scran_graph_cluster::ClusterLeidenOptions opts;
-        opts.modularity = true;
+        opts.objective = IGRAPH_LEIDEN_OBJECTIVE_MODULARITY;
         auto output2 = scran_graph_cluster::cluster_leiden(mock.first, mock.second, opts);
         EXPECT_TRUE(compare_clusters(output1.membership, output2.membership));
     }
@@ -58,7 +58,7 @@ TEST(ClusterLeiden, Sanity) {
 
     {
         scran_graph_cluster::ClusterLeidenOptions opts;
-        opts.modularity = true;
+        opts.objective = IGRAPH_LEIDEN_OBJECTIVE_MODULARITY;
         auto output = scran_graph_cluster::cluster_leiden(mock.first, mock.second, opts);
         validate(output.membership, nclusters);
     }
@@ -79,7 +79,7 @@ TEST(ClusterLeiden, Unweighted) {
     scran_graph_cluster::cluster_leiden(mock.first.get(), NULL, opts, output);
     EXPECT_EQ(output.membership.size(), 899);
 
-    opts.modularity = true;
+    opts.objective = IGRAPH_LEIDEN_OBJECTIVE_MODULARITY;
     scran_graph_cluster::cluster_leiden(mock.first.get(), NULL, opts, output);
     EXPECT_EQ(output.membership.size(), 899);
 }

@@ -94,12 +94,12 @@ struct BuildSnnGraphResults {
 };
 
 #if __has_include("igraph.h")
-typedef igraph_integer_t DefaultNode;
+typedef igraph_int_t DefaultNode;
 typedef igraph_real_t DefaultWeight;
 #else
 /**
  * Default type of the node indices.
- * Set to `igraph_integer_t` if **igraph** is available.
+ * Set to `igraph_int_t` if **igraph** is available.
  */
 typedef int DefaultNode;
 
@@ -397,6 +397,7 @@ BuildSnnGraphResults<Node_, Weight_> build_snn_graph(
 #if __has_include("igraph.h")
 /**
  * Convert the edges in `BuildSnnGraphResults` to a **igraph** graph object for use in **igraph** functions.
+ * See also `edges_to_graph()`.
  *
  * @tparam Node_ Integer type of the node indices.
  * @tparam Weight_ Floating-point type of the edge weights.

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(scran_graph_cluster
-    VERSION 0.2.0
+    VERSION 0.3.0
     DESCRIPTION "Cluster cells using graph-based methods"
     LANGUAGES CXX)
 
@@ -22,7 +22,7 @@ option(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN "Automatically fetch scran_graph_cluster
 if(SCRAN_GRAPH_CLUSTER_FETCH_EXTERN)
     add_subdirectory(extern)
 else()
-    find_package(ltla_raiigraph 1.1.0 CONFIG REQUIRED)
+    find_package(ltla_raiigraph 1.2.0 CONFIG REQUIRED)
     find_package(ltla_sanisizer 0.1.2 CONFIG REQUIRED)
     find_package(knncolle_knncolle 3.0.0 CONFIG REQUIRED)
 endif()
@@ -31,7 +31,7 @@ target_link_libraries(scran_graph_cluster INTERFACE ltla::raiigraph ltla::sanisi
 
 option(SCRAN_GRAPH_CLUSTER_FIND_IGRAPH "Search for the igraph package." ON)
 if(SCRAN_GRAPH_CLUSTER_FIND_IGRAPH)
-    find_package(igraph 0.10.0 CONFIG)
+    find_package(igraph 1.0.0 CONFIG)
     if (igraph_FOUND)
         target_link_libraries(scran_graph_cluster INTERFACE igraph::igraph)
     endif()
