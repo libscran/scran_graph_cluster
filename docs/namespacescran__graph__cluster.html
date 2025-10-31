@@ -194,7 +194,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Default type of the node indices. Set to <code>igraph_integer_t</code> if <b>igraph</b> is available. </p>
+<p>Default type of the node indices. Set to <code>igraph_int_t</code> if <b>igraph</b> is available. </p>
 
 </div>
 </div>
@@ -525,6 +525,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 </table>
 </div><div class="memdoc">
 <p>Run the Leiden community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes. See <a href="https://igraph.org/c/doc/igraph-Community.html#igraph_community_leiden">here</a> for more details on the Leiden algorithm.</p>
+<p>It is assumed that <code>igraph_setup()</code> or <code>raiigraph::initialize()</code> has already been called before running this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
@@ -618,6 +619,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 </table>
 </div><div class="memdoc">
 <p>Run the multi-level community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes. See <a href="https://igraph.org/c/doc/igraph-Community.html#igraph_community_multilevel">here</a> for more details on the multi-level algorithm.</p>
+<p>It is assumed that <code>igraph_setup()</code> or <code>raiigraph::initialize()</code> has already been called before running this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
@@ -711,6 +713,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 </table>
 </div><div class="memdoc">
 <p>Run the Walktrap community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes. See <a href="https://igraph.org/c/doc/igraph-Community.html#igraph_community_walktrap">here</a> for more details on the Walktrap algorithm.</p>
+<p>It is assumed that <code>igraph_setup()</code> or <code>raiigraph::initialize()</code> has already been called before running this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
@@ -797,7 +800,7 @@ template&lt;typename Vertex_ &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create an <code>raiigraph:Graph</code> object from the edges.</p>
+<p>Create an <code>raiigraph:Graph</code> object from an array of edges. This assumes that <code>igraph_setup()</code> or <code>raiigraph::initialize()</code> has already been called.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Vertex_</td><td>Integer type of the vertex IDs.</td></tr>

@@ -104,31 +104,31 @@
     <name>scran_graph_cluster::ClusterLeidenOptions</name>
     <filename>structscran__graph__cluster_1_1ClusterLeidenOptions.html</filename>
     <member kind="variable">
-      <type>double</type>
+      <type>igraph_real_t</type>
       <name>resolution</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterLeidenOptions.html</anchorfile>
-      <anchor>a832738bb098a710b3bc643a07dde3912</anchor>
+      <anchor>ad78942181fedf052eeb39495fc73e095</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>double</type>
+      <type>igraph_real_t</type>
       <name>beta</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterLeidenOptions.html</anchorfile>
-      <anchor>a7298c7871cc739555de1d20351fe031c</anchor>
+      <anchor>aa676fa098c68af4995b96daefebce01d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>int</type>
+      <type>igraph_int_t</type>
       <name>iterations</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterLeidenOptions.html</anchorfile>
-      <anchor>aec68625ae8bbaa193d5c9605088ce8d7</anchor>
+      <anchor>a0988e1b77dfd73f2bcf5d48799cea882</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>bool</type>
-      <name>modularity</name>
+      <type>igraph_leiden_objective_t</type>
+      <name>objective</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterLeidenOptions.html</anchorfile>
-      <anchor>a6824b0e69901a06fc77acfada37005ee</anchor>
+      <anchor>ab57b699f0f971ab3c81412ecaa3fa90a</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -139,10 +139,10 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>int</type>
+      <type>igraph_uint_t</type>
       <name>seed</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterLeidenOptions.html</anchorfile>
-      <anchor>a295b639751323bc835bf7ee6ef940f5e</anchor>
+      <anchor>a7498ab9f212774db522ab1cbebfd3127</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -150,10 +150,10 @@
     <name>scran_graph_cluster::ClusterLeidenResults</name>
     <filename>structscran__graph__cluster_1_1ClusterLeidenResults.html</filename>
     <member kind="variable">
-      <type>int</type>
+      <type>igraph_error_t</type>
       <name>status</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterLeidenResults.html</anchorfile>
-      <anchor>a0716853f7e2726493f11d5d3e07868fd</anchor>
+      <anchor>aa58800411327b93c76d70a446af77262</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -175,17 +175,17 @@
     <name>scran_graph_cluster::ClusterMultilevelOptions</name>
     <filename>structscran__graph__cluster_1_1ClusterMultilevelOptions.html</filename>
     <member kind="variable">
-      <type>double</type>
+      <type>igraph_real_t</type>
       <name>resolution</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterMultilevelOptions.html</anchorfile>
-      <anchor>ae360c3e8c84b43f66c47b5bdd583626b</anchor>
+      <anchor>a007ca1e328365437ce0d91f4a97b2135</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>int</type>
+      <type>igraph_uint_t</type>
       <name>seed</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterMultilevelOptions.html</anchorfile>
-      <anchor>aaf540ba844bcacfb3d57bbc43db4c740</anchor>
+      <anchor>aa8a20308154f0ff039bab8062e235b70</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -207,10 +207,10 @@
     <name>scran_graph_cluster::ClusterMultilevelResults</name>
     <filename>structscran__graph__cluster_1_1ClusterMultilevelResults.html</filename>
     <member kind="variable">
-      <type>int</type>
+      <type>igraph_error_t</type>
       <name>status</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterMultilevelResults.html</anchorfile>
-      <anchor>a37c3f84c5817a8930e3d8ad51a7642d6</anchor>
+      <anchor>a7b5a99c46328b2b34944d9351b6476ce</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -239,10 +239,10 @@
     <name>scran_graph_cluster::ClusterWalktrapOptions</name>
     <filename>structscran__graph__cluster_1_1ClusterWalktrapOptions.html</filename>
     <member kind="variable">
-      <type>int</type>
+      <type>igraph_int_t</type>
       <name>steps</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterWalktrapOptions.html</anchorfile>
-      <anchor>a83522b189b7e17f05533d42f3ae38807</anchor>
+      <anchor>ac924d0da946b0a68082872ecee8913aa</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -264,10 +264,10 @@
     <name>scran_graph_cluster::ClusterWalktrapResults</name>
     <filename>structscran__graph__cluster_1_1ClusterWalktrapResults.html</filename>
     <member kind="variable">
-      <type>int</type>
+      <type>igraph_error_t</type>
       <name>status</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterWalktrapResults.html</anchorfile>
-      <anchor>a4456267526fe48911bcc468fca508080</anchor>
+      <anchor>aab7f74069b6d815a443119a6ad4e2593</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

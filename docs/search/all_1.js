@@ -1,7 +1,7 @@
 var searchData=
 [
   ['based_20clustering_20for_20single_20cell_20data_0',['Graph-based clustering for single-cell data',['../index.html',1,'']]],
-  ['beta_1',['beta',['../structscran__graph__cluster_1_1ClusterLeidenOptions.html#a7298c7871cc739555de1d20351fe031c',1,'scran_graph_cluster::ClusterLeidenOptions']]],
+  ['beta_1',['beta',['../structscran__graph__cluster_1_1ClusterLeidenOptions.html#aa676fa098c68af4995b96daefebce01d',1,'scran_graph_cluster::ClusterLeidenOptions']]],
   ['bruteforce_2ehpp_2',['Bruteforce.hpp',['https://knncolle.github.io/knncolle/Bruteforce_8hpp.html',1,'']]],
   ['bruteforcebuilder_3',['BruteforceBuilder',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceBuilder.html',1,'knncolle::BruteforceBuilder&lt; typename Index_, typename Data_, typename Distance_, class Matrix_, class DistanceMetric_ &gt;'],['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceBuilder.html#a4a7b4fa0a5301677f340b64875969929',1,'knncolle::BruteforceBuilder::BruteforceBuilder()']]],
   ['bruteforceprebuilt_4',['BruteforcePrebuilt',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforcePrebuilt.html',1,'knncolle']]],
