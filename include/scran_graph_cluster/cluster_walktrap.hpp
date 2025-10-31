@@ -76,7 +76,7 @@ struct ClusterWalktrapResults {
  * Run the Walktrap community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
  * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_walktrap) for more details on the Walktrap algorithm. 
  *
- * It is assumed that `igraph_setup()` has already been called before running this function.
+ * It is assumed that `igraph_setup()` or `raiigraph::initialize()` has already been called before running this function.
  * 
  * @param graph A graph.
  * Typically, the nodes are cells and edges are formed between similar cells.

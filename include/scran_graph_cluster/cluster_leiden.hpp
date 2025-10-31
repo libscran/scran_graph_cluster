@@ -57,7 +57,7 @@ struct ClusterLeidenOptions {
     /**
      * Seed for the **igraph** random number generator.
      */
-    int seed = 42;
+    igraph_uint_t seed = 42;
 };
 
 /**
@@ -86,7 +86,7 @@ struct ClusterLeidenResults {
  * Run the Leiden community detection algorithm on a pre-constructed graph to obtain communities of highly inter-connected nodes.
  * See [here](https://igraph.org/c/doc/igraph-Community.html#igraph_community_leiden) for more details on the Leiden algorithm.
  *
- * It is assumed that `igraph_setup()` has already been called before running this function.
+ * It is assumed that `igraph_setup()` or `raiigraph::initialize()` has already been called before running this function.
  *
  * @param graph A graph.
  * Typically, the nodes are cells and edges are formed between similar cells.

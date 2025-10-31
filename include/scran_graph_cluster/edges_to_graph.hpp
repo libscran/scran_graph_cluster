@@ -17,7 +17,7 @@ namespace scran_graph_cluster {
 
 /**
  * Create an `raiigraph:Graph` object from an array of edges.
- * This assumes that `igraph_setup()` has already been called.
+ * This assumes that `igraph_setup()` or `raiigraph::initialize()` has already been called.
  *
  * @tparam Vertex_ Integer type of the vertex IDs.
  *
