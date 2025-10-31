@@ -150,13 +150,6 @@
     <name>scran_graph_cluster::ClusterLeidenResults</name>
     <filename>structscran__graph__cluster_1_1ClusterLeidenResults.html</filename>
     <member kind="variable">
-      <type>igraph_error_t</type>
-      <name>status</name>
-      <anchorfile>structscran__graph__cluster_1_1ClusterLeidenResults.html</anchorfile>
-      <anchor>aa58800411327b93c76d70a446af77262</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
       <type>raiigraph::IntegerVector</type>
       <name>membership</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterLeidenResults.html</anchorfile>
@@ -207,13 +200,6 @@
     <name>scran_graph_cluster::ClusterMultilevelResults</name>
     <filename>structscran__graph__cluster_1_1ClusterMultilevelResults.html</filename>
     <member kind="variable">
-      <type>igraph_error_t</type>
-      <name>status</name>
-      <anchorfile>structscran__graph__cluster_1_1ClusterMultilevelResults.html</anchorfile>
-      <anchor>a7b5a99c46328b2b34944d9351b6476ce</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
       <type>raiigraph::IntegerVector</type>
       <name>membership</name>
       <anchorfile>structscran__graph__cluster_1_1ClusterMultilevelResults.html</anchorfile>
@@ -263,13 +249,6 @@
   <compound kind="struct">
     <name>scran_graph_cluster::ClusterWalktrapResults</name>
     <filename>structscran__graph__cluster_1_1ClusterWalktrapResults.html</filename>
-    <member kind="variable">
-      <type>igraph_error_t</type>
-      <name>status</name>
-      <anchorfile>structscran__graph__cluster_1_1ClusterWalktrapResults.html</anchorfile>
-      <anchor>aab7f74069b6d815a443119a6ad4e2593</anchor>
-      <arglist></arglist>
-    </member>
     <member kind="variable">
       <type>raiigraph::IntegerVector</type>
       <name>membership</name>

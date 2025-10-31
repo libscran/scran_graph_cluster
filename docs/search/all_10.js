@@ -12,6 +12,5 @@ var searchData=
   ['simplematrixextractor_9',['SimpleMatrixExtractor',['https://knncolle.github.io/knncolle/classknncolle_1_1SimpleMatrixExtractor.html',1,'knncolle']]],
   ['single_20cell_20data_10',['Graph-based clustering for single-cell data',['../index.html',1,'']]],
   ['snnweightscheme_11',['SnnWeightScheme',['../namespacescran__graph__cluster.html#afd97a61efb1483698423b201e4e7dd3f',1,'scran_graph_cluster']]],
-  ['status_12',['status',['../structscran__graph__cluster_1_1ClusterLeidenResults.html#aa58800411327b93c76d70a446af77262',1,'scran_graph_cluster::ClusterLeidenResults::status'],['../structscran__graph__cluster_1_1ClusterMultilevelResults.html#a7b5a99c46328b2b34944d9351b6476ce',1,'scran_graph_cluster::ClusterMultilevelResults::status'],['../structscran__graph__cluster_1_1ClusterWalktrapResults.html#aab7f74069b6d815a443119a6ad4e2593',1,'scran_graph_cluster::ClusterWalktrapResults::status']]],
-  ['steps_13',['steps',['../structscran__graph__cluster_1_1ClusterWalktrapOptions.html#ac924d0da946b0a68082872ecee8913aa',1,'scran_graph_cluster::ClusterWalktrapOptions']]]
+  ['steps_12',['steps',['../structscran__graph__cluster_1_1ClusterWalktrapOptions.html#ac924d0da946b0a68082872ecee8913aa',1,'scran_graph_cluster::ClusterWalktrapOptions']]]
 ];
