@@ -38,6 +38,7 @@ auto built = scran_graph_cluster::build_snn_graph(
     scran_graph_cluster::BuildSnnGraphOptions()
 );
 
+raiigraph::initialize(); // call this before creating igraph classes.
 auto graph = scran_graph_cluster::convert_to_graph(built);
 const auto& weights = built.weights; // edge weights
 ```
