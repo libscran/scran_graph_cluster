@@ -46,12 +46,6 @@ struct ClusterMultilevelOptions {
  * @brief Result of `cluster_multilevel()`.
  */
 struct ClusterMultilevelResults {
-    /** 
-     * Output status.
-     * A value of zero indicates that the algorithm completed successfully.
-     */
-    igraph_error_t status = IGRAPH_SUCCESS;
-
     /**
      * Vector of length equal to the number of cells, containing 0-indexed cluster identities.
      * This is the same as the row of `levels` with the maximum `modularity`.
@@ -95,7 +89,7 @@ inline void cluster_multilevel(const igraph_t* graph, const igraph_vector_t* wei
     const auto membership = output.membership.get();
     const auto memberships = (options.report_levels ? output.levels.get() : static_cast<igraph_matrix_int_t*>(NULL));
 
-    output.status = igraph_community_multilevel(
+    const auto status = igraph_community_multilevel(
         graph,
         weights,
         options.resolution,
@@ -103,6 +97,8 @@ inline void cluster_multilevel(const igraph_t* graph, const igraph_vector_t* wei
         memberships, 
         modularity
     );
+
+    raiigraph::check_code(status);
 }
 
 /**

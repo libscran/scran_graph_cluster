@@ -64,12 +64,6 @@ struct ClusterLeidenOptions {
  * @brief Result of `cluster_leiden()`.
  */
 struct ClusterLeidenResults {
-    /** 
-     * Output status.
-     * A value of zero indicates that the algorithm completed successfully.
-     */
-    igraph_error_t status = IGRAPH_SUCCESS;
-    
     /**
      * Vector of length equal to the number of cells, containing 0-indexed cluster identities.
      */
@@ -103,7 +97,7 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
 
     const raiigraph::RNGScope rngs(options.seed);
 
-    output.status = igraph_community_leiden_simple(
+    const auto status = igraph_community_leiden_simple(
         graph, 
         weights, 
         options.objective,
@@ -115,6 +109,8 @@ inline void cluster_leiden(const igraph_t* graph, const igraph_vector_t* weights
         NULL, 
         quality
     );
+
+    raiigraph::check_code(status);
 }
 
 /**

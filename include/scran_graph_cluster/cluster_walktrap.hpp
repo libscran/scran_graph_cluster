@@ -44,12 +44,6 @@ struct ClusterWalktrapOptions {
  * @brief Result of `cluster_walktrap()`.
  */
 struct ClusterWalktrapResults {
-    /** 
-     * Output status.
-     * A value of zero indicates that the algorithm completed successfully.
-     */
-    igraph_error_t status = IGRAPH_SUCCESS;
-    
     /**
      * Vector of length equal to the number of cells, containing 0-indexed cluster identities.
      */
@@ -91,7 +85,9 @@ inline void cluster_walktrap(const igraph_t* graph, const igraph_vector_t* weigh
     const auto membership = output.membership.get();
     const auto modularity = (options.report_modularity ? output.modularity.get() : static_cast<igraph_vector_t*>(NULL));
     const auto merges = (options.report_merges ? output.merges.get() : static_cast<igraph_matrix_int_t*>(NULL));
-    output.status = igraph_community_walktrap(graph, weights, options.steps, merges, modularity, membership);
+
+    const auto status = igraph_community_walktrap(graph, weights, options.steps, merges, modularity, membership);
+    raiigraph::check_code(status);
 }
 
 /**
