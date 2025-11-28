@@ -176,9 +176,9 @@ Functions</h2></td></tr>
 <tr class="separator:aa6b332af6bc15dc8fcc0d974c4d4fc2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa82ceda0bfd680ca4439dc83c7fe6939" id="r_aa82ceda0bfd680ca4439dc83c7fe6939"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structscran__graph__cluster_1_1ClusterWalktrapResults.html">ClusterWalktrapResults</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa82ceda0bfd680ca4439dc83c7fe6939">cluster_walktrap</a> (const raiigraph::Graph &amp;graph, const std::vector&lt; igraph_real_t &gt; &amp;weights, const <a class="el" href="structscran__graph__cluster_1_1ClusterWalktrapOptions.html">ClusterWalktrapOptions</a> &amp;options)</td></tr>
 <tr class="separator:aa82ceda0bfd680ca4439dc83c7fe6939"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acba7ab7ec47934c88e2f34fadbd78253" id="r_acba7ab7ec47934c88e2f34fadbd78253"><td class="memTemplParams" colspan="2">template&lt;typename Vertex_ &gt; </td></tr>
-<tr class="memitem:acba7ab7ec47934c88e2f34fadbd78253"><td class="memTemplItemLeft" align="right" valign="top">raiigraph::Graph&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#acba7ab7ec47934c88e2f34fadbd78253">edges_to_graph</a> (const std::size_t double_edges, const Vertex_ *const edges, const std::size_t num_vertices, const igraph_bool_t directed)</td></tr>
-<tr class="separator:acba7ab7ec47934c88e2f34fadbd78253"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad645069f2471f7a75592766e514c1400" id="r_ad645069f2471f7a75592766e514c1400"><td class="memTemplParams" colspan="2">template&lt;typename Vertex_ &gt; </td></tr>
+<tr class="memitem:ad645069f2471f7a75592766e514c1400"><td class="memTemplItemLeft" align="right" valign="top">raiigraph::Graph&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad645069f2471f7a75592766e514c1400">edges_to_graph</a> (const std::size_t double_edges, const Vertex_ *const edges, const std::size_t num_vertices, const bool directed)</td></tr>
+<tr class="separator:ad645069f2471f7a75592766e514c1400"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Graph-based clustering of single-cell data. </p>
@@ -570,6 +570,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 </table>
 </div><div class="memdoc">
 <p>Overload of <code><a class="el" href="#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden()</a></code> that accepts C++ containers instead of the raw <b>igraph</b> pointers.</p>
+<p>It is assumed that <code>igraph_setup()</code> or <code>raiigraph::initialize()</code> has already been called before running this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
@@ -664,6 +665,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 </table>
 </div><div class="memdoc">
 <p>Overload of <code><a class="el" href="#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel()</a></code> that accepts C++ containers instead of the raw <b>igraph</b> pointers.</p>
+<p>It is assumed that <code>igraph_setup()</code> or <code>raiigraph::initialize()</code> has already been called before running this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
@@ -758,6 +760,7 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 </table>
 </div><div class="memdoc">
 <p>Overload of <code><a class="el" href="#aa6b332af6bc15dc8fcc0d974c4d4fc2b">cluster_walktrap()</a></code> that accepts C++ containers instead of the raw <b>igraph</b> pointers.</p>
+<p>It is assumed that <code>igraph_setup()</code> or <code>raiigraph::initialize()</code> has already been called before running this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">graph</td><td>A graph. Typically, the nodes are cells and edges are formed between similar cells. </td></tr>
@@ -770,8 +773,8 @@ template&lt;typename Node_  = DefaultNode, typename Weight_  = DefaultWeight, ty
 
 </div>
 </div>
-<a id="acba7ab7ec47934c88e2f34fadbd78253" name="acba7ab7ec47934c88e2f34fadbd78253"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acba7ab7ec47934c88e2f34fadbd78253">&#9670;&#160;</a></span>edges_to_graph()</h2>
+<a id="ad645069f2471f7a75592766e514c1400" name="ad645069f2471f7a75592766e514c1400"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad645069f2471f7a75592766e514c1400">&#9670;&#160;</a></span>edges_to_graph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -796,11 +799,11 @@ template&lt;typename Vertex_ &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const igraph_bool_t</td>          <td class="paramname"><span class="paramname"><em>directed</em></span>&#160;)</td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>directed</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create an <code>raiigraph:Graph</code> object from an array of edges. This assumes that <code>igraph_setup()</code> or <code>raiigraph::initialize()</code> has already been called.</p>
+<p>Create an <code>raiigraph:Graph</code> object from an array of edges. This calls <code>raiigraph::initialize()</code> internally to execute the set-up for the <b>igraph</b> library.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Vertex_</td><td>Integer type of the vertex IDs.</td></tr>
@@ -812,7 +815,7 @@ template&lt;typename Vertex_ &gt; </div>
     <tr><td class="paramdir"></td><td class="paramname">double_edges</td><td>The number of edges multiplied by two. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">edges</td><td>Pointer to an array of length <code>double_edges</code>. <code>edges[2*i]</code> and <code>edges[2*i+1]</code> define the vertices for edge <code>i</code>. For directed graphs, the edge starts from the first vertex and ends at the second vertex. </td></tr>
     <tr><td class="paramdir"></td><td class="paramname">num_vertices</td><td>Number of vertices in the graph. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">directed</td><td>Whether the graph is directed. This should be one of <code>IGRAPH_DIRECTED</code> or <code>IGRAPH_UNDIRECTED</code>.</td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">directed</td><td>Whether the graph is directed.</td></tr>
   </table>
   </dd>
 </dl>

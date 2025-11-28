@@ -387,8 +387,8 @@
       <type>raiigraph::Graph</type>
       <name>edges_to_graph</name>
       <anchorfile>namespacescran__graph__cluster.html</anchorfile>
-      <anchor>acba7ab7ec47934c88e2f34fadbd78253</anchor>
-      <arglist>(const std::size_t double_edges, const Vertex_ *const edges, const std::size_t num_vertices, const igraph_bool_t directed)</arglist>
+      <anchor>ad645069f2471f7a75592766e514c1400</anchor>
+      <arglist>(const std::size_t double_edges, const Vertex_ *const edges, const std::size_t num_vertices, const bool directed)</arglist>
     </member>
   </compound>
   <compound kind="page">

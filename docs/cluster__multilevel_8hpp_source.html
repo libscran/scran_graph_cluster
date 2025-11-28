@@ -156,20 +156,20 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>}</div>
 </div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="foldopen" id="foldopen00115" data-start="{" data-end="}">
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="namespacescran__graph__cluster.html#a527ad4b8b48f5c976fa37ac0a25b4081">  115</a></span><span class="keyword">inline</span> <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterMultilevelResults.html">ClusterMultilevelResults</a> <a class="code hl_function" href="namespacescran__graph__cluster.html#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel</a>(<span class="keyword">const</span> raiigraph::Graph&amp; graph, <span class="keyword">const</span> std::vector&lt;igraph_real_t&gt;&amp; weights, <span class="keyword">const</span> <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterMultilevelOptions.html">ClusterMultilevelOptions</a>&amp; options) {</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="comment">// No need to free this, as it&#39;s just a view.</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keyword">const</span> <span class="keyword">auto</span> weight_view = igraph_vector_view(weights.data(), sanisizer::cast&lt;igraph_int_t&gt;(weights.size()));</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterMultilevelResults.html">ClusterMultilevelResults</a> output;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <a class="code hl_function" href="namespacescran__graph__cluster.html#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel</a>(graph.get(), &amp;weight_view, options, output);</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> output;</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}</div>
-</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="foldopen" id="foldopen00117" data-start="{" data-end="}">
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="namespacescran__graph__cluster.html#a527ad4b8b48f5c976fa37ac0a25b4081">  117</a></span><span class="keyword">inline</span> <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterMultilevelResults.html">ClusterMultilevelResults</a> <a class="code hl_function" href="namespacescran__graph__cluster.html#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel</a>(<span class="keyword">const</span> raiigraph::Graph&amp; graph, <span class="keyword">const</span> std::vector&lt;igraph_real_t&gt;&amp; weights, <span class="keyword">const</span> <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterMultilevelOptions.html">ClusterMultilevelOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="comment">// No need to free this, as it&#39;s just a view.</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keyword">const</span> <span class="keyword">auto</span> weight_view = igraph_vector_view(weights.data(), sanisizer::cast&lt;igraph_int_t&gt;(weights.size()));</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterMultilevelResults.html">ClusterMultilevelResults</a> output;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <a class="code hl_function" href="namespacescran__graph__cluster.html#a1dfcd4ef567084c288296e77c4daabb5">cluster_multilevel</a>(graph.get(), &amp;weight_view, options, output);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordflow">return</span> output;</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>}</div>
+</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>}</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="anamespacescran__graph__cluster_html"><div class="ttname"><a href="namespacescran__graph__cluster.html">scran_graph_cluster</a></div><div class="ttdoc">Graph-based clustering of single-cell data.</div><div class="ttdef"><b>Definition</b> build_snn_graph.hpp:22</div></div>
 <div class="ttc" id="anamespacescran__graph__cluster_html_a1dfcd4ef567084c288296e77c4daabb5"><div class="ttname"><a href="namespacescran__graph__cluster.html#a1dfcd4ef567084c288296e77c4daabb5">scran_graph_cluster::cluster_multilevel</a></div><div class="ttdeci">void cluster_multilevel(const igraph_t *graph, const igraph_vector_t *weights, const ClusterMultilevelOptions &amp;options, ClusterMultilevelResults &amp;output)</div><div class="ttdef"><b>Definition</b> cluster_multilevel.hpp:85</div></div>
 <div class="ttc" id="astructscran__graph__cluster_1_1ClusterMultilevelOptions_html"><div class="ttname"><a href="structscran__graph__cluster_1_1ClusterMultilevelOptions.html">scran_graph_cluster::ClusterMultilevelOptions</a></div><div class="ttdoc">Options for cluster_multilevel().</div><div class="ttdef"><b>Definition</b> cluster_multilevel.hpp:22</div></div>

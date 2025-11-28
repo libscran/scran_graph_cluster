@@ -161,20 +161,20 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
 </div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="foldopen" id="foldopen00127" data-start="{" data-end="}">
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="namespacescran__graph__cluster.html#a668653597ebdff4b8a560bf092d5bd8b">  127</a></span><span class="keyword">inline</span> <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterLeidenResults.html">ClusterLeidenResults</a> <a class="code hl_function" href="namespacescran__graph__cluster.html#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden</a>(<span class="keyword">const</span> raiigraph::Graph&amp; graph, <span class="keyword">const</span> std::vector&lt;igraph_real_t&gt;&amp; weights, <span class="keyword">const</span> <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterLeidenOptions.html">ClusterLeidenOptions</a>&amp; options) {</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="comment">// No need to free this, as it&#39;s just a view.</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keyword">const</span> <span class="keyword">auto</span> weight_view = igraph_vector_view(weights.data(), sanisizer::cast&lt;igraph_int_t&gt;(weights.size()));</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterLeidenResults.html">ClusterLeidenResults</a> output;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <a class="code hl_function" href="namespacescran__graph__cluster.html#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden</a>(graph.get(), &amp;weight_view, options, output);</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">return</span> output;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>}</div>
-</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="foldopen" id="foldopen00129" data-start="{" data-end="}">
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="namespacescran__graph__cluster.html#a668653597ebdff4b8a560bf092d5bd8b">  129</a></span><span class="keyword">inline</span> <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterLeidenResults.html">ClusterLeidenResults</a> <a class="code hl_function" href="namespacescran__graph__cluster.html#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden</a>(<span class="keyword">const</span> raiigraph::Graph&amp; graph, <span class="keyword">const</span> std::vector&lt;igraph_real_t&gt;&amp; weights, <span class="keyword">const</span> <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterLeidenOptions.html">ClusterLeidenOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="comment">// No need to free this, as it&#39;s just a view.</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keyword">const</span> <span class="keyword">auto</span> weight_view = igraph_vector_view(weights.data(), sanisizer::cast&lt;igraph_int_t&gt;(weights.size()));</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <a class="code hl_struct" href="structscran__graph__cluster_1_1ClusterLeidenResults.html">ClusterLeidenResults</a> output;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <a class="code hl_function" href="namespacescran__graph__cluster.html#a7e0fa194d21cbd65d66186ab2c0dc3c0">cluster_leiden</a>(graph.get(), &amp;weight_view, options, output);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">return</span> output;</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>}</div>
+</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>}</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="anamespacescran__graph__cluster_html"><div class="ttname"><a href="namespacescran__graph__cluster.html">scran_graph_cluster</a></div><div class="ttdoc">Graph-based clustering of single-cell data.</div><div class="ttdef"><b>Definition</b> build_snn_graph.hpp:22</div></div>
 <div class="ttc" id="anamespacescran__graph__cluster_html_a7e0fa194d21cbd65d66186ab2c0dc3c0"><div class="ttname"><a href="namespacescran__graph__cluster.html#a7e0fa194d21cbd65d66186ab2c0dc3c0">scran_graph_cluster::cluster_leiden</a></div><div class="ttdeci">void cluster_leiden(const igraph_t *graph, const igraph_vector_t *weights, const ClusterLeidenOptions &amp;options, ClusterLeidenResults &amp;output)</div><div class="ttdef"><b>Definition</b> cluster_leiden.hpp:94</div></div>
 <div class="ttc" id="astructscran__graph__cluster_1_1ClusterLeidenOptions_html"><div class="ttname"><a href="structscran__graph__cluster_1_1ClusterLeidenOptions.html">scran_graph_cluster::ClusterLeidenOptions</a></div><div class="ttdoc">Options for cluster_leiden().</div><div class="ttdef"><b>Definition</b> cluster_leiden.hpp:22</div></div>
